@@ -7,6 +7,7 @@ module.exports = {
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
@@ -16,7 +17,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['react-refresh', 'prettier'],
+  plugins: ['react-refresh', 'jsx-a11y', 'prettier'],
   rules: {
     'react/jsx-uses-react': 0,
     'react/react-in-jsx-scope': 0,
