@@ -22,7 +22,7 @@ module.exports = {
     'react/jsx-uses-react': 0,
     'react/react-in-jsx-scope': 0,
     'linebreak-style': 0,
-    '@typescript-eslint/comma-dangle': 0,
+    'import/extensions': 0,
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
