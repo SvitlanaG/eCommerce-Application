@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true
   },
-  "include": [".eslintrc.cjs", "src"],
+  "include": [".eslintrc.cjs", "jest.config.ts", "src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
