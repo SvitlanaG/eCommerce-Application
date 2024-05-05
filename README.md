@@ -29,7 +29,8 @@ Key features of the project include:
   * **Vite** - project bundler.
   * **ESLint** - js linter for indentifying and fixing code errors
   * **Prettier** - code formatter
-
+  * **husky** - running scripts before commits.
+  * **lint-staged** - Lint-staged is a tool used in conjunction with Git for running linters on staged files
 # Installation
 * clone the repository
   * ```git clone "repository url"```
@@ -53,9 +54,6 @@ starts preview server using vite (must be runned after build)
 
 ``` npm run test ```
 runs unit tests with jest
-
-``` npm run prepare ```
-Initialize husky
 
 # Team
 [svitlanag](https://github.com/SvitlanaG)
