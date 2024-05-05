@@ -1,4 +1,4 @@
-This project is a modern ecommerce application built with React and TypeScript.
+This project is a modern ecommerce application built with React and TypeScript in RS School.
 
 # Project Description
 The ecommerce project uses the latest web technologies to create a fast, responsive shopping platform. With React powering the frontend and TypeScript ensuring type safety throughout the codebase, developers can build and maintain complex features with confidence. The use of Vite for development and production bundling ensures speedy build times and optimal performance.
@@ -56,3 +56,10 @@ runs unit tests with jest
 
 ``` npm run prepare ```
 Initialize husky
+
+# Team
+[svitlanag](https://github.com/SvitlanaG)
+
+[maslovars](https://github.com/maslovars)
+
+[arastepa](https://github.com/arastepa)
