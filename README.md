@@ -1,7 +1,7 @@
 This project is a modern ecommerce application built with React and TypeScript.
 
 # Project Description
-The ecommerce project leverages the latest web technologies to create a fast, responsive shopping platform. With React powering the frontend and TypeScript ensuring type safety throughout the codebase, developers can build and maintain complex features with confidence. The use of Vite for development and production bundling ensures speedy build times and optimal performance.
+The ecommerce project uses the latest web technologies to create a fast, responsive shopping platform. With React powering the frontend and TypeScript ensuring type safety throughout the codebase, developers can build and maintain complex features with confidence. The use of Vite for development and production bundling ensures speedy build times and optimal performance.
 
 Key features of the project include:
 
@@ -38,3 +38,21 @@ Key features of the project include:
 # Usage
 ``` npm run dev ```
 this command will start the development server using vite
+
+``` npm run build ```
+this commands builds the project
+
+``` npm run lint ```
+this command checks for linting errors using ESLint
+
+``` npm run format ```
+formats code using prettier
+
+``` npm run preview ```
+starts preview server using vite (must be runned after build)
+
+``` npm run test ```
+runs unit tests with jest
+
+``` npm run prepare ```
+Initialize husky
