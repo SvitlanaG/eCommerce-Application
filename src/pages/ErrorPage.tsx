@@ -1,4 +1,4 @@
-const errorPage: React.FC = () => {
+const ErrorPage = () => {
   return (
     <div>
       <h1>404 Not Found</h1>
@@ -7,4 +7,4 @@ const errorPage: React.FC = () => {
   );
 };
 
-export default errorPage;
+export default ErrorPage;
