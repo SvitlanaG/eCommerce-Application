@@ -1,0 +1,173 @@
+.button-large {
+  @extend .text-button-large;
+  width: 160px;
+  height: 52px;
+  padding: 14px 40px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.button-small {
+  @extend .text-button-small;
+  width: 120px;
+  height: 40px;
+  padding: 11px 30px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.button-primary {
+  background-color: $orange-color;
+  color: $white-color;
+  border: 1px solid $orange-color;
+
+  &:hover,
+  &:focus {
+    background-color: $hover;
+  }
+
+  &:active {
+    background-color: $pressed;
+  }
+
+  &:disabled {
+    @extend .disabled;
+    background-color: $gray-10;
+  }
+
+  &-large {
+    @extend .button-large;
+  }
+
+  &-small {
+    @extend .button-small;
+  }
+}
+
+.button-secondary {
+  background-color: $white-color;
+  color: $dark-color;
+  border: 1px solid $gray-20;
+
+  &:hover,
+  &:focus {
+    border-color: $gray-70;
+  }
+
+  &:active {
+    box-shadow: 0px 1px 10px 0px $shadow-color;
+  }
+
+  &:disabled {
+    @extend .disabled;
+    color: $gray-20;
+    border-color: $gray-20;
+    background-color: $gray-5;
+  }
+
+  &-large {
+    @extend .button-large;
+  }
+
+  &-small {
+    @extend .button-small;
+  }
+}
+
+.link {
+  @extend .text-button-small;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+
+  svg {
+    display: none;
+  }
+
+  &:hover {
+    svg {
+      fill: currentColor;
+      margin-left: 8px;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    svg {
+      fill: currentColor;
+      margin-left: 8px;
+    }
+  }
+
+  &:active {
+    color: $orange-color;
+    svg {
+      fill: currentColor;
+      margin-left: 8px;
+    }
+  }
+}
+
+.circle-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &-primary {
+    border: 1px solid $orange-color;
+    background-color: $orange-color;
+
+    svg {
+      fill: $white-color;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $hover;
+    }
+
+    &:active {
+      background-color: $pressed;
+    }
+
+    &:disabled {
+      @extend .disabled;
+      background-color: $gray-10;
+    }
+  }
+
+  &-secondary {
+    border: 1px solid $gray-20;
+    background-color: $white-color;
+
+    svg {
+      fill: $gray-40;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $gray-70;
+    }
+
+    &:active {
+      box-shadow: 0px 1px 10px 0px $shadow-color;
+    }
+
+    &:disabled {
+      color: $gray-20;
+      border-color: $gray-20;
+      background-color: $gray-5;
+      cursor: not-allowed;
+    }
+  }
+}

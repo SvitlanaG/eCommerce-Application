@@ -1,0 +1,18 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Define base font size
+$base-font-size: 16px;
+
+// Set base font size for HTML element
+html {
+  font-size: $base-font-size;
+}
+
+#app {
+  margin: 0 auto;
+  text-align: center;
+}
