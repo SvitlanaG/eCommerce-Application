@@ -1,5 +1,3 @@
-/* Typography.module.scss */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 $fontFamily: 'Montserrat', sans-serif;
@@ -118,10 +116,33 @@ h5 {
 }
 
 /* Apply mobile styles */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+  /* CSS rules for laptops */
   h1 {
     font-size: 2rem;
     line-height: 2.5rem;
+  }
+
+  .text-subtitle {
+    &-large {
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+    }
+  }
+
+  .text-button {
+    &-small {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  /* CSS rules for tablets */
+  h1 {
+    font-size: 1.75rem;
+    line-height: 2rem;
   }
 
   h2 {
@@ -159,4 +180,8 @@ h5 {
       line-height: 1.125rem;
     }
   }
+}
+
+@media (max-width: 576px) {
+  /* CSS rules for phones */
 }

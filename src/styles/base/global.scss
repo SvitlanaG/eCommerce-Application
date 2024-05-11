@@ -4,15 +4,33 @@
   box-sizing: border-box;
 }
 
+:root {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: $dark-color;
+  background-color: $white-color;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 // Define base font size
 $base-font-size: 16px;
 
 // Set base font size for HTML element
 html {
   font-size: $base-font-size;
+  scroll-behavior: smooth;
 }
 
-#app {
+body {
+  max-width: 1440px;
+  padding: 1.5% 10.5%;
+  width: 100%;
   margin: 0 auto;
-  text-align: center;
 }
