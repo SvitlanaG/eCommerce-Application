@@ -1,3 +1,4 @@
+import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 
 const MainPage = () => {
@@ -5,6 +6,7 @@ const MainPage = () => {
     <div>
       <Header />
       <h2>Hello from main</h2>
+      <Footer />
     </div>
   );
 };
