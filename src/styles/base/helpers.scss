@@ -28,7 +28,10 @@
 }
 
 .hidden {
-  display: none;
+  position: absolute;
+  left: -99999em;
+  width: 1px;
+  height: 1px;
 }
 
 .disabled {
