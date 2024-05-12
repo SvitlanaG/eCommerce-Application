@@ -1,5 +1,29 @@
 @mixin container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 10.5%;
+  padding: 0 10rem;
+
+  @media (max-width: 992px) {
+    /* CSS rules for laptops */
+    padding: 0 6rem;
+  }
+  @media (max-width: 768px) {
+    /* CSS rules for tablets */
+    padding: 0 4rem;
+  }
+  @media (max-width: 576px) {
+    /* CSS rules for phones */
+    padding: 0 1rem;
+  }
+}
+
+@mixin enabled {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+@mixin disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  user-select: none;
 }

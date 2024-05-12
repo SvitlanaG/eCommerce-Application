@@ -1,14 +1,14 @@
+@import '../../index.scss';
+
 .header {
-  display: flex;
-  min-height: 120px;
-  align-content: center;
-  justify-content: space-between;
+  min-height: 7.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .logo,
 .login {
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  @include enabled;
   width: 58px;
   height: auto;
 }
@@ -18,12 +18,20 @@
   height: auto;
 }
 
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.5rem;
+}
+
 .login p {
-  color: #f85a08;
+  padding-top: 0.5rem;
+  color: $orange-color;
 }
 
 .product-name-slogan {
-  color: #f85a08;
+  color: $orange-color;
 }
 
 @media (max-width: 576px) {

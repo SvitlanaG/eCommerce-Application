@@ -1,22 +1,32 @@
+@import '../../index.scss';
+
+.button {
+  @include enabled;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
 .button-large {
+  @extend .button;
+  @extend .text-button;
   @extend .text-button-large;
   width: 160px;
   height: 52px;
   padding: 14px 40px;
   border-radius: 30px;
-  cursor: pointer;
 }
 
 .button-small {
+  @extend .button;
+  @extend .text-button;
   @extend .text-button-small;
   width: 120px;
   height: 40px;
   padding: 11px 30px;
   border-radius: 20px;
-  cursor: pointer;
 }
 
 .button-primary {
+  @extend .button;
   background-color: $orange-color;
   color: $white-color;
   border: 1px solid $orange-color;
@@ -31,7 +41,7 @@
   }
 
   &:disabled {
-    @extend .disabled;
+    @include disabled;
     background-color: $gray-10;
   }
 
@@ -45,9 +55,11 @@
 }
 
 .button-secondary {
+  @extend .button;
   background-color: $white-color;
   color: $dark-color;
   border: 1px solid $gray-20;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
   &:hover,
   &:focus {
@@ -59,7 +71,7 @@
   }
 
   &:disabled {
-    @extend .disabled;
+    @include disabled;
     color: $gray-20;
     border-color: $gray-20;
     background-color: $gray-5;
@@ -79,6 +91,7 @@
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  @include enabled;
 
   svg {
     display: none;
@@ -108,15 +121,14 @@
   }
 }
 
-.circle-button {
+.button-icon {
+  @extend .button;
   width: 48px;
   height: 48px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 
   svg {
     width: 24px;
@@ -141,7 +153,7 @@
     }
 
     &:disabled {
-      @extend .disabled;
+      @include disabled;
       background-color: $gray-10;
     }
   }
@@ -167,7 +179,7 @@
       color: $gray-20;
       border-color: $gray-20;
       background-color: $gray-5;
-      cursor: not-allowed;
+      @include disabled;
     }
   }
 }
