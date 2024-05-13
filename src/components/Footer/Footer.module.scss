@@ -1,12 +1,14 @@
+@import '../../index.scss';
+
 .footer {
-  min-height: 56px;
+  min-height: 3.5rem;
 }
 
-.container {
+.wrapper {
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
-  border-top: 2px solid #bfc4c9;
+  border-top: 2px solid $gray-20;
 }
 
 .copyright {
@@ -15,26 +17,31 @@
   justify-content: center;
 }
 
-.social-icons {
+.social-icons,
+.contacts {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   a {
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    @include enabled;
     margin: 0 10px;
-    color: #f85a08;
+    color: $orange-color;
     font-size: 24px;
   }
 }
 
 @media (max-width: 576px) {
-  .container {
+  .wrapper {
     flex-direction: column;
   }
 
   .copyright {
     padding: 1rem 0;
+  }
+
+  .social-icons,
+  .contacts {
+    justify-content: center;
   }
 }
