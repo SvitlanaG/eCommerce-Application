@@ -16,7 +16,7 @@ const ErrorPage = () => {
         </p>
         <a
           className={`${btnStyles['button-large']} ${btnStyles['button-primary']}`}
-          href="https://github.com/SvitlanaG/eCommerce-Application"
+          href="/"
         >
           go home
         </a>
