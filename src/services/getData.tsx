@@ -1,3 +1,5 @@
+import { Book, Data, Product, StagedData } from '../interfaces';
+
 export const getAccessToken = async () => {
   const myHeaders: Headers = new Headers();
   myHeaders.append(
@@ -23,7 +25,7 @@ export const getAccessToken = async () => {
     .catch((error) => console.error(error));
 };
 
-export const getBooks = async () => {
+export const getBooks = async (): Promise<Product[]> => {
   try {
     await getAccessToken();
     const myHeaders = new Headers();
@@ -38,15 +40,34 @@ export const getBooks = async () => {
       headers: myHeaders,
     };
 
-    const resp = await (
+    const resp: Data = await (
       await fetch(
         `${import.meta.env.VITE_CTP_API_URL}/rssecommercefinal/products`,
         requestOptions,
       )
     ).json();
-    console.log(resp);
-    // return resp;
+    const staged = resp.results.map((el: Book) => el.masterData.staged);
+    const products: Product[] = staged.map((el: StagedData, ind: number) => {
+      const product: Product = {
+        categories: el.categories,
+        description: el.description,
+        name: el.name,
+        price:
+          el.masterVariant.prices.length > 0
+            ? el.masterVariant.prices[0].value
+            : null,
+        assetSources:
+          el.masterVariant.assets.length > 0
+            ? el.masterVariant.assets[0].sources
+            : [],
+        key: resp.results[ind].key,
+      };
+      return product;
+    });
+    console.log(products);
+    return products;
   } catch (error) {
     console.error(error);
+    return [];
   }
 };

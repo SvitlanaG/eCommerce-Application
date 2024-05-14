@@ -1,0 +1,14 @@
+.main-div {
+    display: flex;
+    flex-wrap: wrap;
+    .img {
+        width: 10rem;
+        height: 12rem;
+    }
+    .imageDiv {
+        display: flex;
+        flex-direction: column;
+        width: 15rem;
+        gap: 5px;
+    }
+}

@@ -1,14 +1,29 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styles from './MainPage.module.scss';
 import { getBooks } from '../services/getData';
+import { Product } from '../interfaces';
 
 const MainPage = () => {
-  // const [products, setProducts] = useState([]);
+  const [books, setBooks] = useState<Product[]>([]);
   useEffect(() => {
-    getBooks();
+    getBooks().then((products) => setBooks(products));
   }, []);
   return (
     <div>
-      <h2>Hello from main</h2>
+      <div className={styles['main-div']}>
+        {books.map((book) => (
+          <div className={styles.imageDiv}>
+            <img
+              src={book.assetSources[0].uri}
+              alt="book"
+              className={styles.img}
+            />
+            <p key={book.key} className={styles.bookName}>
+              {book.name['en-GB']}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
