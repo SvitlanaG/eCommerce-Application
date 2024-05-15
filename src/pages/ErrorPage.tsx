@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import book from '../assets/img/book.png';
 import btnStyles from '../styles/components/buttons.module.scss';
 import styles from './ErrorPage.module.scss';
@@ -14,12 +15,12 @@ const ErrorPage = () => {
           Sorry, the page you are looking for does not exist. Return to our home
           page to continue your journey.
         </p>
-        <a
+        <Link
+          to="/"
           className={`${btnStyles['button-large']} ${btnStyles['button-primary']}`}
-          href="https://github.com/SvitlanaG/eCommerce-Application"
         >
           go home
-        </a>
+        </Link>
       </div>
     </div>
   );
