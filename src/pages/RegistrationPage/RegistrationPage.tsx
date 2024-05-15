@@ -11,7 +11,7 @@ const RegistrationPage = () => {
     watch,
     formState: { errors, isValid },
     reset,
-  } = useForm<User>({ mode: 'onBlur' });
+  } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
 
   const validateAge = (value: string) => {
