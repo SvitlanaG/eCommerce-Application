@@ -8,7 +8,7 @@ export type Adress = {
 export type User = {
   email: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;

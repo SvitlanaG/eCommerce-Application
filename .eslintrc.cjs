@@ -25,6 +25,7 @@ module.exports = {
     'import/extensions': 0,
     'react/function-component-definition': 0,
     'react/jsx-props-no-spreading': 0,
+    'no-param-reassign': 0,
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
