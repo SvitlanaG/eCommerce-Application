@@ -1,23 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { User } from '../../types/Usertype';
+// import Select from 'react-select';
 import styles from './RegistrationPage.module.scss';
-
-type Adress = {
-  street: string;
-  city: string;
-  postalCode: string;
-  country?: string;
-};
-
-type User = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  address: Adress;
-};
 
 const RegistrationPage = () => {
   const {
