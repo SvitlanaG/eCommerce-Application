@@ -27,7 +27,7 @@ const Header = () => {
             >
               <FaUserPlus />
             </NavLink>
-            <p className="text-button text-button-small">Register</p>
+            <p className="text-button text-button-small">Sign up</p>
           </div>
           <div className={styles.login}>
             <NavLink
