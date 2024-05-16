@@ -6,6 +6,7 @@ import ErrorPage from './pages/ErrorPage';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import styles from './App.module.scss';
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <main className={styles.main}>
           <div className={styles.container}>
             <Routes>
+              <Route path="" element={<MainPage />} />
               <Route path="/catalog" element={<Catalog />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />
