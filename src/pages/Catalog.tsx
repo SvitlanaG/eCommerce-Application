@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import styles from './MainPage.module.scss';
+import styles from './CatalogPage.module.scss';
 import { getBooks } from '../services/getData';
 import { Product } from '../interfaces';
 import s from '../styles/components/buttons.module.scss';
 
-const MainPage = () => {
+const Catalog = () => {
   const [books, setBooks] = useState<Product[]>([]);
   useEffect(() => {
     getBooks().then((products) => setBooks(products));
@@ -35,4 +35,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Catalog;

@@ -15,7 +15,7 @@ export const getAccessToken = async () => {
     body: raw,
   };
   fetch(
-    `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/token?grant_type=client_credentials`,
+    `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/rssecommercefinal/anonymous/token?grant_type=client_credentials`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -64,7 +64,6 @@ export const getBooks = async (): Promise<Product[]> => {
       };
       return product;
     });
-    console.log(products);
     return products;
   } catch (error) {
     console.error(error);

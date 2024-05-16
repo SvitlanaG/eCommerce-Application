@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainPage from './pages/MainPage';
+import Catalog from './pages/Catalog';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import ErrorPage from './pages/ErrorPage';
@@ -15,7 +15,7 @@ function App() {
         <main className={styles.main}>
           <div className={styles.container}>
             <Routes>
-              <Route path="" element={<MainPage />} />
+              <Route path="/catalog" element={<Catalog />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />
               <Route path="*" element={<ErrorPage />} />
