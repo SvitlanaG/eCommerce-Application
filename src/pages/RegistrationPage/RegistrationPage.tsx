@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { User } from '../../types/Usertype';
 // import Select from 'react-select';
 import styles from './RegistrationPage.module.scss';
+import registartion from '../../services/registartion';
 
 const RegistrationPage = () => {
   const {
@@ -31,6 +32,7 @@ const RegistrationPage = () => {
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
+    registartion(data);
     reset();
   };
 
