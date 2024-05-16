@@ -1,4 +1,5 @@
-import { FaSignInAlt } from 'react-icons/fa';
+import { FaUserPlus, FaSignInAlt } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 import btnStyles from '../../styles/components/buttons.module.scss';
 import appStyles from '../../App.module.scss';
@@ -18,16 +19,26 @@ const Header = () => {
             Between Codes and Coffee, Find Time for Books
           </p>
         </div>
-
-        <div className={styles.login}>
-          <a
-            className={`${btnStyles['button-icon']} ${btnStyles['button-icon-secondary']}`}
-            href="https://github.com/SvitlanaG/eCommerce-Application"
-          >
-            <FaSignInAlt />
-          </a>
-          <p className="text-button text-button-small">Login</p>
-        </div>
+        <nav className="flex flex-fd-row">
+          <div className={styles.login}>
+            <NavLink
+              to="/register"
+              className={`${btnStyles['button-icon']} ${btnStyles['button-icon-secondary']}`}
+            >
+              <FaUserPlus />
+            </NavLink>
+            <p className="text-button text-button-small">Sign up</p>
+          </div>
+          <div className={styles.login}>
+            <NavLink
+              to="/login"
+              className={`${btnStyles['button-icon']} ${btnStyles['button-icon-secondary']}`}
+            >
+              <FaSignInAlt />
+            </NavLink>
+            <p className="text-button text-button-small">Login</p>
+          </div>
+        </nav>
       </div>
     </header>
   );
