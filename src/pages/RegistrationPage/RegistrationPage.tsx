@@ -10,6 +10,7 @@ const RegistrationPage = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isValid },
     reset,
   } = useForm<User>({ mode: 'onChange' });
@@ -43,12 +44,17 @@ const RegistrationPage = () => {
   const [isCheckedDefaultAddressBilling, setIsCheckedDefaultAddressBilling] =
     useState<boolean>(false);
   const handleSetDefaultAddressBilling = () => {
-    setIsCheckedDefaultAddressBilling((prevState) => !prevState);
+    setIsCheckedDefaultAddressBilling(!isCheckedDefaultAddressBilling);
   };
   const [isCheckedUseAsBillingAddress, setIsCheckedUseAsBillingAddress] =
     useState<boolean>(false);
   const handleSetBillingAddress = () => {
     setIsCheckedUseAsBillingAddress(!isCheckedUseAsBillingAddress);
+    setIsCheckedDefaultAddressBilling(false);
+    setValue('addressBilling.street', '', { shouldValidate: true });
+    setValue('addressBilling.city', '', { shouldValidate: true });
+    setValue('addressBilling.postalCode', '', { shouldValidate: true });
+    setValue('addressBilling.country', '', { shouldValidate: true });
   };
 
   return (
@@ -296,10 +302,9 @@ const RegistrationPage = () => {
           />
         </div>
 
-        {!isCheckedDefaultAddressBilling && (
+        {!isCheckedUseAsBillingAddress && (
           <>
             <h3>Billing Address</h3>
-            {/* <pre>{JSON.stringify(isCheckedDefaultAddressBilling, null, 2)}</pre> */}
             <div className={styles.inputWrapper}>
               <label htmlFor="streetBilling" className={styles.label}>
                 <span>Street *</span>
