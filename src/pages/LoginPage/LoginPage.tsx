@@ -20,9 +20,12 @@ const LoginPage = () => {
       <h2>Log in to Your Account</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Account Credentials</h3>
+        <span className={`${styles['text-info']} ${styles['text-info-small']}`}>
+          Fields marked with * are required.
+        </span>
         <div className={styles.inputWrapperLogin}>
           <label htmlFor="email" className={styles.label}>
-            <span>Email</span>
+            <span>Email *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="email"
@@ -41,7 +44,7 @@ const LoginPage = () => {
           </label>
 
           <label htmlFor="password" className={styles.label}>
-            <span>Password</span>
+            <span>Password *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"

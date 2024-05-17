@@ -56,9 +56,12 @@ const RegistrationPage = () => {
       <h2>Create New Customer Account</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
+        <span className={`${styles['text-info']} ${styles['text-info-small']}`}>
+          Fields marked with * are required.
+        </span>
         <div className={styles.inputWrapper}>
           <label htmlFor="firstName" className={styles.label}>
-            <span>First name</span>
+            <span>First name *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="firstName"
@@ -80,7 +83,7 @@ const RegistrationPage = () => {
           </label>
 
           <label htmlFor="lastName" className={styles.label}>
-            <span>Last name</span>
+            <span>Last name *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="lastName"
@@ -101,7 +104,7 @@ const RegistrationPage = () => {
             )}
           </label>
           <label htmlFor="dateOfBirth" className={styles.label}>
-            <span>Date of birth</span>
+            <span>Date of birth *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="dateOfBirth"
@@ -124,7 +127,7 @@ const RegistrationPage = () => {
         <h3>Sign-in Information</h3>
         <div className={styles.inputWrapper}>
           <label htmlFor="email" className={styles.label}>
-            <span>Email</span>
+            <span>Email *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="email"
@@ -143,7 +146,7 @@ const RegistrationPage = () => {
           </label>
 
           <label htmlFor="password" className={styles.label}>
-            <span>Password</span>
+            <span>Password *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
@@ -181,7 +184,7 @@ const RegistrationPage = () => {
           </label>
 
           <label htmlFor="confirmPassword" className={styles.label}>
-            <span>Confirm password</span>
+            <span>Confirm password *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="confirmPassword"
@@ -201,7 +204,7 @@ const RegistrationPage = () => {
         <h3>Shipping Address</h3>
         <div className={styles.inputWrapper}>
           <label htmlFor="street" className={styles.label}>
-            <span>Street</span>
+            <span>Street *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="street"
@@ -218,7 +221,7 @@ const RegistrationPage = () => {
           </label>
 
           <label htmlFor="city" className={styles.label}>
-            <span>City</span>
+            <span>City *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="city"
@@ -239,7 +242,7 @@ const RegistrationPage = () => {
             )}
           </label>
           <label htmlFor="code" className={styles.label}>
-            <span>Postal code</span>
+            <span>Postal code *</span>
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="code"
@@ -259,7 +262,7 @@ const RegistrationPage = () => {
             )}
           </label>
           <label htmlFor="country" className={styles.label}>
-            <span>Country</span>
+            <span>Country *</span>
             <select
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="country"
@@ -299,7 +302,7 @@ const RegistrationPage = () => {
             {/* <pre>{JSON.stringify(isCheckedDefaultAddressBilling, null, 2)}</pre> */}
             <div className={styles.inputWrapper}>
               <label htmlFor="streetBilling" className={styles.label}>
-                <span>Street</span>
+                <span>Street *</span>
                 <input
                   className={`${styles['input-field']} ${styles['input-field-text']}`}
                   id="streetBilling"
@@ -316,7 +319,7 @@ const RegistrationPage = () => {
               </label>
 
               <label htmlFor="cityBilling" className={styles.label}>
-                <span>City</span>
+                <span>City *</span>
                 <input
                   className={`${styles['input-field']} ${styles['input-field-text']}`}
                   id="cityBilling"
@@ -337,7 +340,7 @@ const RegistrationPage = () => {
                 )}
               </label>
               <label htmlFor="codeBilling" className={styles.label}>
-                <span>Postal code</span>
+                <span>Postal code *</span>
                 <input
                   className={`${styles['input-field']} ${styles['input-field-text']}`}
                   id="codeBilling"
@@ -357,7 +360,7 @@ const RegistrationPage = () => {
                 )}
               </label>
               <label htmlFor="countryBilling" className={styles.label}>
-                <span>Country</span>
+                <span>Country *</span>
                 <select
                   className={`${styles['input-field']} ${styles['input-field-text']}`}
                   id="countryBilling"
