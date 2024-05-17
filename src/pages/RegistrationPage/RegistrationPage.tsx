@@ -43,7 +43,7 @@ const RegistrationPage = () => {
   const [isCheckedDefaultAddressBilling, setIsCheckedDefaultAddressBilling] =
     useState<boolean>(false);
   const handleSetDefaultAddressBilling = () => {
-    setIsCheckedDefaultAddressBilling(!isCheckedDefaultAddressBilling);
+    setIsCheckedDefaultAddressBilling((prevState) => !prevState);
   };
   const [isCheckedUseAsBillingAddress, setIsCheckedUseAsBillingAddress] =
     useState<boolean>(false);
@@ -293,95 +293,100 @@ const RegistrationPage = () => {
           />
         </div>
 
-        <h3>Billing Address</h3>
-        <div className={styles.inputWrapper}>
-          <label htmlFor="streetBilling" className={styles.label}>
-            <span>Street</span>
-            <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
-              id="streetBilling"
-              type="text"
-              {...register('addressBilling.street', {
-                required: 'This field is required',
-              })}
-            />
-            {errors.addressBilling?.street && (
-              <div className={styles.errorMessage}>
-                {errors.addressBilling?.street.message}
-              </div>
-            )}
-          </label>
+        {!isCheckedDefaultAddressBilling && (
+          <>
+            <h3>Billing Address</h3>
+            {/* <pre>{JSON.stringify(isCheckedDefaultAddressBilling, null, 2)}</pre> */}
+            <div className={styles.inputWrapper}>
+              <label htmlFor="streetBilling" className={styles.label}>
+                <span>Street</span>
+                <input
+                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  id="streetBilling"
+                  type="text"
+                  {...register('addressBilling.street', {
+                    required: 'This field is required',
+                  })}
+                />
+                {errors.addressBilling?.street && (
+                  <div className={styles.errorMessage}>
+                    {errors.addressBilling?.street.message}
+                  </div>
+                )}
+              </label>
 
-          <label htmlFor="cityBilling" className={styles.label}>
-            <span>City</span>
-            <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
-              id="cityBilling"
-              type="text"
-              {...register('addressBilling.city', {
-                required: 'This field is required',
-                pattern: {
-                  value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
-                  message:
-                    'City must not contain special characters or numbers',
-                },
-              })}
-            />
-            {errors.addressBilling?.city && (
-              <div className={styles.errorMessage}>
-                {errors.addressBilling?.city.message}
-              </div>
-            )}
-          </label>
-          <label htmlFor="codeBilling" className={styles.label}>
-            <span>Postal code</span>
-            <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
-              id="codeBilling"
-              type="text"
-              {...register('addressBilling.postalCode', {
-                required: 'This field is required',
-                pattern: {
-                  value: /^[A-Za-z]+$/,
-                  message: 'Invalid postal code',
-                },
-              })}
-            />
-            {errors.addressBilling?.postalCode && (
-              <div className={styles.errorMessage}>
-                {errors.addressBilling?.postalCode.message}
-              </div>
-            )}
-          </label>
-          <label htmlFor="countryBilling" className={styles.label}>
-            <span>Country</span>
-            <select
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
-              id="countryBilling"
-              defaultValue=""
-              {...register('addressBilling.country', {
-                required: 'This field is required',
-              })}
-            >
-              <option value="" disabled>
-                Select your country:
-              </option>
-              <option value="DE">Germany</option>
-              <option value="BY">Belarus</option>
-              <option value="AM">Armenia</option>
-            </select>
-            {errors.addressBilling?.country && (
-              <div className={styles.errorMessage}>
-                {errors.addressBilling?.country.message}
-              </div>
-            )}
-          </label>
-          <ToggleSwitch
-            label="Set as default address"
-            isChecked={isCheckedDefaultAddressBilling}
-            onChange={handleSetDefaultAddressBilling}
-          />
-        </div>
+              <label htmlFor="cityBilling" className={styles.label}>
+                <span>City</span>
+                <input
+                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  id="cityBilling"
+                  type="text"
+                  {...register('addressBilling.city', {
+                    required: 'This field is required',
+                    pattern: {
+                      value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
+                      message:
+                        'City must not contain special characters or numbers',
+                    },
+                  })}
+                />
+                {errors.addressBilling?.city && (
+                  <div className={styles.errorMessage}>
+                    {errors.addressBilling?.city.message}
+                  </div>
+                )}
+              </label>
+              <label htmlFor="codeBilling" className={styles.label}>
+                <span>Postal code</span>
+                <input
+                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  id="codeBilling"
+                  type="text"
+                  {...register('addressBilling.postalCode', {
+                    required: 'This field is required',
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: 'Invalid postal code',
+                    },
+                  })}
+                />
+                {errors.addressBilling?.postalCode && (
+                  <div className={styles.errorMessage}>
+                    {errors.addressBilling?.postalCode.message}
+                  </div>
+                )}
+              </label>
+              <label htmlFor="countryBilling" className={styles.label}>
+                <span>Country</span>
+                <select
+                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  id="countryBilling"
+                  defaultValue=""
+                  {...register('addressBilling.country', {
+                    required: 'This field is required',
+                  })}
+                >
+                  <option value="" disabled>
+                    Select your country:
+                  </option>
+                  <option value="DE">Germany</option>
+                  <option value="BY">Belarus</option>
+                  <option value="AM">Armenia</option>
+                </select>
+                {errors.addressBilling?.country && (
+                  <div className={styles.errorMessage}>
+                    {errors.addressBilling?.country.message}
+                  </div>
+                )}
+              </label>
+              <ToggleSwitch
+                label="Set as default address"
+                isChecked={isCheckedDefaultAddressBilling}
+                onChange={handleSetDefaultAddressBilling}
+              />
+            </div>
+          </>
+        )}
 
         <button
           className={`${styles['button-large']} ${styles['button-primary']}`}
