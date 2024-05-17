@@ -38,9 +38,19 @@
       @extend .input-field-label;
       display: flex;
       flex-direction: column;
+      position: relative;
       .errorMessage {
         @extend .text-info;
         color: $error-color;
+      }
+      .eye {
+        position: absolute;
+        top: 28px;
+        right: 15px;
+        @include enabled;
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
   }

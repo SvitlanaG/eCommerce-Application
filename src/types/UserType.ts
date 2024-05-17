@@ -3,6 +3,8 @@ export type AddressShipping = {
   city: string;
   postalCode: string;
   country: string;
+  isDefaultAddress: boolean;
+  isBillingAddress: boolean;
 };
 
 export type AddressBilling = {
@@ -10,6 +12,7 @@ export type AddressBilling = {
   city: string;
   postalCode: string;
   country: string;
+  isDefaultAddress: boolean;
 };
 
 export type User = {

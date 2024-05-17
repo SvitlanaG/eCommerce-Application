@@ -11,6 +11,7 @@
   font-size: 1rem;
   line-height: 1.5rem;
   background-color: $gray-5;
+  transition: 0.3s ease;
 
   &-text {
     @extend .text-body-small;

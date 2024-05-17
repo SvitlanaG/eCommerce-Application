@@ -1,18 +1,14 @@
-import React from 'react';
+import { useRef } from 'react';
 import styles from './ToggleSwitch.module.scss';
 
-interface ToggleSwitchProps {
+interface Props {
   label: string;
   isChecked: boolean;
   onChange: (isChecked: boolean) => void;
 }
 
-const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
-  label,
-  isChecked,
-  onChange,
-}) => {
-  const inputId = React.useRef(
+const ToggleSwitch = ({ label, isChecked, onChange }: Props) => {
+  const inputId = useRef(
     `toggle-switch-${Math.random().toString(36).substring(7)}`,
   );
 
