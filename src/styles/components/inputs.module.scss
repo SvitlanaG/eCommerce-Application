@@ -2,13 +2,14 @@
 
 /* Input field styles */
 .input-field {
-  max-width: 20.5rem;
-  height: 3.5rem;
+  height: 2.5rem;
   padding: 0.5rem;
-  border-bottom: 1px solid $gray-20;
+  margin: 0.25rem 0;
+  border: 2px solid transparent;
+  border-bottom: 2px solid $gray-20;
   border-radius: 4px;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.5rem;
   background-color: $gray-5;
 
   &-text {
@@ -32,7 +33,10 @@
 
 .input-field:hover,
 .input-field:focus {
-  border-bottom: 1px solid $gray-40;
+  border-bottom: 2px solid $orange-color;
+}
+.input-field:focus-visible {
+  outline-color: $orange-color;
 }
 
 /* Style for disabled input */

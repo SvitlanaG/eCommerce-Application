@@ -1,0 +1,55 @@
+@import '../../index.scss';
+@import '../../styles/components/inputs.module.scss';
+
+.toggle-switch {
+  position: relative;
+  display: flex;
+  align-self: center;
+  width: 40px;
+  height: 20px;
+}
+
+.toggle-switch input[type='checkbox'] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: background-color 0.3s;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: '';
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: $white-color;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+input[type='checkbox']:checked + .toggle-slider {
+  background-color: $orange-color;
+}
+
+input[type='checkbox']:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+.toggle-switch-label {
+  @extend .input-field-label;
+  white-space: nowrap;
+  margin-top: 0.2rem;
+  margin-left: 2.5rem;
+}

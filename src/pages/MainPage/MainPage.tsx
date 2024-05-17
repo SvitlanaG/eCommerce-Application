@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { IoBookOutline } from 'react-icons/io5';
 import styles from './MainPage.module.scss';
-import s from '../styles/components/buttons.module.scss';
 
 const MainPage = () => {
   return (
@@ -12,13 +11,13 @@ const MainPage = () => {
       </p>
       <Link
         to="/login"
-        className={`${s['button-large']} ${s['button-primary']}`}
+        className={`${styles['button-large']} ${styles['button-primary']}`}
       >
         Login
       </Link>
       <Link
         to="/register"
-        className={`${s['button-large']} ${s['button-primary']}`}
+        className={`${styles['button-large']} ${styles['button-primary']}`}
       >
         Sign up
       </Link>

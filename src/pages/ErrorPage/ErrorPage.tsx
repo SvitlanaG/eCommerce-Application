@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import book from '../assets/img/book.png';
-import btnStyles from '../styles/components/buttons.module.scss';
+import book from '../../assets/img/book.png';
 import styles from './ErrorPage.module.scss';
 
 const ErrorPage = () => {
@@ -17,7 +16,7 @@ const ErrorPage = () => {
         </p>
         <Link
           to="/"
-          className={`${btnStyles['button-large']} ${btnStyles['button-primary']}`}
+          className={`${styles['button-large']} ${styles['button-primary']}`}
         >
           go home
         </Link>

@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
-import Catalog from './pages/Catalog';
+import Catalog from './pages/CatalogPage/CatalogPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
-import ErrorPage from './pages/ErrorPage';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import styles from './App.module.scss';
-import MainPage from './pages/MainPage';
+import MainPage from './pages/MainPage/MainPage';
 import { getAccessToken } from './services/getData';
 
 function App() {

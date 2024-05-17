@@ -87,37 +87,21 @@
 }
 
 .link {
-  @extend .text-button-small;
+  @extend .text-button, .text-button-small;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  color: $dark-color;
   @include enabled;
 
-  svg {
-    display: none;
-  }
-
-  &:hover {
-    svg {
-      fill: currentColor;
-      margin-left: 8px;
-    }
-  }
-
+  &:hover,
   &:focus {
-    outline: none;
-    svg {
-      fill: currentColor;
-      margin-left: 8px;
-    }
+    color: $orange-color;
+    text-decoration: underline;
   }
 
   &:active {
-    color: $orange-color;
-    svg {
-      fill: currentColor;
-      margin-left: 8px;
-    }
+    color: $accent-color;
   }
 }
 

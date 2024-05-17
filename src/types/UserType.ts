@@ -1,4 +1,11 @@
-export type Adress = {
+export type AddressShipping = {
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
+
+export type AddressBilling = {
   street: string;
   city: string;
   postalCode: string;
@@ -12,6 +19,7 @@ export type User = {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  address: Adress;
+  addressShipping: AddressShipping;
+  addressBilling: AddressBilling;
   token?: string;
 };

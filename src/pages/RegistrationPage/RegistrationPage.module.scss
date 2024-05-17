@@ -4,13 +4,36 @@
 
 .registration {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   .form {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin-top: 2rem;
     align-items: center;
     gap: 10px;
+    .inputWrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      align-items: stretch;
+      gap: 1rem;
+      width: 100%;
+      border: 1px solid $gray-20;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+    .inputWrapperLogin {
+      @extend .inputWrapper;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
     .label {
       @extend .input-field-label;
       display: flex;

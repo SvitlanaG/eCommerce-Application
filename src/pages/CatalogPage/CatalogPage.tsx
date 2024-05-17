@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './CatalogPage.module.scss';
-import { getBooks } from '../services/getData';
-import { Product } from '../interfaces';
-import s from '../styles/components/buttons.module.scss';
+import { getBooks } from '../../services/getData';
+import { Product } from '../../interfaces';
 
-const Catalog = () => {
+const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
   useEffect(() => {
     getBooks().then((products) => setBooks(products));
@@ -24,7 +23,7 @@ const Catalog = () => {
             </p>
             <button
               type="submit"
-              className={`${s['button-primary']} ${styles.btn}`}
+              className={`${styles['button-primary']} ${styles.btn}`}
             >
               Order
             </button>
@@ -35,4 +34,4 @@ const Catalog = () => {
   );
 };
 
-export default Catalog;
+export default CatalogPage;
