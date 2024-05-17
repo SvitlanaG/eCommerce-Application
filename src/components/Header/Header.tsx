@@ -1,15 +1,15 @@
 import { FaUserPlus, FaSignInAlt } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
-import btnStyles from '../../styles/components/buttons.module.scss';
-import appStyles from '../../App.module.scss';
 
 const Header = () => {
   return (
     <header className={styles.header}>
-      <div className={`${appStyles.container} flex flex-jc-space-between`}>
+      <div className={`${styles.container} flex flex-jc-space-between`}>
         <div className={styles.logo}>
-          <img src="/logo.png" alt="Logo" />
+          <Link to="/">
+            <img src="/logo.png" alt="Logo" />
+          </Link>
         </div>
         <div className="flex flex-fw-wrap flex-fd-column">
           <h1 className={styles['product-name']}>Book Lounge Online</h1>
@@ -23,7 +23,7 @@ const Header = () => {
           <div className={styles.login}>
             <NavLink
               to="/register"
-              className={`${btnStyles['button-icon']} ${btnStyles['button-icon-secondary']}`}
+              className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
             >
               <FaUserPlus />
             </NavLink>
@@ -32,7 +32,7 @@ const Header = () => {
           <div className={styles.login}>
             <NavLink
               to="/login"
-              className={`${btnStyles['button-icon']} ${btnStyles['button-icon-secondary']}`}
+              className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
             >
               <FaSignInAlt />
             </NavLink>
