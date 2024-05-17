@@ -3,9 +3,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
-import registartion from '../../services/registartion';
 import 'react-toastify/dist/ReactToastify.css';
 import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
+import registration from '../../services/registration';
 
 const RegistrationPage = () => {
   const {
@@ -14,7 +14,7 @@ const RegistrationPage = () => {
     watch,
     setValue,
     formState: { errors, isValid },
-    reset,
+    // reset,
   } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
 
@@ -35,8 +35,8 @@ const RegistrationPage = () => {
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
-    registartion(data);
-    reset();
+    registration(data);
+    // reset();
   };
 
   const [isCheckedDefaultAddressShipping, setIsCheckedDefaultAddressShipping] =
