@@ -229,7 +229,7 @@ const RegistrationPage = () => {
               {...register('addressShipping.city', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
+                  value: /^[A-Za-z]+$/,
                   message:
                     'City must not contain special characters or numbers',
                 },
@@ -250,7 +250,7 @@ const RegistrationPage = () => {
               {...register('addressShipping.postalCode', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[A-Za-z]+$/,
+                  value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
                   message: 'Invalid postal code',
                 },
               })}
@@ -327,7 +327,7 @@ const RegistrationPage = () => {
                   {...register('addressBilling.city', {
                     required: 'This field is required',
                     pattern: {
-                      value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
+                      value: /^[A-Za-z]+$/,
                       message:
                         'City must not contain special characters or numbers',
                     },
@@ -348,7 +348,7 @@ const RegistrationPage = () => {
                   {...register('addressBilling.postalCode', {
                     required: 'This field is required',
                     pattern: {
-                      value: /^[A-Za-z]+$/,
+                      value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
                       message: 'Invalid postal code',
                     },
                   })}
