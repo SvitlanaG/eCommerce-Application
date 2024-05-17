@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
-import { User } from '../../types/Usertype';
+import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
 import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
 
@@ -206,13 +206,13 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="street"
               type="text"
-              {...register('address.street', {
+              {...register('addressShipping.street', {
                 required: 'This field is required',
               })}
             />
-            {errors.address?.street && (
+            {errors.addressShipping?.street && (
               <div className={styles.errorMessage}>
-                {errors.address?.street.message}
+                {errors.addressShipping?.street.message}
               </div>
             )}
           </label>
@@ -223,7 +223,7 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="city"
               type="text"
-              {...register('address.city', {
+              {...register('addressShipping.city', {
                 required: 'This field is required',
                 pattern: {
                   value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
@@ -232,9 +232,9 @@ const RegistrationPage = () => {
                 },
               })}
             />
-            {errors.address?.city && (
+            {errors.addressShipping?.city && (
               <div className={styles.errorMessage}>
-                {errors.address?.city.message}
+                {errors.addressShipping?.city.message}
               </div>
             )}
           </label>
@@ -244,7 +244,7 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="code"
               type="text"
-              {...register('address.postalCode', {
+              {...register('addressShipping.postalCode', {
                 required: 'This field is required',
                 pattern: {
                   value: /^[A-Za-z]+$/,
@@ -252,9 +252,9 @@ const RegistrationPage = () => {
                 },
               })}
             />
-            {errors.address?.postalCode && (
+            {errors.addressShipping?.postalCode && (
               <div className={styles.errorMessage}>
-                {errors.address?.postalCode.message}
+                {errors.addressShipping?.postalCode.message}
               </div>
             )}
           </label>
@@ -264,7 +264,7 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="country"
               defaultValue=""
-              {...register('address.country', {
+              {...register('addressShipping.country', {
                 required: 'This field is required',
               })}
             >
@@ -275,9 +275,9 @@ const RegistrationPage = () => {
               <option value="BY">Belarus</option>
               <option value="AM">Armenia</option>
             </select>
-            {errors.address?.country && (
+            {errors.addressShipping?.country && (
               <div className={styles.errorMessage}>
-                {errors.address?.country.message}
+                {errors.addressShipping?.country.message}
               </div>
             )}
           </label>
@@ -301,13 +301,13 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="streetBilling"
               type="text"
-              {...register('address.street', {
+              {...register('addressBilling.street', {
                 required: 'This field is required',
               })}
             />
-            {errors.address?.street && (
+            {errors.addressBilling?.street && (
               <div className={styles.errorMessage}>
-                {errors.address?.street.message}
+                {errors.addressBilling?.street.message}
               </div>
             )}
           </label>
@@ -318,7 +318,7 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="cityBilling"
               type="text"
-              {...register('address.city', {
+              {...register('addressBilling.city', {
                 required: 'This field is required',
                 pattern: {
                   value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
@@ -327,9 +327,9 @@ const RegistrationPage = () => {
                 },
               })}
             />
-            {errors.address?.city && (
+            {errors.addressBilling?.city && (
               <div className={styles.errorMessage}>
-                {errors.address?.city.message}
+                {errors.addressBilling?.city.message}
               </div>
             )}
           </label>
@@ -339,7 +339,7 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="codeBilling"
               type="text"
-              {...register('address.postalCode', {
+              {...register('addressBilling.postalCode', {
                 required: 'This field is required',
                 pattern: {
                   value: /^[A-Za-z]+$/,
@@ -347,9 +347,9 @@ const RegistrationPage = () => {
                 },
               })}
             />
-            {errors.address?.postalCode && (
+            {errors.addressBilling?.postalCode && (
               <div className={styles.errorMessage}>
-                {errors.address?.postalCode.message}
+                {errors.addressBilling?.postalCode.message}
               </div>
             )}
           </label>
@@ -359,7 +359,7 @@ const RegistrationPage = () => {
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="countryBilling"
               defaultValue=""
-              {...register('address.country', {
+              {...register('addressBilling.country', {
                 required: 'This field is required',
               })}
             >
@@ -370,9 +370,9 @@ const RegistrationPage = () => {
               <option value="BY">Belarus</option>
               <option value="AM">Armenia</option>
             </select>
-            {errors.address?.country && (
+            {errors.addressBilling?.country && (
               <div className={styles.errorMessage}>
-                {errors.address?.country.message}
+                {errors.addressBilling?.country.message}
               </div>
             )}
           </label>

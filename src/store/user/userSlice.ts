@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../../types/Usertype';
+import { User } from '../../types/UserType';
 
 const initialState: User = {
   email: '',
@@ -8,7 +8,13 @@ const initialState: User = {
   firstName: '',
   lastName: '',
   dateOfBirth: '',
-  address: {
+  addressShipping: {
+    street: '',
+    city: '',
+    postalCode: '',
+    country: '',
+  },
+  addressBilling: {
     street: '',
     city: '',
     postalCode: '',
