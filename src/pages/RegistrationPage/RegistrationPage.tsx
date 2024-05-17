@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { ToastContainer } from 'react-toastify';
 import { User } from '../../types/Usertype';
 // import Select from 'react-select';
 import styles from './RegistrationPage.module.scss';
 import registartion from '../../services/registartion';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegistrationPage = () => {
   const {
@@ -262,6 +264,18 @@ const RegistrationPage = () => {
         <div>Alreade have an account?</div>
         <Link to="/login">Login</Link>
       </form>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
