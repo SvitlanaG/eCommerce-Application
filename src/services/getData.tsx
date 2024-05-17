@@ -27,7 +27,6 @@ export const getAccessToken = async () => {
 
 export const getBooks = async (): Promise<Product[]> => {
   try {
-    await getAccessToken();
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(

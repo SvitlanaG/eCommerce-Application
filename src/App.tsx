@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import Catalog from './pages/Catalog';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
@@ -7,8 +8,12 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import styles from './App.module.scss';
 import MainPage from './pages/MainPage';
+import { getAccessToken } from './services/getData';
 
 function App() {
+  useEffect(() => {
+    getAccessToken();
+  }, []);
   return (
     <BrowserRouter>
       <div className={styles.app}>
