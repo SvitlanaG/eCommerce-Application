@@ -6,13 +6,12 @@ import {
   FaGithub,
 } from 'react-icons/fa';
 import styles from './Footer.module.scss';
-import appStyles from '../../App.module.scss';
 import rsIcon from '../../assets/icons/rs.svg';
 
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <div className={appStyles.container}>
+      <div className={styles.container}>
         <div className={styles.wrapper}>
           <div className={styles.contacts}>
             <a href="https://rs.school/" target="_blank" rel="noreferrer">

@@ -1,4 +1,6 @@
 @import '../../index.scss';
+@import '../../styles/components/buttons.module.scss';
+@import '../../App.module.scss';
 
 .header {
   min-height: 7.5rem;
@@ -16,6 +18,19 @@
 .login img {
   max-width: 100%;
   height: auto;
+}
+
+.logo img {
+  padding: 0.2rem;
+  &:hover,
+  focus {
+    outline: 2px solid $orange-color;
+    outline-offset: -2px;
+    border-radius: 10px;
+  }
+  &:active {
+    box-shadow: $active;
+  }
 }
 
 .login {
