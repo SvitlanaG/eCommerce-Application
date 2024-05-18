@@ -16,9 +16,6 @@ const RegistrationPage = () => {
     reset,
   } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
-  console.log(watch('addressBilling.isDefaultAddress'));
-  console.log(watch('addressShipping.isDefaultAddress'));
-  console.log(watch('addressShipping.isBillingAddress'));
 
   const validateAge = (value: string) => {
     const today = new Date();
