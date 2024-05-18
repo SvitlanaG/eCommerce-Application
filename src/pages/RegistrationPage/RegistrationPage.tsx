@@ -14,7 +14,7 @@ const RegistrationPage = () => {
     setValue,
     formState: { errors, isValid },
     reset,
-  } = useForm<User>({ mode: 'onChange' });
+  } = useForm<User>({ mode: 'onTouched' });
   const pass = watch('password');
 
   const validateAge = (value: string) => {
