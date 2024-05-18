@@ -41,7 +41,20 @@
   margin-left: 0.5rem;
 }
 
-.login p {
+.link {
+  display: flex;
+  flex-direction: column;
+}
+
+.logOut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include enabled;
+}
+
+.login p,
+.logOut p {
   padding-top: 0.5rem;
   color: $orange-color;
 }
