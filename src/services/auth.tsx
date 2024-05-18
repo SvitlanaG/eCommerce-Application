@@ -40,30 +40,33 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       'Authorization',
       `Bearer ${localStorage.getItem('tokenForAll')}`,
     );
+    const shipping = {
+      country: data.addressShipping.country,
+      streetName: data.addressShipping.street,
+      city: data.addressShipping.city,
+      postalCode: data.addressShipping.postalCode,
+    };
+    let billing = null;
+    if (data.addressShipping.isBillingAddress) billing = shipping;
+    else {
+      billing = {
+        country: data.addressBilling.country,
+        streetName: data.addressBilling.street,
+        city: data.addressBilling.city,
+        postalCode: data.addressBilling.postalCode,
+      };
+    }
     const raw = JSON.stringify({
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
       password: data.password,
       dateOfBirth: data.dateOfBirth,
-      addresses: [
-        {
-          country: data.addressBilling.country,
-          streetName: data.addressBilling.street,
-          city: data.addressBilling.city,
-          postalCode: data.addressBilling.postalCode,
-        },
-        {
-          country: data.addressShipping.country,
-          streetName: data.addressShipping.street,
-          city: data.addressShipping.city,
-          postalCode: data.addressShipping.postalCode,
-        },
-      ],
+      addresses: [billing, shipping],
       billingAddresses: [0],
       shippingAddresses: [1],
-      // defaultBillingAddress: 0,
-      // defaultShippingAddress: 1,
+      defaultBillingAddress: data.addressBilling.isDefaultAddress && 0,
+      defaultShippingAddress: data.addressShipping.isDefaultAddress && 1,
     });
 
     const requestOptions = {
@@ -76,7 +79,6 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       'https://api.europe-west1.gcp.commercetools.com/rssecommercefinal/customers',
       requestOptions,
     );
-
     if (!response.ok) {
       const { message }: ErrorReg = await response.json();
       throw new Error(`${message}`);
