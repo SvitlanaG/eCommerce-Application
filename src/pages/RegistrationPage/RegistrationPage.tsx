@@ -8,6 +8,7 @@ import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
 import { registration } from '../../services/auth';
 
 const RegistrationPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,7 +18,6 @@ const RegistrationPage = () => {
     // reset,
   } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
-  const navigate = useNavigate();
   const validateAge = (value: string) => {
     const today = new Date();
     const birthDate = new Date(value);
