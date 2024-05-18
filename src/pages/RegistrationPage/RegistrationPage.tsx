@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
 import openEye from '../../assets/icons/eyeOpen.svg';
@@ -31,6 +31,28 @@ const RegistrationPage = () => {
     }
     return age >= 13;
   };
+
+  const [postalCodePattern, setPostalCodePattern] = useState<
+    RegExp | undefined
+  >(undefined);
+  const countryPostalCodePatterns: Record<string, RegExp> = {
+    DE: /^[0-9]{5}$/,
+    BY: /^[0-9]{6}$/,
+    AM: /^[0-9]{4}$/,
+  };
+  const watchBilling = watch('addressBilling.country');
+  const watchShipping = watch('addressShipping.country');
+
+  useEffect(() => {
+    if (watchBilling) {
+      setPostalCodePattern(countryPostalCodePatterns[watchBilling]);
+    }
+    if (watchShipping) {
+      setPostalCodePattern(countryPostalCodePatterns[watchShipping]);
+    } else {
+      setPostalCodePattern(undefined);
+    }
+  }, [watchShipping, watchBilling]);
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
@@ -273,10 +295,12 @@ const RegistrationPage = () => {
               type="text"
               {...register('addressShipping.postalCode', {
                 required: 'This field is required',
-                pattern: {
-                  value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
-                  message: 'Invalid postal code',
-                },
+                pattern: postalCodePattern
+                  ? {
+                      value: postalCodePattern,
+                      message: 'Invalid postal code',
+                    }
+                  : undefined,
               })}
             />
             {errors.addressShipping?.postalCode && (
@@ -394,10 +418,12 @@ const RegistrationPage = () => {
                   type="text"
                   {...register('addressBilling.postalCode', {
                     required: 'This field is required',
-                    pattern: {
-                      value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
-                      message: 'Invalid postal code',
-                    },
+                    pattern: postalCodePattern
+                      ? {
+                          value: postalCodePattern,
+                          message: 'Invalid postal code',
+                        }
+                      : undefined,
                   })}
                 />
                 {errors.addressBilling?.postalCode && (
