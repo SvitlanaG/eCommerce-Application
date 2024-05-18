@@ -7,7 +7,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm<User>({ mode: 'onChange' });
 
@@ -85,7 +85,6 @@ const LoginPage = () => {
         <button
           className={`${styles['button-large']} ${styles['button-primary']}`}
           type="submit"
-          disabled={!isValid}
         >
           Submit
         </button>

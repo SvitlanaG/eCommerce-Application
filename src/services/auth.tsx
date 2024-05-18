@@ -47,8 +47,11 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       postalCode: data.addressShipping.postalCode,
     };
     let billing = null;
-    if (data.addressShipping.isBillingAddress) billing = shipping;
-    else {
+    let isDefault = data.addressBilling.isDefaultAddress;
+    if (data.addressShipping.isBillingAddress) {
+      billing = shipping;
+      isDefault = data.addressShipping.isDefaultAddress;
+    } else {
       billing = {
         country: data.addressBilling.country,
         streetName: data.addressBilling.street,
@@ -65,10 +68,10 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       addresses: [billing, shipping],
       billingAddresses: [0],
       shippingAddresses: [1],
-      defaultBillingAddress: data.addressBilling.isDefaultAddress && 0,
+
+      defaultBillingAddress: isDefault && 0,
       defaultShippingAddress: data.addressShipping.isDefaultAddress && 1,
     });
-
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,

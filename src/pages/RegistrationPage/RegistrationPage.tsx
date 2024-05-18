@@ -15,7 +15,7 @@ const RegistrationPage = () => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
@@ -481,7 +481,6 @@ const RegistrationPage = () => {
         <button
           className={`${styles['button-large']} ${styles['button-primary']}`}
           type="submit"
-          disabled={!isValid}
         >
           Submit
         </button>
