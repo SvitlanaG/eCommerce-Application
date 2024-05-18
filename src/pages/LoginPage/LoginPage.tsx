@@ -9,7 +9,7 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors, isValid },
     reset,
-  } = useForm<User>({ mode: 'onChange' });
+  } = useForm<User>({ mode: 'onTouched' });
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);

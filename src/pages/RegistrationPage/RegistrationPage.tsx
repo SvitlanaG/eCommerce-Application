@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
-import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
+import openEye from '../../assets/icons/eyeOpen.svg';
+import closedEye from '../../assets/icons/eyeClosed.svg';
 
 const RegistrationPage = () => {
   const {
@@ -13,7 +14,7 @@ const RegistrationPage = () => {
     setValue,
     formState: { errors, isValid },
     reset,
-  } = useForm<User>({ mode: 'onChange' });
+  } = useForm<User>({ mode: 'onTouched' });
   const pass = watch('password');
 
   const validateAge = (value: string) => {
@@ -31,30 +32,62 @@ const RegistrationPage = () => {
     return age >= 13;
   };
 
+  const [postalCodePattern, setPostalCodePattern] = useState<
+    RegExp | undefined
+  >(undefined);
+  const countryPostalCodePatterns: Record<string, RegExp> = {
+    DE: /^[0-9]{5}$/,
+    BY: /^[0-9]{6}$/,
+    AM: /^[0-9]{4}$/,
+  };
+  const watchBilling = watch('addressBilling.country');
+  const watchShipping = watch('addressShipping.country');
+
+  useEffect(() => {
+    if (watchBilling) {
+      setPostalCodePattern(countryPostalCodePatterns[watchBilling]);
+    }
+    if (watchShipping) {
+      setPostalCodePattern(countryPostalCodePatterns[watchShipping]);
+    } else {
+      setPostalCodePattern(undefined);
+    }
+  }, [watchShipping, watchBilling]);
+
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
     reset();
   };
 
-  const [isCheckedDefaultAddressShipping, setIsCheckedDefaultAddressShipping] =
-    useState<boolean>(false);
-  const handleSetDefaultAddressShipping = () => {
-    setIsCheckedDefaultAddressShipping(!isCheckedDefaultAddressShipping);
+  const [isShippingAddress, setisShippingAddress] = useState(false);
+  const handleShippingAddress = () => {
+    setisShippingAddress(!isShippingAddress);
   };
-  const [isCheckedDefaultAddressBilling, setIsCheckedDefaultAddressBilling] =
-    useState<boolean>(false);
-  const handleSetDefaultAddressBilling = () => {
-    setIsCheckedDefaultAddressBilling(!isCheckedDefaultAddressBilling);
+  const [isDefaultAddressBilling, setisDefaultAddressBilling] = useState(false);
+
+  const handleDefaultAddressBilling = () => {
+    setisDefaultAddressBilling(!isDefaultAddressBilling);
   };
-  const [isCheckedUseAsBillingAddress, setIsCheckedUseAsBillingAddress] =
-    useState<boolean>(false);
-  const handleSetBillingAddress = () => {
-    setIsCheckedUseAsBillingAddress(!isCheckedUseAsBillingAddress);
-    setIsCheckedDefaultAddressBilling(false);
+  const [isBillingAddress, setisBillingAddress] = useState(false);
+
+  const handleBillingAddress = () => {
+    setisBillingAddress(!isBillingAddress);
+    setisDefaultAddressBilling(false);
     setValue('addressBilling.street', '', { shouldValidate: true });
     setValue('addressBilling.city', '', { shouldValidate: true });
     setValue('addressBilling.postalCode', '', { shouldValidate: true });
     setValue('addressBilling.country', '', { shouldValidate: true });
+  };
+
+  const [isPass, setIsPass] = useState(false);
+  const [isConfirmPass, setIsConfirmPass] = useState(false);
+
+  const handleShowPass = () => {
+    setIsPass(!isPass);
+  };
+
+  const hadleShowConfirmPass = () => {
+    setIsConfirmPass(!isConfirmPass);
   };
 
   return (
@@ -156,7 +189,7 @@ const RegistrationPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
-              type="password"
+              type={isPass ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is required field',
                 minLength: {
@@ -182,6 +215,9 @@ const RegistrationPage = () => {
                 },
               })}
             />
+            <div className={styles.eye} onClick={handleShowPass}>
+              <img src={isPass ? openEye : closedEye} alt="eye icon" />
+            </div>
             {errors.password && (
               <div className={styles.errorMessage}>
                 {errors.password.message}
@@ -194,12 +230,16 @@ const RegistrationPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="confirmPassword"
-              type="password"
+              type={isConfirmPass ? 'text' : 'password'}
               {...register('confirmPassword', {
                 required: 'This field is required',
                 validate: (value) => value === pass || 'Passwords do not match',
               })}
             />
+            <div className={styles.eye} onClick={hadleShowConfirmPass}>
+              <img src={isConfirmPass ? openEye : closedEye} alt="eye icon" />
+            </div>
+
             {errors.confirmPassword && (
               <div className={styles.errorMessage}>
                 {errors.confirmPassword.message}
@@ -255,10 +295,12 @@ const RegistrationPage = () => {
               type="text"
               {...register('addressShipping.postalCode', {
                 required: 'This field is required',
-                pattern: {
-                  value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
-                  message: 'Invalid postal code',
-                },
+                pattern: postalCodePattern
+                  ? {
+                      value: postalCodePattern,
+                      message: 'Invalid postal code',
+                    }
+                  : undefined,
               })}
             />
             {errors.addressShipping?.postalCode && (
@@ -290,19 +332,43 @@ const RegistrationPage = () => {
               </div>
             )}
           </label>
-          <ToggleSwitch
-            label="Set as default address"
-            isChecked={isCheckedDefaultAddressShipping}
-            onChange={handleSetDefaultAddressShipping}
-          />
-          <ToggleSwitch
-            label="Also use as billing address"
-            isChecked={isCheckedUseAsBillingAddress}
-            onChange={handleSetBillingAddress}
-          />
+
+          <label
+            htmlFor="addressShipping.isDefaultAddress"
+            className={styles['toggle-switch']}
+          >
+            <input
+              {...register('addressShipping.isDefaultAddress')}
+              type="checkbox"
+              checked={isShippingAddress}
+              onChange={handleShippingAddress}
+              id="addressShipping.isDefaultAddress"
+            />
+            <span className={styles['toggle-slider']} />
+            <span className={styles['toggle-switch-label']}>
+              Set as default address
+            </span>
+          </label>
+
+          <label
+            htmlFor="addressShipping.isBillingAddress"
+            className={styles['toggle-switch']}
+          >
+            <input
+              {...register('addressShipping.isBillingAddress')}
+              type="checkbox"
+              checked={isBillingAddress}
+              onChange={handleBillingAddress}
+              id="addressShipping.isBillingAddress"
+            />
+            <span className={styles['toggle-slider']} />
+            <span className={styles['toggle-switch-label']}>
+              Also use as billing address
+            </span>
+          </label>
         </div>
 
-        {!isCheckedUseAsBillingAddress && (
+        {!isBillingAddress && (
           <>
             <h3>Billing Address</h3>
             <div className={styles.inputWrapper}>
@@ -352,10 +418,12 @@ const RegistrationPage = () => {
                   type="text"
                   {...register('addressBilling.postalCode', {
                     required: 'This field is required',
-                    pattern: {
-                      value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i,
-                      message: 'Invalid postal code',
-                    },
+                    pattern: postalCodePattern
+                      ? {
+                          value: postalCodePattern,
+                          message: 'Invalid postal code',
+                        }
+                      : undefined,
                   })}
                 />
                 {errors.addressBilling?.postalCode && (
@@ -387,11 +455,22 @@ const RegistrationPage = () => {
                   </div>
                 )}
               </label>
-              <ToggleSwitch
-                label="Set as default address"
-                isChecked={isCheckedDefaultAddressBilling}
-                onChange={handleSetDefaultAddressBilling}
-              />
+              <label
+                htmlFor="addressBilling.isDefaultAddress"
+                className={styles['toggle-switch']}
+              >
+                <input
+                  {...register('addressBilling.isDefaultAddress')}
+                  type="checkbox"
+                  checked={isDefaultAddressBilling}
+                  onChange={handleDefaultAddressBilling}
+                  id="addressBilling.isDefaultAddress"
+                />
+                <span className={styles['toggle-slider']} />
+                <span className={styles['toggle-switch-label']}>
+                  Set as default address
+                </span>
+              </label>
             </div>
           </>
         )}
