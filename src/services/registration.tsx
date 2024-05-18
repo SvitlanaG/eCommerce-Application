@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { User } from '../types/UserType';
+import { ErrorReg } from '../types/ErrorReg';
 
 const registration = async (data: User) => {
   try {
@@ -47,11 +48,9 @@ const registration = async (data: User) => {
     );
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`${errorData.message}`);
+      const { message }: ErrorReg = await response.json();
+      throw new Error(`${message}`);
     }
-    const responseData = await response.json();
-    console.log('sss:', responseData);
     toast.success('registration successful', {
       position: 'bottom-center',
       autoClose: 5000,
