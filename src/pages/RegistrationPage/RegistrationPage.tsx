@@ -62,20 +62,20 @@ const RegistrationPage = () => {
     reset();
   };
 
-  const [isShippingAddress, setisShippingAddress] = useState(false);
+  const [isShippingAddress, setIsShippingAddress] = useState(false);
   const handleShippingAddress = () => {
-    setisShippingAddress(!isShippingAddress);
+    setIsShippingAddress(!isShippingAddress);
   };
-  const [isDefaultAddressBilling, setisDefaultAddressBilling] = useState(false);
+  const [isDefaultAddressBilling, setIsDefaultAddressBilling] = useState(false);
 
   const handleDefaultAddressBilling = () => {
-    setisDefaultAddressBilling(!isDefaultAddressBilling);
+    setIsDefaultAddressBilling(!isDefaultAddressBilling);
   };
-  const [isBillingAddress, setisBillingAddress] = useState(false);
+  const [isBillingAddress, setIsBillingAddress] = useState(false);
 
   const handleBillingAddress = () => {
-    setisBillingAddress(!isBillingAddress);
-    setisDefaultAddressBilling(false);
+    setIsBillingAddress(!isBillingAddress);
+    setIsDefaultAddressBilling(false);
     setValue('addressBilling.street', '', { shouldValidate: true });
     setValue('addressBilling.city', '', { shouldValidate: true });
     setValue('addressBilling.postalCode', '', { shouldValidate: true });
@@ -89,7 +89,7 @@ const RegistrationPage = () => {
     setIsPass(!isPass);
   };
 
-  const hadleShowConfirmPass = () => {
+  const handleShowConfirmPass = () => {
     setIsConfirmPass(!isConfirmPass);
   };
 
@@ -175,7 +175,7 @@ const RegistrationPage = () => {
               id="email"
               type="email"
               {...register('email', {
-                required: 'Emai is required field',
+                required: 'Email is required field',
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                   message: 'Invalid email address',
@@ -239,7 +239,7 @@ const RegistrationPage = () => {
                 validate: (value) => value === pass || 'Passwords do not match',
               })}
             />
-            <div className={styles.eye} onClick={hadleShowConfirmPass}>
+            <div className={styles.eye} onClick={handleShowConfirmPass}>
               <img src={isConfirmPass ? openEye : closedEye} alt="eye icon" />
             </div>
 
@@ -290,28 +290,6 @@ const RegistrationPage = () => {
               </div>
             )}
           </label>
-          <label htmlFor="code" className={styles.label}>
-            <span>Postal code *</span>
-            <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
-              id="code"
-              type="text"
-              {...register('addressShipping.postalCode', {
-                required: 'This field is required',
-                pattern: postalCodePattern
-                  ? {
-                      value: postalCodePattern,
-                      message: 'Invalid postal code',
-                    }
-                  : undefined,
-              })}
-            />
-            {errors.addressShipping?.postalCode && (
-              <div className={styles.errorMessage}>
-                {errors.addressShipping?.postalCode.message}
-              </div>
-            )}
-          </label>
           <label htmlFor="country" className={styles.label}>
             <span>Country *</span>
             <select
@@ -332,6 +310,28 @@ const RegistrationPage = () => {
             {errors.addressShipping?.country && (
               <div className={styles.errorMessage}>
                 {errors.addressShipping?.country.message}
+              </div>
+            )}
+          </label>
+          <label htmlFor="code" className={styles.label}>
+            <span>Postal code *</span>
+            <input
+              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              id="code"
+              type="text"
+              {...register('addressShipping.postalCode', {
+                required: 'This field is required',
+                pattern: postalCodePattern
+                  ? {
+                      value: postalCodePattern,
+                      message: 'Invalid postal code',
+                    }
+                  : undefined,
+              })}
+            />
+            {errors.addressShipping?.postalCode && (
+              <div className={styles.errorMessage}>
+                {errors.addressShipping?.postalCode.message}
               </div>
             )}
           </label>
@@ -413,28 +413,6 @@ const RegistrationPage = () => {
                   </div>
                 )}
               </label>
-              <label htmlFor="codeBilling" className={styles.label}>
-                <span>Postal code *</span>
-                <input
-                  className={`${styles['input-field']} ${styles['input-field-text']}`}
-                  id="codeBilling"
-                  type="text"
-                  {...register('addressBilling.postalCode', {
-                    required: 'This field is required',
-                    pattern: postalCodePattern
-                      ? {
-                          value: postalCodePattern,
-                          message: 'Invalid postal code',
-                        }
-                      : undefined,
-                  })}
-                />
-                {errors.addressBilling?.postalCode && (
-                  <div className={styles.errorMessage}>
-                    {errors.addressBilling?.postalCode.message}
-                  </div>
-                )}
-              </label>
               <label htmlFor="countryBilling" className={styles.label}>
                 <span>Country *</span>
                 <select
@@ -455,6 +433,28 @@ const RegistrationPage = () => {
                 {errors.addressBilling?.country && (
                   <div className={styles.errorMessage}>
                     {errors.addressBilling?.country.message}
+                  </div>
+                )}
+              </label>
+              <label htmlFor="codeBilling" className={styles.label}>
+                <span>Postal code *</span>
+                <input
+                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  id="codeBilling"
+                  type="text"
+                  {...register('addressBilling.postalCode', {
+                    required: 'This field is required',
+                    pattern: postalCodePattern
+                      ? {
+                          value: postalCodePattern,
+                          message: 'Invalid postal code',
+                        }
+                      : undefined,
+                  })}
+                />
+                {errors.addressBilling?.postalCode && (
+                  <div className={styles.errorMessage}>
+                    {errors.addressBilling?.postalCode.message}
                   </div>
                 )}
               </label>
