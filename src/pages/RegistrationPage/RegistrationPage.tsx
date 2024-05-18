@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
-import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
 import openEye from '../../assets/icons/eyeOpen.svg';
 import closedEye from '../../assets/icons/eyeClosed.svg';
 
@@ -17,6 +16,9 @@ const RegistrationPage = () => {
     reset,
   } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
+  console.log(watch('addressBilling.isDefaultAddress'));
+  console.log(watch('addressShipping.isDefaultAddress'));
+  console.log(watch('addressShipping.isBillingAddress'));
 
   const validateAge = (value: string) => {
     const today = new Date();
@@ -38,39 +40,37 @@ const RegistrationPage = () => {
     reset();
   };
 
-  const [isCheckedDefaultAddressShipping, setIsCheckedDefaultAddressShipping] =
-    useState<boolean>(false);
-  const handleSetDefaultAddressShipping = () => {
-    setIsCheckedDefaultAddressShipping(!isCheckedDefaultAddressShipping);
+  const [isShippingAddress, setisShippingAddress] = useState(false);
+  const handleShippingAddress = () => {
+    setisShippingAddress(!isShippingAddress);
   };
-  const [isCheckedDefaultAddressBilling, setIsCheckedDefaultAddressBilling] =
-    useState(false);
+  const [isDefaultAddressBilling, setisDefaultAddressBilling] = useState(false);
 
-  const handleSetDefaultAddressBilling = () => {
-    setIsCheckedDefaultAddressBilling(!isCheckedDefaultAddressBilling);
+  const handleDefaultAddressBilling = () => {
+    setisDefaultAddressBilling(!isDefaultAddressBilling);
   };
-  const [isCheckedUseAsBillingAddress, setIsCheckedUseAsBillingAddress] =
-    useState(false);
+  const [isBillingAddress, setisBillingAddress] = useState(false);
 
-  const handleSetBillingAddress = () => {
-    setIsCheckedUseAsBillingAddress(!isCheckedUseAsBillingAddress);
-    setIsCheckedDefaultAddressBilling(false);
+  const handleBillingAddress = () => {
+    setisBillingAddress(!isBillingAddress);
+    setisDefaultAddressBilling(false);
     setValue('addressBilling.street', '', { shouldValidate: true });
     setValue('addressBilling.city', '', { shouldValidate: true });
     setValue('addressBilling.postalCode', '', { shouldValidate: true });
     setValue('addressBilling.country', '', { shouldValidate: true });
   };
 
-  const [isPassVisible, setIsPassVisible] = useState(false);
-  const [isConfirmPassVisible, setIsConfirmPassVisible] = useState(false);
+  const [isPass, setIsPass] = useState(false);
+  const [isConfirmPass, setIsConfirmPass] = useState(false);
 
   const handleShowPass = () => {
-    setIsPassVisible(!isPassVisible);
+    setIsPass(!isPass);
   };
 
   const hadleShowConfirmPass = () => {
-    setIsConfirmPassVisible(!isConfirmPassVisible);
+    setIsConfirmPass(!isConfirmPass);
   };
+
   return (
     <div className={styles.registration}>
       <h2>Create New Customer Account</h2>
@@ -170,7 +170,7 @@ const RegistrationPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
-              type={isPassVisible ? 'text' : 'password'}
+              type={isPass ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is required field',
                 minLength: {
@@ -197,7 +197,7 @@ const RegistrationPage = () => {
               })}
             />
             <div className={styles.eye} onClick={handleShowPass}>
-              <img src={isPassVisible ? openEye : closedEye} alt="eye icon" />
+              <img src={isPass ? openEye : closedEye} alt="eye icon" />
             </div>
             {errors.password && (
               <div className={styles.errorMessage}>
@@ -211,17 +211,14 @@ const RegistrationPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="confirmPassword"
-              type={isConfirmPassVisible ? 'text' : 'password'}
+              type={isConfirmPass ? 'text' : 'password'}
               {...register('confirmPassword', {
                 required: 'This field is required',
                 validate: (value) => value === pass || 'Passwords do not match',
               })}
             />
             <div className={styles.eye} onClick={hadleShowConfirmPass}>
-              <img
-                src={isConfirmPassVisible ? openEye : closedEye}
-                alt="eye icon"
-              />
+              <img src={isConfirmPass ? openEye : closedEye} alt="eye icon" />
             </div>
 
             {errors.confirmPassword && (
@@ -314,21 +311,43 @@ const RegistrationPage = () => {
               </div>
             )}
           </label>
-          <ToggleSwitch
-            // {...register('addressShipping.isDefaultAddress')}
-            label="Set as default address"
-            isChecked={isCheckedDefaultAddressShipping}
-            onChange={handleSetDefaultAddressShipping}
-          />
-          <ToggleSwitch
-            // {...register('addressShipping.isBillingAddress')}
-            label="Also use as billing address"
-            isChecked={isCheckedUseAsBillingAddress}
-            onChange={handleSetBillingAddress}
-          />
+
+          <label
+            htmlFor="addressShipping.isDefaultAddress"
+            className={styles['toggle-switch']}
+          >
+            <input
+              {...register('addressShipping.isDefaultAddress')}
+              type="checkbox"
+              checked={isShippingAddress}
+              onChange={handleShippingAddress}
+              id="addressShipping.isDefaultAddress"
+            />
+            <span className={styles['toggle-slider']} />
+            <span className={styles['toggle-switch-label']}>
+              Set as default address
+            </span>
+          </label>
+
+          <label
+            htmlFor="addressShipping.isBillingAddress"
+            className={styles['toggle-switch']}
+          >
+            <input
+              {...register('addressShipping.isBillingAddress')}
+              type="checkbox"
+              checked={isBillingAddress}
+              onChange={handleBillingAddress}
+              id="addressShipping.isBillingAddress"
+            />
+            <span className={styles['toggle-slider']} />
+            <span className={styles['toggle-switch-label']}>
+              Also use as billing address
+            </span>
+          </label>
         </div>
 
-        {!isCheckedUseAsBillingAddress && (
+        {!isBillingAddress && (
           <>
             <h3>Billing Address</h3>
             <div className={styles.inputWrapper}>
@@ -413,12 +432,22 @@ const RegistrationPage = () => {
                   </div>
                 )}
               </label>
-              <ToggleSwitch
-                // {...register('addressBilling.isDefaultAddress')}
-                label="Set as default address"
-                isChecked={isCheckedDefaultAddressBilling}
-                onChange={handleSetDefaultAddressBilling}
-              />
+              <label
+                htmlFor="addressBilling.isDefaultAddress"
+                className={styles['toggle-switch']}
+              >
+                <input
+                  {...register('addressBilling.isDefaultAddress')}
+                  type="checkbox"
+                  checked={isDefaultAddressBilling}
+                  onChange={handleDefaultAddressBilling}
+                  id="addressBilling.isDefaultAddress"
+                />
+                <span className={styles['toggle-slider']} />
+                <span className={styles['toggle-switch-label']}>
+                  Set as default address
+                </span>
+              </label>
             </div>
           </>
         )}
