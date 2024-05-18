@@ -15,7 +15,6 @@ const Header = () => {
     localStorage.removeItem('token');
     setIsLogin('');
     navigate('/');
-    window.location.reload();
   };
 
   return (

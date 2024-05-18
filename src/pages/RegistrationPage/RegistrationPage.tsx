@@ -17,7 +17,7 @@ const RegistrationPage = () => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<User>({ mode: 'onTouched' });
+  } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
   const validateAge = (value: string) => {
     const today = new Date();
@@ -34,10 +34,13 @@ const RegistrationPage = () => {
     return age >= 13;
   };
 
-  const [postalCodePattern, setPostalCodePattern] = useState<
+  const [postalPattern, setPostalPattern] = useState<RegExp | undefined>(
+    undefined,
+  );
+  const [postalBillingPattern, setPostalBillingPattern] = useState<
     RegExp | undefined
   >(undefined);
-  const countryPostalCodePatterns: Record<string, RegExp> = {
+  const countryPostalPatterns: Record<string, RegExp> = {
     DE: /^[0-9]{5}$/,
     BY: /^[0-9]{6}$/,
     AM: /^[0-9]{4}$/,
@@ -47,12 +50,10 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     if (watchBilling) {
-      setPostalCodePattern(countryPostalCodePatterns[watchBilling]);
+      setPostalBillingPattern(countryPostalPatterns[watchBilling]);
     }
     if (watchShipping) {
-      setPostalCodePattern(countryPostalCodePatterns[watchShipping]);
-    } else {
-      setPostalCodePattern(undefined);
+      setPostalPattern(countryPostalPatterns[watchShipping]);
     }
   }, [watchShipping, watchBilling]);
 
@@ -252,6 +253,29 @@ const RegistrationPage = () => {
         </div>
         <h3>Shipping Address</h3>
         <div className={styles.inputWrapper}>
+          <label htmlFor="country" className={styles.label}>
+            <span>Country *</span>
+            <select
+              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              id="country"
+              defaultValue=""
+              {...register('addressShipping.country', {
+                required: 'This field is required',
+              })}
+            >
+              <option value="" disabled>
+                Select your country:
+              </option>
+              <option value="DE">Germany</option>
+              <option value="BY">Belarus</option>
+              <option value="AM">Armenia</option>
+            </select>
+            {errors.addressShipping?.country && (
+              <div className={styles.errorMessage}>
+                {errors.addressShipping?.country.message}
+              </div>
+            )}
+          </label>
           <label htmlFor="street" className={styles.label}>
             <span>Street *</span>
             <input
@@ -290,29 +314,6 @@ const RegistrationPage = () => {
               </div>
             )}
           </label>
-          <label htmlFor="country" className={styles.label}>
-            <span>Country *</span>
-            <select
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
-              id="country"
-              defaultValue=""
-              {...register('addressShipping.country', {
-                required: 'This field is required',
-              })}
-            >
-              <option value="" disabled>
-                Select your country:
-              </option>
-              <option value="DE">Germany</option>
-              <option value="BY">Belarus</option>
-              <option value="AM">Armenia</option>
-            </select>
-            {errors.addressShipping?.country && (
-              <div className={styles.errorMessage}>
-                {errors.addressShipping?.country.message}
-              </div>
-            )}
-          </label>
           <label htmlFor="code" className={styles.label}>
             <span>Postal code *</span>
             <input
@@ -321,9 +322,9 @@ const RegistrationPage = () => {
               type="text"
               {...register('addressShipping.postalCode', {
                 required: 'This field is required',
-                pattern: postalCodePattern
+                pattern: postalPattern
                   ? {
-                      value: postalCodePattern,
+                      value: postalPattern,
                       message: 'Invalid postal code',
                     }
                   : undefined,
@@ -375,6 +376,29 @@ const RegistrationPage = () => {
           <>
             <h3>Billing Address</h3>
             <div className={styles.inputWrapper}>
+              <label htmlFor="countryBilling" className={styles.label}>
+                <span>Country *</span>
+                <select
+                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  id="countryBilling"
+                  defaultValue=""
+                  {...register('addressBilling.country', {
+                    required: 'This field is required',
+                  })}
+                >
+                  <option value="" disabled>
+                    Select your country:
+                  </option>
+                  <option value="DE">Germany</option>
+                  <option value="BY">Belarus</option>
+                  <option value="AM">Armenia</option>
+                </select>
+                {errors.addressBilling?.country && (
+                  <div className={styles.errorMessage}>
+                    {errors.addressBilling?.country.message}
+                  </div>
+                )}
+              </label>
               <label htmlFor="streetBilling" className={styles.label}>
                 <span>Street *</span>
                 <input
@@ -413,29 +437,6 @@ const RegistrationPage = () => {
                   </div>
                 )}
               </label>
-              <label htmlFor="countryBilling" className={styles.label}>
-                <span>Country *</span>
-                <select
-                  className={`${styles['input-field']} ${styles['input-field-text']}`}
-                  id="countryBilling"
-                  defaultValue=""
-                  {...register('addressBilling.country', {
-                    required: 'This field is required',
-                  })}
-                >
-                  <option value="" disabled>
-                    Select your country:
-                  </option>
-                  <option value="DE">Germany</option>
-                  <option value="BY">Belarus</option>
-                  <option value="AM">Armenia</option>
-                </select>
-                {errors.addressBilling?.country && (
-                  <div className={styles.errorMessage}>
-                    {errors.addressBilling?.country.message}
-                  </div>
-                )}
-              </label>
               <label htmlFor="codeBilling" className={styles.label}>
                 <span>Postal code *</span>
                 <input
@@ -444,9 +445,9 @@ const RegistrationPage = () => {
                   type="text"
                   {...register('addressBilling.postalCode', {
                     required: 'This field is required',
-                    pattern: postalCodePattern
+                    pattern: postalBillingPattern
                       ? {
-                          value: postalCodePattern,
+                          value: postalBillingPattern,
                           message: 'Invalid postal code',
                         }
                       : undefined,
@@ -458,6 +459,7 @@ const RegistrationPage = () => {
                   </div>
                 )}
               </label>
+
               <label
                 htmlFor="addressBilling.isDefaultAddress"
                 className={styles['toggle-switch']}
