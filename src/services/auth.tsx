@@ -1,8 +1,38 @@
 import { toast } from 'react-toastify';
-import { User } from '../types/UserType';
+import { NavigateFunction } from 'react-router-dom';
+import { User, UserLogin, UserToken } from '../types/UserType';
 import { ErrorReg } from '../types/ErrorReg';
 
-const registration = async (data: User) => {
+export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append(
+      'Authorization',
+      'Basic dUpzVExhY2lQbFFHNVBlU0ZQWUwtVW45Ok9VMWlQUTdRR2laVEYxdklTejYtM2lrOVhXcHk1dlJZ',
+    );
+
+    const raw = '';
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+
+    const { access_token: accessToken }: UserToken = await (
+      await fetch(
+        `https://auth.europe-west1.gcp.commercetools.com/oauth/rssecommercefinal/customers/token?grant_type=password&username=${data.email}&password=${data.password}`,
+        requestOptions,
+      )
+    ).json();
+    localStorage.setItem('userAccessToken', accessToken);
+    navigate('/');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const registration = async (data: User, navigate: NavigateFunction) => {
   try {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -61,6 +91,7 @@ const registration = async (data: User) => {
       progress: undefined,
       theme: 'light',
     });
+    await Login({ email: data.email, password: data.password }, navigate);
   } catch (error) {
     toast.error(`${error}`, {
       position: 'bottom-center',
@@ -75,5 +106,3 @@ const registration = async (data: User) => {
     console.error('ssss:', error);
   }
 };
-
-export default registration;

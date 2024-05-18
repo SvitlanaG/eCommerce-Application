@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
-import registration from '../../services/registration';
+import { registration } from '../../services/auth';
 
 const RegistrationPage = () => {
   const {
@@ -17,7 +17,7 @@ const RegistrationPage = () => {
     // reset,
   } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
-
+  const navigate = useNavigate();
   const validateAge = (value: string) => {
     const today = new Date();
     const birthDate = new Date(value);
@@ -35,7 +35,7 @@ const RegistrationPage = () => {
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
-    registration(data);
+    registration(data, navigate);
     // reset();
   };
 

@@ -23,3 +23,14 @@ export type User = {
   addressBilling: AddressBilling;
   token?: string;
 };
+
+export type UserLogin = {
+  email: string;
+  password: string;
+};
+
+export type UserToken = {
+  access_token: string;
+  refresh_token: string;
+  expires_in: string;
+};
