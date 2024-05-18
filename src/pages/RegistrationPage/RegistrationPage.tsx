@@ -17,7 +17,7 @@ const RegistrationPage = () => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<User>({ mode: 'onTouched' });
+  } = useForm<User>({ mode: 'onChange' });
   const pass = watch('password');
   const validateAge = (value: string) => {
     const today = new Date();
@@ -34,10 +34,13 @@ const RegistrationPage = () => {
     return age >= 13;
   };
 
-  const [postalCodePattern, setPostalCodePattern] = useState<
+  const [postalPattern, setPostalPattern] = useState<RegExp | undefined>(
+    undefined,
+  );
+  const [postalBillingPattern, setPostalBillingPattern] = useState<
     RegExp | undefined
   >(undefined);
-  const countryPostalCodePatterns: Record<string, RegExp> = {
+  const countryPostalPatterns: Record<string, RegExp> = {
     DE: /^[0-9]{5}$/,
     BY: /^[0-9]{6}$/,
     AM: /^[0-9]{4}$/,
@@ -47,12 +50,10 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     if (watchBilling) {
-      setPostalCodePattern(countryPostalCodePatterns[watchBilling]);
+      setPostalBillingPattern(countryPostalPatterns[watchBilling]);
     }
     if (watchShipping) {
-      setPostalCodePattern(countryPostalCodePatterns[watchShipping]);
-    } else {
-      setPostalCodePattern(undefined);
+      setPostalPattern(countryPostalPatterns[watchShipping]);
     }
   }, [watchShipping, watchBilling]);
 
@@ -298,9 +299,9 @@ const RegistrationPage = () => {
               type="text"
               {...register('addressShipping.postalCode', {
                 required: 'This field is required',
-                pattern: postalCodePattern
+                pattern: postalPattern
                   ? {
-                      value: postalCodePattern,
+                      value: postalPattern,
                       message: 'Invalid postal code',
                     }
                   : undefined,
@@ -421,9 +422,9 @@ const RegistrationPage = () => {
                   type="text"
                   {...register('addressBilling.postalCode', {
                     required: 'This field is required',
-                    pattern: postalCodePattern
+                    pattern: postalBillingPattern
                       ? {
-                          value: postalCodePattern,
+                          value: postalBillingPattern,
                           message: 'Invalid postal code',
                         }
                       : undefined,
