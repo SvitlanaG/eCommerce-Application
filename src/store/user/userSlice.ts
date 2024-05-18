@@ -13,12 +13,15 @@ const initialState: User = {
     city: '',
     postalCode: '',
     country: '',
+    isDefaultAddress: false,
+    isBillingAddress: false,
   },
   addressBilling: {
     street: '',
     city: '',
     postalCode: '',
     country: '',
+    isDefaultAddress: false,
   },
   token: '',
 };
