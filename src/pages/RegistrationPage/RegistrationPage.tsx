@@ -1,22 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import { registration } from '../../services/auth';
 import openEye from '../../assets/icons/eyeOpen.svg';
 import closedEye from '../../assets/icons/eyeClosed.svg';
 
 const RegistrationPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm<User>({ mode: 'onTouched' });
   const pass = watch('password');
-
   const validateAge = (value: string) => {
     const today = new Date();
     const birthDate = new Date(value);
@@ -56,6 +58,7 @@ const RegistrationPage = () => {
 
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
+    registration(data, navigate);
     reset();
   };
 
@@ -478,7 +481,6 @@ const RegistrationPage = () => {
         <button
           className={`${styles['button-large']} ${styles['button-primary']}`}
           type="submit"
-          disabled={!isValid}
         >
           Submit
         </button>
