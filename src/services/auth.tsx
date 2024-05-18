@@ -47,10 +47,10 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       postalCode: data.addressShipping.postalCode,
     };
     let billing = null;
-    let isDefault = data.addressBilling.isDefaultAddress;
+    let isDefault = data.addressBilling?.isDefaultAddress;
     if (data.addressShipping.isBillingAddress) {
       billing = shipping;
-      isDefault = data.addressShipping.isDefaultAddress;
+      isDefault = data.addressShipping?.isDefaultAddress;
     } else {
       billing = {
         country: data.addressBilling.country,
@@ -69,8 +69,10 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       billingAddresses: [0],
       shippingAddresses: [1],
 
-      defaultBillingAddress: isDefault && 0,
-      defaultShippingAddress: data.addressShipping.isDefaultAddress && 1,
+      defaultBillingAddress: isDefault ? 0 : undefined,
+      defaultShippingAddress: data.addressShipping?.isDefaultAddress
+        ? 1
+        : undefined,
     });
     const requestOptions = {
       method: 'POST',
