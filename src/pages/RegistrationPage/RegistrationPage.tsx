@@ -10,6 +10,9 @@ import closedEye from '../../assets/icons/eyeClosed.svg';
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('userAccessToken')) navigate('/');
+  }, [navigate]);
   const {
     register,
     handleSubmit,

@@ -1,11 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from 'react';
 import { User } from '../../types/UserType';
 import styles from '../RegistrationPage/RegistrationPage.module.scss';
 import { Login } from '../../services/auth';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('userAccessToken')) navigate('/');
+  }, [navigate]);
+
   const {
     register,
     handleSubmit,
