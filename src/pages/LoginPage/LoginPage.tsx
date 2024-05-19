@@ -1,9 +1,31 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { User } from '../../types/UserType';
 import styles from '../RegistrationPage/RegistrationPage.module.scss';
+import { Login } from '../../services/auth';
+import openEye from '../../assets/icons/eyeOpen.svg';
+import closedEye from '../../assets/icons/eyeClosed.svg';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('userAccessToken')) {
+      navigate('/');
+      toast.error(`user already logged in`, {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  }, [navigate]);
+
   const {
     register,
     handleSubmit,
@@ -11,9 +33,14 @@ const LoginPage = () => {
     reset,
   } = useForm<User>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<User> = (data) => {
+  const onSubmit: SubmitHandler<User> = async (data) => {
     console.log(data);
+    await Login(data, navigate);
     reset();
+  };
+  const [isPass, setIsPass] = useState(false);
+  const handleShowPass = () => {
+    setIsPass(!isPass);
   };
   return (
     <div className={styles.registration}>
@@ -48,7 +75,7 @@ const LoginPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
-              type="password"
+              type={isPass ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is a required field',
                 minLength: {
@@ -74,6 +101,9 @@ const LoginPage = () => {
                 },
               })}
             />
+            <div className={styles.eye} onClick={handleShowPass}>
+              <img src={isPass ? openEye : closedEye} alt="eye icon" />
+            </div>
             {errors.password && (
               <div className={styles.errorMessage}>
                 {errors.password.message}

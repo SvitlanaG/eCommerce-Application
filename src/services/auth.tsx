@@ -3,7 +3,41 @@ import { NavigateFunction } from 'react-router-dom';
 import { User, UserLogin, UserToken } from '../types/UserType';
 import { ErrorReg } from '../types/ErrorReg';
 
-export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
+export const SignIn = async (data: UserLogin) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append(
+      'Authorization',
+      `Bearer ${localStorage.getItem('tokenForAll')}`,
+    );
+
+    const raw = JSON.stringify({
+      email: data.email,
+      password: data.password,
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+
+    const response = await fetch(
+      'https://api.europe-west1.gcp.commercetools.com/rssecommercefinal/me/login',
+      requestOptions,
+    );
+    if (!response.ok) {
+      const { message }: ErrorReg = await response.json();
+      throw new Error(`${message}`);
+    }
+  } catch (error) {
+    console.log('signincust:', error);
+    throw error;
+  }
+};
+
+export const GetUserToken = async (data: UserLogin) => {
   try {
     const myHeaders = new Headers();
     myHeaders.append(
@@ -19,15 +53,50 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
       body: raw,
     };
 
-    const { access_token: accessToken }: UserToken = await (
-      await fetch(
-        `https://auth.europe-west1.gcp.commercetools.com/oauth/rssecommercefinal/customers/token?grant_type=password&username=${data.email}&password=${data.password}`,
-        requestOptions,
-      )
-    ).json();
+    const response = await fetch(
+      `https://auth.europe-west1.gcp.commercetools.com/oauth/rssecommercefinal/customers/token?grant_type=password&username=${data.email}&password=${data.password}`,
+      requestOptions,
+    );
+    if (!response.ok) {
+      const { message }: ErrorReg = await response.json();
+      throw new Error(`${message}`);
+    }
+    const { access_token: accessToken }: UserToken = await response.json();
     localStorage.setItem('userAccessToken', accessToken);
-    navigate('/');
   } catch (error) {
+    console.error('token:', error);
+    throw error;
+  }
+};
+
+export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
+  try {
+    await SignIn(data);
+    await GetUserToken(data);
+    toast.success('login successful', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+    setTimeout(() => {
+      navigate('/');
+    }, 1000);
+  } catch (error) {
+    toast.error(`${error}`, {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
     console.error(error);
   }
 };
@@ -90,7 +159,7 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
     }
     toast.success('registration successful', {
       position: 'bottom-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -102,7 +171,7 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
   } catch (error) {
     toast.error(`${error}`, {
       position: 'bottom-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
