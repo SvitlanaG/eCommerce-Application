@@ -31,7 +31,7 @@ const LoginPage = () => {
               id="email"
               type="email"
               {...register('email', {
-                required: 'Emai is required field',
+                required: 'Email is a required field',
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                   message: 'Invalid email address',
@@ -50,7 +50,7 @@ const LoginPage = () => {
               id="password"
               type="password"
               {...register('password', {
-                required: 'Password is required field',
+                required: 'Password is a required field',
                 minLength: {
                   value: 8,
                   message: 'Password must be at least 8 characters long',
