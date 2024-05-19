@@ -30,6 +30,12 @@
     margin: 0 10px;
     color: $orange-color;
     font-size: 24px;
+    transition: transform 0.3s ease;
+
+    &:hover,
+    &:focus {
+      transform: scale(1.3);
+    }
   }
 }
 

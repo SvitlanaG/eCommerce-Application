@@ -33,11 +33,11 @@
 
   &:hover,
   &:focus {
-    background-color: $hover;
+    box-shadow: $hover;
   }
 
   &:active {
-    background-color: $pressed;
+    box-shadow: $active;
   }
 
   &:disabled {

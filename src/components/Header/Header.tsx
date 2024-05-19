@@ -36,7 +36,12 @@ const Header = () => {
         {!isLogin ? (
           <nav className="flex flex-fd-row">
             <div className={styles.login}>
-              <NavLink to="/register" className={styles.link}>
+              <NavLink
+                to="/register"
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.inactive
+                }
+              >
                 <div
                   className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
                 >
@@ -46,7 +51,12 @@ const Header = () => {
               </NavLink>
             </div>
             <div className={styles.login}>
-              <NavLink to="/login" className={styles.link}>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.inactive
+                }
+              >
                 <div
                   className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
                 >

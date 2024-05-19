@@ -22,6 +22,7 @@
 
 .logo img {
   padding: 0.2rem;
+  transition: 0.3s ease;
   &:hover,
   focus {
     outline: 2px solid $orange-color;
@@ -59,8 +60,23 @@
   color: $orange-color;
 }
 
+.login a,
+.logOut a {
+  text-decoration: none;
+}
+
 .product-name-slogan {
   color: $orange-color;
+}
+
+.active {
+  transition: 0.3s ease;
+  border-bottom: 2px solid $orange-color;
+}
+
+.inactive {
+  transition: 0.3s ease;
+  border-bottom: 2px solid transparent;
 }
 
 @media (max-width: 576px) {
