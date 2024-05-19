@@ -1,28 +1,31 @@
 import { Book, Data, Product, StagedData } from '../interfaces';
+import { UserToken } from '../types/UserType';
 
 export const getAccessToken = async () => {
-  const myHeaders: Headers = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Basic dUpzVExhY2lQbFFHNVBlU0ZQWUwtVW45Ok9VMWlQUTdRR2laVEYxdklTejYtM2lrOVhXcHk1dlJZ',
-  );
+  try {
+    const myHeaders: Headers = new Headers();
+    myHeaders.append(
+      'Authorization',
+      'Basic dUpzVExhY2lQbFFHNVBlU0ZQWUwtVW45Ok9VMWlQUTdRR2laVEYxdklTejYtM2lrOVhXcHk1dlJZ',
+    );
 
-  const raw = '';
+    const raw = '';
 
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-  };
-  fetch(
-    `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/rssecommercefinal/anonymous/token?grant_type=client_credentials`,
-    requestOptions,
-  )
-    .then((response) => response.json())
-    .then((result) => {
-      localStorage.setItem('tokenForAll', result.access_token);
-    })
-    .catch((error) => console.error(error));
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+    const { access_token: accessToken }: UserToken = await (
+      await fetch(
+        `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/rssecommercefinal/anonymous/token?grant_type=client_credentials`,
+        requestOptions,
+      )
+    ).json();
+    localStorage.setItem('tokenForAll', accessToken);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getBooks = async (): Promise<Product[]> => {
