@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { User } from '../../types/UserType';
 import styles from './RegistrationPage.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +11,21 @@ import closedEye from '../../assets/icons/eyeClosed.svg';
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('userAccessToken')) {
+      navigate('/');
+      toast.error(`user already logged in`, {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  }, [navigate]);
   const {
     register,
     handleSubmit,
