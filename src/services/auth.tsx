@@ -75,7 +75,7 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
     await GetUserToken(data);
     toast.success('login successful', {
       position: 'bottom-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -83,11 +83,13 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
       progress: undefined,
       theme: 'light',
     });
-    navigate('/');
+    setTimeout(() => {
+      navigate('/');
+    }, 1000);
   } catch (error) {
     toast.error(`${error}`, {
       position: 'bottom-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -157,7 +159,7 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
     }
     toast.success('registration successful', {
       position: 'bottom-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -169,7 +171,7 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
   } catch (error) {
     toast.error(`${error}`, {
       position: 'bottom-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

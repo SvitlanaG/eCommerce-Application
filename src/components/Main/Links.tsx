@@ -2,16 +2,6 @@ import { Link } from 'react-router-dom';
 import styles from '../../pages/MainPage/MainPage.module.scss';
 
 const Links = () => {
-  if (localStorage.getItem('userAccessToken'))
-    return (
-      <Link
-        to="/#"
-        className={`${styles['button-large']} ${styles['button-primary']}`}
-      >
-        LogOut
-      </Link>
-    );
-
   return (
     <>
       <Link
