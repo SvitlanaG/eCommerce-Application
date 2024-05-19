@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { User } from '../../types/UserType';
 import styles from '../RegistrationPage/RegistrationPage.module.scss';
 import { Login } from '../../services/auth';
+import openEye from '../../assets/icons/eyeOpen.svg';
+import closedEye from '../../assets/icons/eyeClosed.svg';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -22,6 +24,10 @@ const LoginPage = () => {
     console.log(data);
     await Login(data, navigate);
     reset();
+  };
+  const [isPass, setIsPass] = useState(false);
+  const handleShowPass = () => {
+    setIsPass(!isPass);
   };
   return (
     <div className={styles.registration}>
@@ -56,7 +62,7 @@ const LoginPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
-              type="password"
+              type={isPass ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is required field',
                 minLength: {
@@ -82,6 +88,9 @@ const LoginPage = () => {
                 },
               })}
             />
+            <div className={styles.eye} onClick={handleShowPass}>
+              <img src={isPass ? openEye : closedEye} alt="eye icon" />
+            </div>
             {errors.password && (
               <div className={styles.errorMessage}>
                 {errors.password.message}

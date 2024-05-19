@@ -7,7 +7,10 @@ $orange-color: #f85a08;
 
 // button
 $pressed: linear-gradient(233.73deg, #f83600 -16.08%, #f9d423 327.37%);
-$hover: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+$hover:
+  inset 0 0 20px rgba(255, 255, 255, 0.5),
+  0 0 20px rgba(255, 255, 255, 0.2);
+
 $shadow-color: #de7d0b33;
 $active:
   rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
