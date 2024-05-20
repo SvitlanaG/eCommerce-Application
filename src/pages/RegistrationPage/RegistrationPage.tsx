@@ -128,7 +128,7 @@ const RegistrationPage = () => {
               {...register('firstName', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[A-Za-z]+$/,
+                  value: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
                   message:
                     'First name must not contain special characters or numbers',
                 },
@@ -150,7 +150,7 @@ const RegistrationPage = () => {
               {...register('lastName', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[A-Za-z]+$/,
+                  value: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
                   message:
                     'Last name must not contain special characters or numbers',
                 },
@@ -192,7 +192,7 @@ const RegistrationPage = () => {
               id="email"
               type="email"
               {...register('email', {
-                required: 'Email is required field',
+                required: 'Email is a required field',
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                   message: 'Invalid email address',
@@ -211,7 +211,7 @@ const RegistrationPage = () => {
               id="password"
               type={isPass ? 'text' : 'password'}
               {...register('password', {
-                required: 'Password is required field',
+                required: 'Password is a required field',
                 minLength: {
                   value: 8,
                   message: 'Password must be at least 8 characters long',
