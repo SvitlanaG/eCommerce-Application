@@ -2,6 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { User, UserLogin, UserToken } from '../types/UserType';
 import { ErrorReg } from '../types/ErrorReg';
 import Toast from '../helpers/Toast';
+import { getAccessToken } from './getData';
 
 export const SignIn = async (data: UserLogin) => {
   try {
@@ -74,6 +75,7 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
     await SignIn(data);
     await GetUserToken(data);
     Toast({ message: 'login successful', status: 'success' });
+    getAccessToken();
     navigate('/');
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });
