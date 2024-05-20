@@ -40,11 +40,12 @@ export const SignIn = async (data: UserLogin) => {
 
 export const GetUserToken = async (data: UserLogin) => {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append(
-      'Authorization',
-      'Basic dUpzVExhY2lQbFFHNVBlU0ZQWUwtVW45Ok9VMWlQUTdRR2laVEYxdklTejYtM2lrOVhXcHk1dlJZ',
-    );
+    const clientId = import.meta.env.VITE_CTP_CLIENT_ID;
+    const clientSecret = import.meta.env.VITE_CTP_CLIENT_SECRET;
+    const authHeader = btoa(`${clientId}:${clientSecret}`);
+
+    const myHeaders: Headers = new Headers();
+    myHeaders.append('Authorization', `Basic ${authHeader}`);
 
     const raw = '';
 
@@ -75,7 +76,7 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
     await SignIn(data);
     await GetUserToken(data);
     Toast({ message: 'login successful', status: 'success' });
-    getAccessToken();
+    await getAccessToken();
     navigate('/');
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });

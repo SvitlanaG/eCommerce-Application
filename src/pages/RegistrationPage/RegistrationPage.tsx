@@ -67,9 +67,9 @@ const RegistrationPage = () => {
     }
   }, [watchShipping, watchBilling]);
 
-  const onSubmit: SubmitHandler<User> = (data) => {
+  const onSubmit: SubmitHandler<User> = async (data) => {
     console.log(data);
-    registration(data, navigate);
+    await registration(data, navigate);
     if (localStorage.getItem('userAccessToken')) {
       dispatch(setLoggedIn());
       reset();
