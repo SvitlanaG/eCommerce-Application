@@ -3,11 +3,12 @@ import { UserToken } from '../types/UserType';
 
 export const getAccessToken = async () => {
   try {
+    const clientId = import.meta.env.VITE_CTP_CLIENT_ID;
+    const clientSecret = import.meta.env.VITE_CTP_CLIENT_SECRET;
+    const authHeader = btoa(`${clientId}:${clientSecret}`);
+
     const myHeaders: Headers = new Headers();
-    myHeaders.append(
-      'Authorization',
-      'Basic dUpzVExhY2lQbFFHNVBlU0ZQWUwtVW45Ok9VMWlQUTdRR2laVEYxdklTejYtM2lrOVhXcHk1dlJZ',
-    );
+    myHeaders.append('Authorization', `Basic ${authHeader}`);
 
     const raw = '';
 
