@@ -1,20 +1,30 @@
 import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoggedIn } from '../../store/user/userSlice';
+import { RootState } from '../../store/store';
 import styles from './Header.module.scss';
 
 const Header = () => {
   const navigate = useNavigate();
-
-  // localStorage.setItem('token', '123');
-  const token = localStorage.getItem('token') || '';
-
-  const [isLogin, setIsLogin] = useState(token);
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   const logOut = () => {
-    localStorage.removeItem('token');
-    setIsLogin('');
+    localStorage.removeItem('userAccessToken');
+    dispatch(setLoggedIn());
     navigate('/');
+    toast.success('You have successfully logged out', {
+      position: 'bottom-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   };
 
   return (
@@ -33,7 +43,7 @@ const Header = () => {
             Between Codes and Coffee, Find Time for Books
           </p>
         </div>
-        {!isLogin ? (
+        {!isLoggedIn ? (
           <nav className="flex flex-fd-row">
             <div className={styles.login}>
               <NavLink

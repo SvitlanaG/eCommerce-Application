@@ -25,6 +25,7 @@ export type User = {
   addressShipping: AddressShipping;
   addressBilling: AddressBilling;
   token?: string;
+  isLoggedIn?: boolean;
 };
 
 export type UserLogin = {

@@ -83,9 +83,7 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
       progress: undefined,
       theme: 'light',
     });
-    setTimeout(() => {
-      navigate('/');
-    }, 1000);
+    navigate('/');
   } catch (error) {
     toast.error(`${error}`, {
       position: 'bottom-center',
