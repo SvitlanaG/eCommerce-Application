@@ -1,20 +1,21 @@
 import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoggedIn } from '../../store/user/userSlice';
+import { RootState } from '../../store/store';
+import Toast from '../../helpers/Toast';
 import styles from './Header.module.scss';
 
 const Header = () => {
   const navigate = useNavigate();
-
-  // localStorage.setItem('token', '123');
-  const token = localStorage.getItem('token') || '';
-
-  const [isLogin, setIsLogin] = useState(token);
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   const logOut = () => {
-    localStorage.removeItem('token');
-    setIsLogin('');
+    localStorage.removeItem('userAccessToken');
+    dispatch(setLoggedIn());
     navigate('/');
+    Toast({ message: 'You have successfully logged out', status: 'success' });
   };
 
   return (
@@ -33,7 +34,7 @@ const Header = () => {
             Between Codes and Coffee, Find Time for Books
           </p>
         </div>
-        {!isLogin ? (
+        {!isLoggedIn ? (
           <nav className="flex flex-fd-row">
             <div className={styles.login}>
               <NavLink

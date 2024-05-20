@@ -24,6 +24,7 @@ const initialState: User = {
     isDefaultAddress: false,
   },
   token: '',
+  isLoggedIn: !!localStorage.getItem('userAccessToken'),
 };
 
 export const userSlice = createSlice({
@@ -36,9 +37,12 @@ export const userSlice = createSlice({
     passwordFill: (state, action: PayloadAction<string>) => {
       state.password = action.payload;
     },
+    setLoggedIn: (state) => {
+      state.isLoggedIn = !state.isLoggedIn;
+    },
   },
 });
 
-export const { emailFill, passwordFill } = userSlice.actions;
+export const { emailFill, passwordFill, setLoggedIn } = userSlice.actions;
 
 export default userSlice.reducer;
