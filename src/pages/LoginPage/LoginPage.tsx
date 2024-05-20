@@ -2,13 +2,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import { User } from '../../types/UserType';
 import styles from '../RegistrationPage/RegistrationPage.module.scss';
 import { Login } from '../../services/auth';
 import openEye from '../../assets/icons/eyeOpen.svg';
 import closedEye from '../../assets/icons/eyeClosed.svg';
 import { setLoggedIn } from '../../store/user/userSlice';
+import Toast from '../../helpers/Toast';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -17,16 +17,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (localStorage.getItem('userAccessToken')) {
       setTimeout(() => navigate('/'), 300);
-      toast.error(`User already logged in`, {
-        position: 'bottom-center',
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      Toast({ message: 'User already logged in', status: 'error' });
     }
   }, [navigate]);
 

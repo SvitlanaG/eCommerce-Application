@@ -1,9 +1,9 @@
 import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoggedIn } from '../../store/user/userSlice';
 import { RootState } from '../../store/store';
+import Toast from '../../helpers/Toast';
 import styles from './Header.module.scss';
 
 const Header = () => {
@@ -15,16 +15,7 @@ const Header = () => {
     localStorage.removeItem('userAccessToken');
     dispatch(setLoggedIn());
     navigate('/');
-    toast.success('You have successfully logged out', {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    Toast({ message: 'You have successfully logged out', status: 'success' });
   };
 
   return (

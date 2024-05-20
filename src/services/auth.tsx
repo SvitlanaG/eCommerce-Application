@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify';
 import { NavigateFunction } from 'react-router-dom';
 import { User, UserLogin, UserToken } from '../types/UserType';
 import { ErrorReg } from '../types/ErrorReg';
+import Toast from '../helpers/Toast';
 
 export const SignIn = async (data: UserLogin) => {
   try {
@@ -73,28 +73,10 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
   try {
     await SignIn(data);
     await GetUserToken(data);
-    toast.success('login successful', {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    Toast({ message: 'login successful', status: 'success' });
     navigate('/');
   } catch (error) {
-    toast.error(`${error}`, {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    Toast({ message: `${error}`, status: 'error' });
     console.error(error);
   }
 };
@@ -155,28 +137,10 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       const { message }: ErrorReg = await response.json();
       throw new Error(`${message}`);
     }
-    toast.success('registration successful', {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    Toast({ message: 'registration successful', status: 'success' });
     await Login({ email: data.email, password: data.password }, navigate);
   } catch (error) {
-    toast.error(`${error}`, {
-      position: 'bottom-center',
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    Toast({ message: `${error}`, status: 'error' });
     console.error('ssss:', error);
   }
 };
