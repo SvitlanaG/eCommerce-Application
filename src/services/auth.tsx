@@ -76,7 +76,7 @@ export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
     await SignIn(data);
     await GetUserToken(data);
     Toast({ message: 'login successful', status: 'success' });
-    getAccessToken();
+    await getAccessToken();
     navigate('/');
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });
