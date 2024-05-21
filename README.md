@@ -23,7 +23,7 @@ Key features of the project include:
 - **Backend**
   - **commercetools**
 - **testing**
-  - **jest** - JS framework for unit testing
+  - **vitest** - JS framework for unit testing
 - **version control**
   - **git** - A distributed version control system for tracking changes in source code
   - **github** - for hosting the repository
@@ -59,7 +59,10 @@ formats code using prettier
 starts preview server using vite (must be run after build)
 
 `npm run test`
-runs unit tests with jest
+runs unit tests with vitest
+
+`npm run coverage`
+provide insights into how much of the code is being tested
 
 # Team
 
@@ -68,3 +71,7 @@ runs unit tests with jest
 [maslovars](https://github.com/maslovars)
 
 [arastepa](https://github.com/arastepa)
+
+# Mentor
+
+[tigranmk](https://github.com/tigranmk)

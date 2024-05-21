@@ -15,7 +15,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.json', './jest.config.ts'],
+    project: ['./tsconfig.json'],
   },
   plugins: ['react-refresh', 'jsx-a11y', 'prettier'],
   rules: {
@@ -39,5 +39,5 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
+  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts', 'vitest.config.ts'],
 };

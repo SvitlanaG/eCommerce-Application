@@ -14,13 +14,19 @@ const Footer = () => {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <div className={styles.contacts}>
-            <a href="https://rs.school/" target="_blank" rel="noreferrer">
+            <a
+              href="https://rs.school/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="RS School"
+            >
               <img src={rsIcon} alt="RS School" />
             </a>
             <a
               href="https://github.com/arastepa"
               target="_blank"
               rel="noreferrer"
+              aria-label="GitHub arastepa"
             >
               <FaGithub />
             </a>
@@ -28,6 +34,7 @@ const Footer = () => {
               href="https://github.com/Maslovars"
               target="_blank"
               rel="noreferrer"
+              aria-label="GitHub Maslovars"
             >
               <FaGithub />
             </a>
@@ -35,6 +42,7 @@ const Footer = () => {
               href="https://github.com/SvitlanaG"
               target="_blank"
               rel="noreferrer"
+              aria-label="GitHub SvitlanaG"
             >
               <FaGithub />
             </a>
@@ -45,20 +53,36 @@ const Footer = () => {
             </p>
           </div>
           <div className={styles['social-icons']}>
-            <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+            >
               <FaFacebook />
             </a>
             <a
               href="https://www.instagram.com"
               target="_blank"
               rel="noreferrer"
+              aria-label="Instagram"
             >
               <FaInstagram />
             </a>
-            <a href="https://discord.com/" target="_blank" rel="noreferrer">
+            <a
+              href="https://discord.com/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Discord"
+            >
               <FaDiscord />
             </a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
               <FaLinkedin />
             </a>
           </div>

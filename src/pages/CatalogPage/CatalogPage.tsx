@@ -9,7 +9,7 @@ const CatalogPage = () => {
     getBooks().then((products) => setBooks(products));
   }, []);
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="catalog-container">
       <div className={styles['main-div']}>
         {books.map((book) => (
           <div key={book.key} className={styles.imageDiv}>
