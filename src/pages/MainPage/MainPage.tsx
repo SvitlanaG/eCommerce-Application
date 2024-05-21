@@ -7,7 +7,7 @@ const MainPage = () => {
     <div className={styles.container}>
       <p className={styles.msg}>
         <span>Hi there</span>
-        <IoBookOutline />
+        <IoBookOutline data-testid="IoBookOutlineIcon" />
       </p>
       <Links />
     </div>
