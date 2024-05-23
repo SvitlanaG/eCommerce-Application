@@ -1,4 +1,4 @@
-export interface ErrorReg {
+export interface Errors {
   message: string;
   statusCode: number;
 }

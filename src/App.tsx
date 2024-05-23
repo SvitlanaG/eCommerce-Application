@@ -10,11 +10,11 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import styles from './App.module.scss';
 import MainPage from './pages/MainPage/MainPage';
-import { getAccessToken } from './services/getData';
+import getVisitorIdentifier from './services/getIdentifier';
 
 function App() {
   useEffect(() => {
-    getAccessToken();
+    getVisitorIdentifier();
   }, []);
   return (
     <BrowserRouter>

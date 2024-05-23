@@ -1,41 +1,12 @@
 import { Book, Data, Product, StagedData } from '../interfaces';
-import { UserToken } from '../types/UserType';
 
-export const getAccessToken = async () => {
-  try {
-    const clientId = import.meta.env.VITE_CTP_CLIENT_ID;
-    const clientSecret = import.meta.env.VITE_CTP_CLIENT_SECRET;
-    const authHeader = btoa(`${clientId}:${clientSecret}`);
-
-    const myHeaders: Headers = new Headers();
-    myHeaders.append('Authorization', `Basic ${authHeader}`);
-
-    const raw = '';
-
-    const requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-    };
-    const { access_token: accessToken }: UserToken = await (
-      await fetch(
-        `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/rssecommercefinal/anonymous/token?grant_type=client_credentials`,
-        requestOptions,
-      )
-    ).json();
-    localStorage.setItem('tokenForAll', accessToken);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getBooks = async (): Promise<Product[]> => {
+const getBooks = async (): Promise<Product[]> => {
   try {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
       'Authorization',
-      `Bearer ${localStorage.getItem('tokenForAll')}`,
+      `Bearer ${localStorage.getItem('visitorIdentifier')}`,
     );
 
     const requestOptions = {
@@ -69,7 +40,8 @@ export const getBooks = async (): Promise<Product[]> => {
     });
     return products;
   } catch (error) {
-    console.error(error);
     return [];
   }
 };
+
+export default getBooks;

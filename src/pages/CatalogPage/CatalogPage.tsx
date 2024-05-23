@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './CatalogPage.module.scss';
-import { getBooks } from '../../services/getData';
+import getBooks from '../../services/getBooks';
 import { Product } from '../../interfaces';
 
 const CatalogPage = () => {
