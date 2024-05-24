@@ -1,16 +1,16 @@
 import { NavigateFunction } from 'react-router-dom';
 import { User, UserLogin, UserToken } from '../types/UserType';
-import { ErrorReg } from '../types/ErrorReg';
+import { Errors } from '../types/Errors';
 import Toast from '../helpers/Toast';
-import { getAccessToken } from './getData';
+import getVisitorIdentifier from './getIdentifier';
 
-export const SignIn = async (data: UserLogin) => {
+export const signIn = async (data: UserLogin) => {
   try {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
       'Authorization',
-      `Bearer ${localStorage.getItem('tokenForAll')}`,
+      `Bearer ${localStorage.getItem('visitorIdentifier')}`,
     );
 
     const raw = JSON.stringify({
@@ -29,16 +29,17 @@ export const SignIn = async (data: UserLogin) => {
       requestOptions,
     );
     if (!response.ok) {
-      const { message }: ErrorReg = await response.json();
+      const { message }: Errors = await response.json();
       throw new Error(`${message}`);
     }
   } catch (error) {
-    console.log('signincust:', error);
-    throw error;
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };
 
-export const GetUserToken = async (data: UserLogin) => {
+export const getUserToken = async (data: UserLogin) => {
   try {
     const clientId = import.meta.env.VITE_CTP_CLIENT_ID;
     const clientSecret = import.meta.env.VITE_CTP_CLIENT_SECRET;
@@ -60,27 +61,27 @@ export const GetUserToken = async (data: UserLogin) => {
       requestOptions,
     );
     if (!response.ok) {
-      const { message }: ErrorReg = await response.json();
+      const { message }: Errors = await response.json();
       throw new Error(`${message}`);
     }
     const { access_token: accessToken }: UserToken = await response.json();
     localStorage.setItem('userAccessToken', accessToken);
   } catch (error) {
-    console.error('token:', error);
-    throw error;
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };
 
-export const Login = async (data: UserLogin, navigate: NavigateFunction) => {
+export const login = async (data: UserLogin, navigate: NavigateFunction) => {
   try {
-    await SignIn(data);
-    await GetUserToken(data);
+    await signIn(data);
+    await getUserToken(data);
     Toast({ message: 'login successful', status: 'success' });
-    await getAccessToken();
+    await getVisitorIdentifier();
     navigate('/');
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });
-    console.error(error);
   }
 };
 
@@ -90,7 +91,7 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
       'Authorization',
-      `Bearer ${localStorage.getItem('tokenForAll')}`,
+      `Bearer ${localStorage.getItem('visitorIdentifier')}`,
     );
     const shipping = {
       country: data.addressShipping.country,
@@ -137,13 +138,12 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       requestOptions,
     );
     if (!response.ok) {
-      const { message }: ErrorReg = await response.json();
+      const { message }: Errors = await response.json();
       throw new Error(`${message}`);
     }
     Toast({ message: 'registration successful', status: 'success' });
-    await Login({ email: data.email, password: data.password }, navigate);
+    await login({ email: data.email, password: data.password }, navigate);
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });
-    console.error('ssss:', error);
   }
 };

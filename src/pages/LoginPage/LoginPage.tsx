@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { User } from '../../types/UserType';
 import styles from '../RegistrationPage/RegistrationPage.module.scss';
-import { Login } from '../../services/auth';
+import { login } from '../../services/auth';
 import openEye from '../../assets/icons/eyeOpen.svg';
 import closedEye from '../../assets/icons/eyeClosed.svg';
 import { setLoggedIn } from '../../store/user/userSlice';
@@ -29,8 +29,7 @@ const LoginPage = () => {
   } = useForm<User>({ mode: 'onChange' });
 
   const onSubmit: SubmitHandler<User> = async (data) => {
-    console.log(data);
-    await Login(data, navigate);
+    await login(data, navigate);
     if (localStorage.getItem('userAccessToken')) {
       dispatch(setLoggedIn());
       reset();
