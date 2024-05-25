@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { clsx } from 'clsx';
 import { User } from '../../types/UserType';
 import styles from '../RegistrationPage/RegistrationPage.module.scss';
 import { login } from '../../services/auth';
@@ -44,14 +45,17 @@ const LoginPage = () => {
       <h2>Log in to Your Account</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Account Credentials</h3>
-        <span className={`${styles['text-info']} ${styles['text-info-small']}`}>
+        <span className={clsx(styles['text-info'], styles['text-info-small'])}>
           Fields marked with * are required.
         </span>
         <div className={styles.inputWrapperLogin}>
           <label htmlFor="email" className={styles.label}>
             <span>Email *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="email"
               type="email"
               {...register('email', {
@@ -70,7 +74,10 @@ const LoginPage = () => {
           <label htmlFor="password" className={styles.label}>
             <span>Password *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="password"
               type={isPass ? 'text' : 'password'}
               {...register('password', {
@@ -110,7 +117,7 @@ const LoginPage = () => {
         </div>
 
         <button
-          className={`${styles['button-large']} ${styles['button-primary']}`}
+          className={clsx(styles['button-large'], styles['button-primary'])}
           type="submit"
         >
           Submit

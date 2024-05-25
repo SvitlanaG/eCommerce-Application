@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { clsx } from 'clsx';
 import { User } from '../../types/UserType';
 import { registration } from '../../services/auth';
 import { setLoggedIn } from '../../store/user/userSlice';
@@ -111,14 +112,17 @@ const RegistrationPage = () => {
       <h2>Create New Customer Account</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
-        <span className={`${styles['text-info']} ${styles['text-info-small']}`}>
+        <span className={clsx(styles['text-info'], styles['text-info-small'])}>
           Fields marked with * are required.
         </span>
         <div className={styles.inputWrapper}>
           <label htmlFor="firstName" className={styles.label}>
             <span>First name *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="firstName"
               type="text"
               {...register('firstName', {
@@ -140,7 +144,10 @@ const RegistrationPage = () => {
           <label htmlFor="lastName" className={styles.label}>
             <span>Last name *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="lastName"
               type="text"
               {...register('lastName', {
@@ -161,7 +168,10 @@ const RegistrationPage = () => {
           <label htmlFor="dateOfBirth" className={styles.label}>
             <span>Date of birth *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="dateOfBirth"
               type="date"
               {...register('dateOfBirth', {
@@ -184,7 +194,10 @@ const RegistrationPage = () => {
           <label htmlFor="email" className={styles.label}>
             <span>Email *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="email"
               type="email"
               {...register('email', {
@@ -203,7 +216,10 @@ const RegistrationPage = () => {
           <label htmlFor="password" className={styles.label}>
             <span>Password *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="password"
               type={isPass ? 'text' : 'password'}
               {...register('password', {
@@ -244,7 +260,10 @@ const RegistrationPage = () => {
           <label htmlFor="confirmPassword" className={styles.label}>
             <span>Confirm password *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="confirmPassword"
               type={isConfirmPass ? 'text' : 'password'}
               {...register('confirmPassword', {
@@ -268,7 +287,10 @@ const RegistrationPage = () => {
           <label htmlFor="country" className={styles.label}>
             <span>Country *</span>
             <select
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="country"
               defaultValue=""
               {...register('addressShipping.country', {
@@ -291,7 +313,10 @@ const RegistrationPage = () => {
           <label htmlFor="street" className={styles.label}>
             <span>Street *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="street"
               type="text"
               {...register('addressShipping.street', {
@@ -308,7 +333,10 @@ const RegistrationPage = () => {
           <label htmlFor="city" className={styles.label}>
             <span>City *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="city"
               type="text"
               {...register('addressShipping.city', {
@@ -329,7 +357,10 @@ const RegistrationPage = () => {
           <label htmlFor="code" className={styles.label}>
             <span>Postal code *</span>
             <input
-              className={`${styles['input-field']} ${styles['input-field-text']}`}
+              className={clsx(
+                styles['input-field'],
+                styles['input-field-text'],
+              )}
               id="code"
               type="text"
               {...register('addressShipping.postalCode', {
@@ -391,7 +422,10 @@ const RegistrationPage = () => {
               <label htmlFor="countryBilling" className={styles.label}>
                 <span>Country *</span>
                 <select
-                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  className={clsx(
+                    styles['input-field'],
+                    styles['input-field-text'],
+                  )}
                   id="countryBilling"
                   defaultValue=""
                   {...register('addressBilling.country', {
@@ -414,7 +448,10 @@ const RegistrationPage = () => {
               <label htmlFor="streetBilling" className={styles.label}>
                 <span>Street *</span>
                 <input
-                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  className={clsx(
+                    styles['input-field'],
+                    styles['input-field-text'],
+                  )}
                   id="streetBilling"
                   type="text"
                   {...register('addressBilling.street', {
@@ -431,7 +468,10 @@ const RegistrationPage = () => {
               <label htmlFor="cityBilling" className={styles.label}>
                 <span>City *</span>
                 <input
-                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  className={clsx(
+                    styles['input-field'],
+                    styles['input-field-text'],
+                  )}
                   id="cityBilling"
                   type="text"
                   {...register('addressBilling.city', {
@@ -452,7 +492,10 @@ const RegistrationPage = () => {
               <label htmlFor="codeBilling" className={styles.label}>
                 <span>Postal code *</span>
                 <input
-                  className={`${styles['input-field']} ${styles['input-field-text']}`}
+                  className={clsx(
+                    styles['input-field'],
+                    styles['input-field-text'],
+                  )}
                   id="codeBilling"
                   type="text"
                   {...register('addressBilling.postalCode', {
@@ -493,7 +536,7 @@ const RegistrationPage = () => {
         )}
 
         <button
-          className={`${styles['button-large']} ${styles['button-primary']}`}
+          className={clsx(styles['button-large'], styles['button-primary'])}
           type="submit"
         >
           Submit

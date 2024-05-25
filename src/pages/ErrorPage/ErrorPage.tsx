@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { clsx } from 'clsx';
 import book from '../../assets/img/book.png';
 import styles from './ErrorPage.module.scss';
 
@@ -16,7 +17,7 @@ const ErrorPage = () => {
         </p>
         <Link
           to="/"
-          className={`${styles['button-large']} ${styles['button-primary']}`}
+          className={clsx(styles['button-large'], styles['button-primary'])}
         >
           go home
         </Link>
