@@ -22,7 +22,12 @@
     "noImplicitAny": true,
 
     /* Unit Testing */
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+
+    /* Path Aliases */
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [".eslintrc.cjs", "src", "vitest.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

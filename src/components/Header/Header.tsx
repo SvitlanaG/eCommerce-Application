@@ -1,10 +1,10 @@
 import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoggedIn } from '../../store/user/userSlice';
-import { RootState } from '../../store/store';
-import Toast from '../../helpers/Toast';
-import styles from './Header.module.scss';
+import { setLoggedIn } from '@/store/user/userSlice';
+import { RootState } from '@/store/store';
+import Toast from '@/helpers/Toast';
+import styles from '@/components/Header/Header.module.scss';
 
 const Header = () => {
   const navigate = useNavigate();

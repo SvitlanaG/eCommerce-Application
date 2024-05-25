@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import book from '../../assets/img/book.png';
-import styles from './ErrorPage.module.scss';
+import book from '@/assets/img/book.png';
+import styles from '@/pages/ErrorPage/ErrorPage.module.scss';
 
 const ErrorPage = () => {
   return (

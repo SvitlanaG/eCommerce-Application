@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import MainPage from '../pages/MainPage/MainPage';
+import MainPage from '@/pages/MainPage/MainPage';
 
 // Mock the Links component
 vi.mock('../components/Main/Links', () => ({

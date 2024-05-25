@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Header from '../components/Header/Header';
-import { store } from '../store/store';
+import Header from '@/components/Header/Header';
+import { store } from '@/store/store';
 import '@testing-library/jest-dom';
 
 describe('Header component', () => {

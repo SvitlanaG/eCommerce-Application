@@ -1,8 +1,8 @@
 import { NavigateFunction } from 'react-router-dom';
-import { User, UserLogin, UserToken } from '../types/UserType';
-import { Errors } from '../types/Errors';
-import Toast from '../helpers/Toast';
-import getVisitorIdentifier from './getIdentifier';
+import { User, UserLogin, UserToken } from '@/types/UserType';
+import { Errors } from '@/types/Errors';
+import Toast from '@/helpers/Toast';
+import getVisitorIdentifier from '@/services/getIdentifier';
 
 export const signIn = async (data: UserLogin) => {
   try {

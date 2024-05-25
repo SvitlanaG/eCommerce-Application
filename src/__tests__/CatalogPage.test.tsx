@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import CatalogPage from '../pages/CatalogPage/CatalogPage';
+import CatalogPage from '@/pages/CatalogPage/CatalogPage';
 
 describe('CatalogPage component', () => {
   it('renders the CatalogPage component correctly', () => {
