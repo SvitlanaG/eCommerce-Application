@@ -35,9 +35,9 @@ const LoginPage = () => {
       reset();
     }
   };
-  const [isPass, setIsPass] = useState(false);
-  const handleShowPass = () => {
-    setIsPass(!isPass);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
   return (
     <div className={styles.registration}>
@@ -72,7 +72,7 @@ const LoginPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
-              type={isPass ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is a required field',
                 minLength: {
@@ -98,8 +98,8 @@ const LoginPage = () => {
                 },
               })}
             />
-            <div className={styles.eye} onClick={handleShowPass}>
-              <img src={isPass ? openEye : closedEye} alt="eye icon" />
+            <div className={styles.eye} onClick={handleShowPassword}>
+              <img src={showPassword ? openEye : closedEye} alt="eye icon" />
             </div>
             {errors.password && (
               <div className={styles.errorMessage}>
