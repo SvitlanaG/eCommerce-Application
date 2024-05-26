@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from '../../pages/MainPage/MainPage.module.scss';
+import styles from '@/pages/MainPage/MainPage.module.scss';
 
 const Links = () => {
   return (

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import Links from '../components/Main/Links';
+import Links from '@/components/Main/Links';
 import '@testing-library/jest-dom';
 
 describe('Links component', () => {

@@ -3,8 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
-import LoginPage from '../pages/LoginPage/LoginPage';
-import { store } from '../store/store';
+import LoginPage from '@/pages/LoginPage/LoginPage';
+import { store } from '@/store/store';
 
 describe('LoginPage component', () => {
   it('renders the login page correctly', () => {

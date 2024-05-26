@@ -3,8 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
-import RegistrationPage from '../pages/RegistrationPage/RegistrationPage';
-import { store } from '../store/store';
+import RegistrationPage from '@/pages/RegistrationPage/RegistrationPage';
+import { store } from '@/store/store';
 
 describe('RegistrationPage component', () => {
   it('renders the registration page correctly', () => {

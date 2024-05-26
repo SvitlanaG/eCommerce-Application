@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../../types/UserType';
+import { User } from '@/types/UserType';
 
 const initialState: User = {
   email: '',

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import ErrorPage from '@/pages/ErrorPage/ErrorPage';
 
 describe('ErrorPage component', () => {
   it('renders the error page correctly', () => {

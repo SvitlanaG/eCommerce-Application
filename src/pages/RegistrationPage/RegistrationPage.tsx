@@ -2,13 +2,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { User } from '../../types/UserType';
-import { registration } from '../../services/auth';
-import { setLoggedIn } from '../../store/user/userSlice';
-import openEye from '../../assets/icons/eyeOpen.svg';
-import closedEye from '../../assets/icons/eyeClosed.svg';
-import styles from './RegistrationPage.module.scss';
-import Toast from '../../helpers/Toast';
+import { User } from '@/types/UserType';
+import { registration } from '@/services/auth';
+import { setLoggedIn } from '@/store/user/userSlice';
+import openEye from '@/assets/icons/eyeOpen.svg';
+import closedEye from '@/assets/icons/eyeClosed.svg';
+import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
+import Toast from '@/helpers/Toast';
 
 const RegistrationPage = () => {
   const navigate = useNavigate();

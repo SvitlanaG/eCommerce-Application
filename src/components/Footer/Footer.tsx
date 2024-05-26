@@ -5,8 +5,8 @@ import {
   FaLinkedin,
   FaGithub,
 } from 'react-icons/fa';
-import styles from './Footer.module.scss';
-import rsIcon from '../../assets/icons/rs.svg';
+import styles from '@/components/Footer/Footer.module.scss';
+import rsIcon from '@/assets/icons/rs.svg';
 
 const Footer = () => {
   return (
