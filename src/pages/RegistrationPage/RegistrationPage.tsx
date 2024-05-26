@@ -28,7 +28,7 @@ const RegistrationPage = () => {
     formState: { errors },
     reset,
   } = useForm<User>({ mode: 'onChange' });
-  const pass = watch('password');
+  const password = watch('password');
   const validateAge = (value: string) => {
     const today = new Date();
     const birthDate = new Date(value);
@@ -95,15 +95,15 @@ const RegistrationPage = () => {
     setValue('addressBilling.country', '', { shouldValidate: true });
   };
 
-  const [isPass, setIsPass] = useState(false);
-  const [isConfirmPass, setIsConfirmPass] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isConfirmPassword, setIsConfirmPassword] = useState(false);
 
-  const handleShowPass = () => {
-    setIsPass(!isPass);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
-  const handleShowConfirmPass = () => {
-    setIsConfirmPass(!isConfirmPass);
+  const handleShowConfirmPassword = () => {
+    setIsConfirmPassword(!isConfirmPassword);
   };
 
   return (
@@ -124,7 +124,7 @@ const RegistrationPage = () => {
               {...register('firstName', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
+                  value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
                   message:
                     'First name must not contain special characters or numbers',
                 },
@@ -146,7 +146,7 @@ const RegistrationPage = () => {
               {...register('lastName', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
+                  value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
                   message:
                     'Last name must not contain special characters or numbers',
                 },
@@ -205,7 +205,7 @@ const RegistrationPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="password"
-              type={isPass ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is a required field',
                 minLength: {
@@ -231,8 +231,8 @@ const RegistrationPage = () => {
                 },
               })}
             />
-            <div className={styles.eye} onClick={handleShowPass}>
-              <img src={isPass ? openEye : closedEye} alt="eye icon" />
+            <div className={styles.eye} onClick={handleShowPassword}>
+              <img src={showPassword ? openEye : closedEye} alt="eye icon" />
             </div>
             {errors.password && (
               <div className={styles.errorMessage}>
@@ -246,14 +246,18 @@ const RegistrationPage = () => {
             <input
               className={`${styles['input-field']} ${styles['input-field-text']}`}
               id="confirmPassword"
-              type={isConfirmPass ? 'text' : 'password'}
+              type={isConfirmPassword ? 'text' : 'password'}
               {...register('confirmPassword', {
                 required: 'This field is required',
-                validate: (value) => value === pass || 'Passwords do not match',
+                validate: (value) =>
+                  value === password || 'Passwords do not match',
               })}
             />
-            <div className={styles.eye} onClick={handleShowConfirmPass}>
-              <img src={isConfirmPass ? openEye : closedEye} alt="eye icon" />
+            <div className={styles.eye} onClick={handleShowConfirmPassword}>
+              <img
+                src={isConfirmPassword ? openEye : closedEye}
+                alt="eye icon"
+              />
             </div>
 
             {errors.confirmPassword && (
@@ -314,7 +318,7 @@ const RegistrationPage = () => {
               {...register('addressShipping.city', {
                 required: 'This field is required',
                 pattern: {
-                  value: /^[A-Za-z]+$/,
+                  value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
                   message:
                     'City must not contain special characters or numbers',
                 },
@@ -437,7 +441,7 @@ const RegistrationPage = () => {
                   {...register('addressBilling.city', {
                     required: 'This field is required',
                     pattern: {
-                      value: /^[A-Za-z]+$/,
+                      value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
                       message:
                         'City must not contain special characters or numbers',
                     },
