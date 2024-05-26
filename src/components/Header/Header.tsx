@@ -1,6 +1,7 @@
 import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { clsx } from 'clsx';
 import { setLoggedIn } from '@/store/user/userSlice';
 import { RootState } from '@/store/store';
 import Toast from '@/helpers/Toast';
@@ -29,7 +30,11 @@ const Header = () => {
         <div className="flex flex-fw-wrap flex-fd-column">
           <h1 className={styles['product-name']}>Book Lounge Online</h1>
           <p
-            className={`${styles['product-name-slogan']} text-subtitle text-subtitle-large`}
+            className={clsx(
+              styles['product-name-slogan'],
+              'text-subtitle',
+              'text-subtitle-large',
+            )}
           >
             Between Codes and Coffee, Find Time for Books
           </p>
@@ -44,7 +49,10 @@ const Header = () => {
                 }
               >
                 <div
-                  className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
+                  className={clsx(
+                    styles['button-icon'],
+                    styles['button-icon-secondary'],
+                  )}
                 >
                   <FaUserPlus />
                 </div>
@@ -59,7 +67,10 @@ const Header = () => {
                 }
               >
                 <div
-                  className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
+                  className={clsx(
+                    styles['button-icon'],
+                    styles['button-icon-secondary'],
+                  )}
                 >
                   <FaSignInAlt />
                 </div>
@@ -70,7 +81,10 @@ const Header = () => {
         ) : (
           <div className={styles.logOut} onClick={logOut}>
             <div
-              className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
+              className={clsx(
+                styles['button-icon'],
+                styles['button-icon-secondary'],
+              )}
             >
               <FaSignOutAlt />
             </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { clsx } from 'clsx';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/interfaces';
@@ -23,7 +24,7 @@ const CatalogPage = () => {
             </p>
             <button
               type="submit"
-              className={`${styles['button-primary']} ${styles.btn}`}
+              className={clsx(styles['button-primary'], styles.btn)}
             >
               Order
             </button>
