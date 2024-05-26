@@ -3,13 +3,13 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { clsx } from 'clsx';
-import { User } from '../../types/UserType';
-import styles from '../RegistrationPage/RegistrationPage.module.scss';
-import { login } from '../../services/auth';
-import openEye from '../../assets/icons/eyeOpen.svg';
-import closedEye from '../../assets/icons/eyeClosed.svg';
-import { setLoggedIn } from '../../store/user/userSlice';
-import Toast from '../../helpers/Toast';
+import { User } from '@/types/UserType';
+import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
+import { login } from '@/services/auth';
+import openEye from '@/assets/icons/eyeOpen.svg';
+import closedEye from '@/assets/icons/eyeClosed.svg';
+import { setLoggedIn } from '@/store/user/userSlice';
+import Toast from '@/helpers/Toast';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -36,9 +36,9 @@ const LoginPage = () => {
       reset();
     }
   };
-  const [isPass, setIsPass] = useState(false);
-  const handleShowPass = () => {
-    setIsPass(!isPass);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
   return (
     <div className={styles.registration}>
@@ -79,7 +79,7 @@ const LoginPage = () => {
                 styles['input-field-text'],
               )}
               id="password"
-              type={isPass ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is a required field',
                 minLength: {
@@ -105,8 +105,8 @@ const LoginPage = () => {
                 },
               })}
             />
-            <div className={styles.eye} onClick={handleShowPass}>
-              <img src={isPass ? openEye : closedEye} alt="eye icon" />
+            <div className={styles.eye} onClick={handleShowPassword}>
+              <img src={showPassword ? openEye : closedEye} alt="eye icon" />
             </div>
             {errors.password && (
               <div className={styles.errorMessage}>

@@ -2,15 +2,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Catalog from './pages/CatalogPage/CatalogPage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import styles from './App.module.scss';
-import MainPage from './pages/MainPage/MainPage';
-import getVisitorIdentifier from './services/getIdentifier';
+import Catalog from '@/pages/CatalogPage/CatalogPage';
+import LoginPage from '@/pages/LoginPage/LoginPage';
+import RegistrationPage from '@/pages/RegistrationPage/RegistrationPage';
+import ErrorPage from '@/pages/ErrorPage/ErrorPage';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+import styles from '@/App.module.scss';
+import MainPage from '@/pages/MainPage/MainPage';
+import getVisitorIdentifier from '@/services/getIdentifier';
 
 function App() {
   useEffect(() => {

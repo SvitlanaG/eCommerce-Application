@@ -1,4 +1,4 @@
-import { UserToken } from '../types/UserType';
+import { UserToken } from '@/types/UserType';
 
 const getVisitorIdentifier = async () => {
   try {

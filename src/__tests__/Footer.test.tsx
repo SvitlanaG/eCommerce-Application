@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import Footer from '../components/Footer/Footer';
+import Footer from '@/components/Footer/Footer';
 
 describe('Footer component', () => {
   it('renders all elements correctly', () => {

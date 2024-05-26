@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import styles from './CatalogPage.module.scss';
-import getBooks from '../../services/getBooks';
-import { Product } from '../../interfaces';
+import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
+import getBooks from '@/services/getBooks';
+import { Product } from '@/interfaces';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
