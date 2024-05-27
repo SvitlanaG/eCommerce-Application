@@ -44,7 +44,11 @@ const LoginForm = () => {
         <label htmlFor="email" className={styles.label}>
           <span>Email *</span>
           <input
-            className={clsx(styles['input-field'], styles['input-field-text'])}
+            className={clsx(
+              styles['input-field'],
+              styles['input-field-text'],
+              errors.email && styles.error,
+            )}
             id="email"
             type="email"
             {...register('email', {
@@ -63,7 +67,11 @@ const LoginForm = () => {
         <label htmlFor="password" className={styles.label}>
           <span>Password *</span>
           <input
-            className={clsx(styles['input-field'], styles['input-field-text'])}
+            className={clsx(
+              styles['input-field'],
+              styles['input-field-text'],
+              errors.password && styles.error,
+            )}
             id="password"
             type={showPassword ? 'text' : 'password'}
             {...register('password', {
