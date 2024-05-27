@@ -1,4 +1,4 @@
-import { Book, Data, Product, StagedData } from '@/interfaces';
+import { Book, Data, Product, StagedData } from '@/types/products';
 
 const getBooks = async (): Promise<Product[]> => {
   try {

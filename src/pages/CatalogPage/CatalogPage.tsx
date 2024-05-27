@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { Category } from '@/types/categories';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
-import { Product } from '@/interfaces';
+import { Product } from '@/types/products';
 import Up from '@/assets/icons/up.svg';
 import Down from '@/assets/icons/down.svg';
 import getCategories from '@/services/catalog';
