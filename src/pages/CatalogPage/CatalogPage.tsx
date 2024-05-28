@@ -6,6 +6,7 @@ import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
 import Up from '@/assets/icons/up.svg';
 import Down from '@/assets/icons/down.svg';
+import Search from '@/assets/icons/search.svg';
 import getCategories from '@/services/catalog';
 
 const CatalogPage = () => {
@@ -49,25 +50,46 @@ const CatalogPage = () => {
           </ul>
         </div>
       </div>
-      <div className={styles['main-div']}>
-        {books.map((book) => (
-          <div key={book.key} className={styles.imageDiv}>
-            <img
-              src={book.assetSources[0].uri}
-              alt="book"
-              className={styles.img}
-            />
-            <p key={book.key} className={styles.bookName}>
-              {book.name['en-GB']}
-            </p>
-            <button
-              type="submit"
-              className={clsx(styles['button-primary'], styles.btn)}
-            >
-              Order
-            </button>
-          </div>
-        ))}
+      <div className={styles['input-div']}>
+        <span>
+          <img
+            src={Search}
+            alt="search"
+            className={`${styles['input-img']} ${styles.search}`}
+          />
+          <input
+            onChange={async (e) => {
+              setBooks(
+                (await getBooks()).filter((book) =>
+                  book.name['en-GB']
+                    .toLowerCase()
+                    .includes(e.target.value.toLowerCase()),
+                ),
+              );
+            }}
+            type="search"
+          />
+        </span>
+        <div className={styles['main-div']}>
+          {books.map((book) => (
+            <div key={book.key} className={styles.imageDiv}>
+              <img
+                src={book.assetSources[0].uri}
+                alt="book"
+                className={styles.img}
+              />
+              <p key={book.key} className={styles.bookName}>
+                {book.name['en-GB']}
+              </p>
+              <button
+                type="submit"
+                className={clsx(styles['button-primary'], styles.btn)}
+              >
+                Order
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
