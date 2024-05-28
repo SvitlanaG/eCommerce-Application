@@ -10,19 +10,27 @@ import validateAge from '@/helpers/validateAge';
 
 const ProfilePage = () => {
   const [customer, setCustomer] = useState<User | null>(null);
-
-  useEffect(() => {
-    getCustomer().then((data) => setCustomer(data));
-  }, []);
-
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<User>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<User> = (data) => {
-    console.log(data);
+  useEffect(() => {
+    getCustomer().then((data) => {
+      if (data) {
+        setCustomer(data);
+        setValue('email', data.email);
+        setValue('firstName', data.firstName);
+        setValue('lastName', data.lastName);
+        setValue('dateOfBirth', data.dateOfBirth);
+      }
+    });
+  }, [setValue]);
+
+  const onSubmit: SubmitHandler<User> = (/* data */) => {
+    // console.log(data);
   };
 
   const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
@@ -31,10 +39,20 @@ const ProfilePage = () => {
     setIsEditModePersonalInfo(!isEditModePersonalInfo);
   };
 
+  const getAddressById = (id: string) =>
+    customer?.addresses.find((address) => address.id === id);
+
+  const defaultShippingAddress = getAddressById(
+    customer?.defaultShippingAddressId || '',
+  );
+  const defaultBillingAddress = getAddressById(
+    customer?.defaultBillingAddressId || '',
+  );
+
   return (
     <div className={styles.registration}>
       <h2>Your Profile</h2>
-      <pre>{JSON.stringify(customer, null, 2)}</pre>
+      {/*     <pre>{JSON.stringify(customer, null, 2)}</pre> */}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
         <div className={stylesProfile.inputWrapper}>
@@ -154,9 +172,28 @@ const ProfilePage = () => {
       </form>
 
       <h3>Shipping Address</h3>
-      <AddressForm />
+      {defaultShippingAddress && (
+        <AddressForm
+          addressType="shipping"
+          initialValues={{
+            ...defaultShippingAddress,
+            isDefaultAddress:
+              defaultShippingAddress.id === customer?.defaultShippingAddressId,
+          }}
+        />
+      )}
+
       <h3>Billing Address</h3>
-      <AddressForm />
+      {defaultBillingAddress && (
+        <AddressForm
+          addressType="billing"
+          initialValues={{
+            ...defaultBillingAddress,
+            isDefaultAddress:
+              defaultBillingAddress.id === customer?.defaultBillingAddressId,
+          }}
+        />
+      )}
     </div>
   );
 };

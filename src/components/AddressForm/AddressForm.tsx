@@ -1,33 +1,28 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import { clsx } from 'clsx';
-import { User } from '@/types/UserType';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesAddress from '@/components/AddressForm/AddressForm.module.scss';
+import { Address } from '@/types/UserType';
 
-const AddressForm = () => {
+interface AddressFormProps {
+  addressType: 'shipping' | 'billing';
+  // eslint-disable-next-line react/require-default-props
+  initialValues?: Address;
+}
+
+const AddressForm = ({ addressType, initialValues }: AddressFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<User>({ mode: 'onChange' });
+  } = useForm<Address>({ mode: 'onChange', defaultValues: initialValues });
 
-  const [postalPattern] = useState<RegExp | undefined>(undefined);
-
-  /*   const countryPostalPatterns: Record<string, RegExp> = {
-    DE: /^[0-9]{5}$/,
-    BY: /^[0-9]{6}$/,
-    AM: /^[0-9]{4}$/,
-  }; */
-
-  const onSubmit: SubmitHandler<User> = async () => {
-    return true;
-  };
-
-  const [isDefaultAddress, setIsDefaultAddress] = useState(false);
   const [isEditModeAddress, setIsEditModeAddress] = useState(false);
-  const handleDefaultAddress = () => {
-    setIsDefaultAddress(!isDefaultAddress);
+
+  const onSubmit: SubmitHandler<Address> = async (/* data */) => {
+    // Handle form submission here
+    // console.log(data);
   };
 
   const editAddress = () => {
@@ -43,11 +38,10 @@ const AddressForm = () => {
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.country && styles.error,
+              errors.country && styles.error,
             )}
             id="country"
-            defaultValue=""
-            {...register('addressShipping.country', {
+            {...register('country', {
               required: 'This field is required',
             })}
             disabled={!isEditModeAddress}
@@ -59,30 +53,28 @@ const AddressForm = () => {
             <option value="BY">Belarus</option>
             <option value="AM">Armenia</option>
           </select>
-          {errors.addressShipping?.country && (
-            <div className={styles.errorMessage}>
-              {errors.addressShipping?.country.message}
-            </div>
+          {errors.country && (
+            <div className={styles.errorMessage}>{errors.country.message}</div>
           )}
         </label>
-        <label htmlFor="street" className={styles.label}>
+        <label htmlFor="streetName" className={styles.label}>
           <span>Street</span>
           <input
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.street && styles.error,
+              errors.streetName && styles.error,
             )}
-            id="street"
+            id="streetName"
             type="text"
-            {...register('addressShipping.street', {
+            {...register('streetName', {
               required: 'This field is required',
             })}
             disabled={!isEditModeAddress}
           />
-          {errors.addressShipping?.street && (
+          {errors.streetName && (
             <div className={styles.errorMessage}>
-              {errors.addressShipping?.street.message}
+              {errors.streetName.message}
             </div>
           )}
         </label>
@@ -93,11 +85,11 @@ const AddressForm = () => {
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.city && styles.error,
+              errors.city && styles.error,
             )}
             id="city"
             type="text"
-            {...register('addressShipping.city', {
+            {...register('city', {
               required: 'This field is required',
               pattern: {
                 value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
@@ -106,50 +98,41 @@ const AddressForm = () => {
             })}
             disabled={!isEditModeAddress}
           />
-          {errors.addressShipping?.city && (
-            <div className={styles.errorMessage}>
-              {errors.addressShipping?.city.message}
-            </div>
+          {errors.city && (
+            <div className={styles.errorMessage}>{errors.city.message}</div>
           )}
         </label>
-        <label htmlFor="code" className={styles.label}>
+        <label htmlFor="postalCode" className={styles.label}>
           <span>Postal code</span>
           <input
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.postalCode && styles.error,
+              errors.postalCode && styles.error,
             )}
-            id="code"
+            id="postalCode"
             type="text"
-            {...register('addressShipping.postalCode', {
+            {...register('postalCode', {
               required: 'This field is required',
-              pattern: postalPattern
-                ? {
-                    value: postalPattern,
-                    message: 'Invalid postal code',
-                  }
-                : undefined,
+              pattern: {
+                value: /^[0-9]{5}$/,
+                message: 'Invalid postal code',
+              },
             })}
             disabled={!isEditModeAddress}
           />
-          {errors.addressShipping?.postalCode && (
+          {errors.postalCode && (
             <div className={styles.errorMessage}>
-              {errors.addressShipping?.postalCode.message}
+              {errors.postalCode.message}
             </div>
           )}
         </label>
 
-        <label
-          htmlFor="addressShipping.isDefaultAddress"
-          className={styles['toggle-switch']}
-        >
+        <label htmlFor="isDefaultAddress" className={styles['toggle-switch']}>
           <input
-            {...register('addressShipping.isDefaultAddress')}
+            {...register('isDefaultAddress')}
             type="checkbox"
-            checked={isDefaultAddress}
-            onChange={handleDefaultAddress}
-            id="addressShipping.isDefaultAddress"
+            id="isDefaultAddress"
             disabled={!isEditModeAddress}
           />
           <span className={styles['toggle-slider']} />
@@ -157,19 +140,30 @@ const AddressForm = () => {
             Set as default address
           </span>
         </label>
-
         <button
-          id="edit-button"
+          id={`${addressType}-edit-button`}
           className={clsx(
             styles['button-small'],
             styles['button-primary'],
             stylesAddress['edit-button'],
           )}
-          type="submit"
+          type="button"
           onClick={editAddress}
         >
-          edit
+          Edit
         </button>
+        {/*         {isEditModeAddress && (
+          <button
+            className={clsx(
+              styles['button-small'],
+              styles['button-primary'],
+              stylesAddress['save-button'],
+            )}
+            type="submit"
+          >
+            Save
+          </button>
+        )} */}
       </div>
     </form>
   );

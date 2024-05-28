@@ -3,26 +3,26 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { User } from '@/types/UserType';
 
 const initialState: User = {
+  id: '',
   email: '',
   password: '',
   firstName: '',
   lastName: '',
   dateOfBirth: '',
-  addressShipping: {
-    street: '',
-    city: '',
-    postalCode: '',
-    country: '',
-    isDefaultAddress: false,
-    isBillingAddress: false,
-  },
-  addressBilling: {
-    street: '',
-    city: '',
-    postalCode: '',
-    country: '',
-    isDefaultAddress: false,
-  },
+  addresses: [
+    {
+      id: '',
+      streetName: '',
+      city: '',
+      postalCode: '',
+      country: '',
+      isDefaultAddress: false,
+    },
+  ],
+  defaultShippingAddressId: '',
+  defaultBillingAddressId: '',
+  shippingAddressIds: [],
+  billingAddressIds: [],
   token: '',
   isLoggedIn: !!localStorage.getItem('userAccessToken'),
 };

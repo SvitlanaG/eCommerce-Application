@@ -93,40 +93,36 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       'Authorization',
       `Bearer ${localStorage.getItem('visitorIdentifier')}`,
     );
-    const shipping = {
-      country: data.addressShipping.country,
-      streetName: data.addressShipping.street,
-      city: data.addressShipping.city,
-      postalCode: data.addressShipping.postalCode,
-    };
-    let billing = null;
-    let isDefault = data.addressBilling?.isDefaultAddress;
-    if (data.addressShipping.isBillingAddress) {
-      billing = shipping;
-      isDefault = data.addressShipping?.isDefaultAddress;
-    } else {
-      billing = {
-        country: data.addressBilling.country,
-        streetName: data.addressBilling.street,
-        city: data.addressBilling.city,
-        postalCode: data.addressBilling.postalCode,
-      };
-    }
+
+    const { addresses } = data;
+
+    // Set default shipping and billing addresses
+    const defaultShippingAddressIndex = addresses.findIndex(
+      (address) => address.id === data.defaultShippingAddressId,
+    );
+    const defaultBillingAddressIndex = addresses.findIndex(
+      (address) => address.id === data.defaultBillingAddressId,
+    );
+
     const raw = JSON.stringify({
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
       password: data.password,
       dateOfBirth: data.dateOfBirth,
-      addresses: [billing, shipping],
-      billingAddresses: [0],
-      shippingAddresses: [1],
-
-      defaultBillingAddress: isDefault ? 0 : undefined,
-      defaultShippingAddress: data.addressShipping?.isDefaultAddress
-        ? 1
-        : undefined,
+      addresses,
+      billingAddresses: data.billingAddressIds.map((id, index) => index),
+      shippingAddresses: data.shippingAddressIds.map((id, index) => index),
+      defaultBillingAddress:
+        defaultBillingAddressIndex !== -1
+          ? defaultBillingAddressIndex
+          : undefined,
+      defaultShippingAddress:
+        defaultShippingAddressIndex !== -1
+          ? defaultShippingAddressIndex
+          : undefined,
     });
+
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,

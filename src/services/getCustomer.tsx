@@ -4,7 +4,7 @@ const getCustomer = async (): Promise<User | null> => {
   try {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    const token = localStorage.getItem('visitorIdentifier');
+    const token = localStorage.getItem('userAccessToken');
 
     if (token) {
       myHeaders.append('Authorization', `Bearer ${token}`);
@@ -29,7 +29,7 @@ const getCustomer = async (): Promise<User | null> => {
     const customer: User = await response.json();
     return customer;
   } catch (error) {
-    console.error('Error fetching customer data:', error);
+    // console.error('Error fetching customer data:', error);
     return null;
   }
 };
