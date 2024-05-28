@@ -1,21 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesProfile from '@/pages/ProfilePage/ProfilePage.module.scss';
 import { User } from '@/types/UserType';
+import getCustomer from '@/services/getCustomer';
 import AddressForm from '@/components/AddressForm/AddressForm';
 import validateAge from '@/helpers/validateAge';
 
 const ProfilePage = () => {
+  const [customer, setCustomer] = useState<User | null>(null);
+
+  useEffect(() => {
+    getCustomer().then((data) => setCustomer(data));
+  }, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<User>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<User> = () => {
-    return true;
+  const onSubmit: SubmitHandler<User> = (data) => {
+    console.log(data);
   };
 
   const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
@@ -27,6 +34,7 @@ const ProfilePage = () => {
   return (
     <div className={styles.registration}>
       <h2>Your Profile</h2>
+      <pre>{JSON.stringify(customer, null, 2)}</pre>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
         <div className={stylesProfile.inputWrapper}>
@@ -83,6 +91,7 @@ const ProfilePage = () => {
               </div>
             )}
           </label>
+
           <label htmlFor="dateOfBirth" className={styles.label}>
             <span>Date of birth</span>
             <input
@@ -108,6 +117,7 @@ const ProfilePage = () => {
               </div>
             )}
           </label>
+
           <label htmlFor="email" className={styles.label}>
             <span>Email</span>
             <input
@@ -131,16 +141,18 @@ const ProfilePage = () => {
               <div className={styles.errorMessage}>{errors.email.message}</div>
             )}
           </label>
+
           <span />
           <button
             className={clsx(styles['button-small'], styles['button-primary'])}
-            type="submit"
+            type="button"
             onClick={editPersonalInfo}
           >
-            edit
+            Edit
           </button>
         </div>
       </form>
+
       <h3>Shipping Address</h3>
       <AddressForm />
       <h3>Billing Address</h3>
