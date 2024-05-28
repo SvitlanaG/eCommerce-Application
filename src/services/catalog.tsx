@@ -28,6 +28,7 @@ export const getCategories = async (): Promise<Category[]> => {
         return {
           name: item.name,
           key: item.key,
+          id: item.id,
         };
       },
     );

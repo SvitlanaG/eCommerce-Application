@@ -28,7 +28,23 @@ const CatalogPage = () => {
         <div className="list">
           <ul className={`${styles.list} ${isListVisible ? '' : 'hidden'}`}>
             {categories.map((item) => {
-              return <li key={item.key}>{item.name['en-US']}</li>;
+              return (
+                <li key={item.key}>
+                  <span
+                    onClick={async () => {
+                      setBooks(
+                        (await getBooks()).filter((book) =>
+                          book.categories.some(
+                            (category) => category.id === item.id,
+                          ),
+                        ),
+                      );
+                    }}
+                  >
+                    {item.name['en-US']}
+                  </span>
+                </li>
+              );
             })}
           </ul>
         </div>
