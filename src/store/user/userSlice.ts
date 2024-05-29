@@ -17,6 +17,7 @@ const initialState: User = {
       postalCode: '',
       country: '',
       isDefaultAddress: false,
+      isBillingAddress: false,
     },
   ],
   defaultShippingAddressId: '',
