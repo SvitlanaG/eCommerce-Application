@@ -42,11 +42,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     width: 15rem;
     gap: 15px;
     .btn {
-      margin-top: auto;
       width: 80%;
+    }
+    .price {
+
+      font-family: Montserrat;
+      font-weight: 600;
+      line-height: 18px;
+      color: #F85A08;
+
     }
   }
 }

@@ -12,8 +12,11 @@ const Books = ({ books }: { books: Product[] }) => {
             alt="book"
             className={styles.img}
           />
-          <p key={book.key} className={styles.bookName}>
-            {book.name['en-GB']}
+          <p key={book.key}>{book.name['en-GB']}</p>
+          <p className={clsx(styles.price)}>
+            {book.price?.centAmount &&
+              +(book.price.centAmount / 100).toFixed(2)}
+            $
           </p>
           <button
             type="submit"
