@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesProfile from '@/pages/ProfilePage/ProfilePage.module.scss';
 import { User } from '@/types/UserType';
 import getCustomer from '@/services/getCustomer';
 import AddressForm from '@/components/AddressForm/AddressForm';
 import validateAge from '@/helpers/validateAge';
+import Toast from '@/helpers/Toast';
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('userAccessToken')) {
+      setTimeout(() => navigate('/'), 300);
+      Toast({ message: 'User is not logged in', status: 'error' });
+    }
+  }, [navigate]);
+
   const [customer, setCustomer] = useState<User | null>(null);
   const {
     register,
@@ -52,7 +63,7 @@ const ProfilePage = () => {
   return (
     <div className={styles.registration}>
       <h2>Your Profile</h2>
-      {/*     <pre>{JSON.stringify(customer, null, 2)}</pre> */}
+      <pre>{JSON.stringify(customer, null, 2)}</pre>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
         <div className={stylesProfile.inputWrapper}>

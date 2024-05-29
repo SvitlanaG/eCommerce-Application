@@ -5,24 +5,8 @@ export type Address = {
   postalCode: string;
   country: string;
   isDefaultAddress: boolean;
-};
-
-/* export type AddressShipping = {
-  street: string;
-  city: string;
-  postalCode: string;
-  country: string;
-  isDefaultAddress: boolean;
   isBillingAddress: boolean;
-}; */
-
-/* export type AddressBilling = {
-  street: string;
-  city: string;
-  postalCode: string;
-  country: string;
-  isDefaultAddress: boolean;
-}; */
+};
 
 export type User = {
   id: string;
