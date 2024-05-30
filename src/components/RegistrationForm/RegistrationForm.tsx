@@ -380,6 +380,7 @@ const RegistrationForm = () => {
           className={styles['toggle-switch']}
         >
           <input
+            {...register('addresses.0.isBillingAddress')}
             type="checkbox"
             checked={isBillingAddress}
             onChange={handleBillingAddress}

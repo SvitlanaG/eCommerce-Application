@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
@@ -9,16 +9,36 @@ interface AddressFormProps {
   addressType: 'shipping' | 'billing';
   // eslint-disable-next-line react/require-default-props
   initialValues?: Address;
+  isDefaultAddress: boolean;
 }
 
-const AddressForm = ({ addressType, initialValues }: AddressFormProps) => {
+const AddressForm = ({
+  addressType,
+  initialValues,
+  isDefaultAddress,
+}: AddressFormProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
+    watch,
   } = useForm<Address>({ mode: 'onChange', defaultValues: initialValues });
 
+  const countryPostalPatterns: Record<string, RegExp> = {
+    DE: /^[0-9]{5}$/,
+    BY: /^[0-9]{6}$/,
+    AM: /^[0-9]{4}$/,
+  };
+
   const [isEditModeAddress, setIsEditModeAddress] = useState(false);
+  const selectedCountry = watch('country');
+
+  useEffect(() => {
+    if (initialValues) {
+      setValue('isDefaultAddress', isDefaultAddress);
+    }
+  }, [initialValues, isDefaultAddress, setValue]);
 
   const onSubmit: SubmitHandler<Address> = async (/* data */) => {
     // Handle form submission here
@@ -115,7 +135,7 @@ const AddressForm = ({ addressType, initialValues }: AddressFormProps) => {
             {...register('postalCode', {
               required: 'This field is required',
               pattern: {
-                value: /^[0-9]{5}$/,
+                value: countryPostalPatterns[selectedCountry] || /.*/,
                 message: 'Invalid postal code',
               },
             })}
@@ -152,7 +172,7 @@ const AddressForm = ({ addressType, initialValues }: AddressFormProps) => {
         >
           Edit
         </button>
-        {/*         {isEditModeAddress && (
+        {/* {isEditModeAddress && (
           <button
             className={clsx(
               styles['button-small'],

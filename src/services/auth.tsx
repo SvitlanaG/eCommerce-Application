@@ -103,10 +103,8 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       isDefaultAddress: data.addresses[0].isDefaultAddress,
     };
     let billing = null;
-    let isDefault = data.addresses[1]?.isDefaultAddress;
     if (data.addresses[0].isBillingAddress) {
-      billing = shipping;
-      isDefault = data.addresses[0]?.isDefaultAddress;
+      billing = { ...shipping };
     } else {
       billing = {
         country: data.addresses[1].country,
@@ -122,15 +120,14 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       lastName: data.lastName,
       password: data.password,
       dateOfBirth: data.dateOfBirth,
-      addresses: [billing, shipping],
-      billingAddresses: [0],
-      shippingAddresses: [1],
-      defaultBillingAddress: isDefault ? 0 : undefined,
+      addresses: [shipping, billing],
+      shippingAddresses: [0],
+      billingAddresses: [1],
       defaultShippingAddress: data.addresses[0].isDefaultAddress
-        ? 1
+        ? 0
         : undefined,
+      defaultBillingAddress: data.addresses[1].isDefaultAddress ? 1 : undefined,
     });
-
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,

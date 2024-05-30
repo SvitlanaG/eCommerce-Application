@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesProfile from '@/pages/ProfilePage/ProfilePage.module.scss';
@@ -41,7 +41,7 @@ const ProfilePage = () => {
   }, [setValue]);
 
   const onSubmit: SubmitHandler<User> = (/* data */) => {
-    // console.log(data);
+    // Handle form submission
   };
 
   const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
@@ -50,20 +50,22 @@ const ProfilePage = () => {
     setIsEditModePersonalInfo(!isEditModePersonalInfo);
   };
 
-  const getAddressById = (id: string) =>
-    customer?.addresses.find((address) => address.id === id);
-
-  const defaultShippingAddress = getAddressById(
-    customer?.defaultShippingAddressId || '',
-  );
-  const defaultBillingAddress = getAddressById(
-    customer?.defaultBillingAddressId || '',
-  );
+  const getAddressType = (addressId: string) => {
+    if (customer?.defaultShippingAddressId === addressId)
+      return 'Default Shipping Address';
+    if (customer?.defaultBillingAddressId === addressId)
+      return 'Default Billing Address';
+    if (customer?.shippingAddressIds.includes(addressId))
+      return 'Shipping Address';
+    if (customer?.billingAddressIds.includes(addressId))
+      return 'Billing Address';
+    return '';
+  };
 
   return (
     <div className={styles.registration}>
       <h2>Your Profile</h2>
-      <pre>{JSON.stringify(customer, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(customer, null, 2)}</pre> */}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
         <div className={stylesProfile.inputWrapper}>
@@ -182,28 +184,24 @@ const ProfilePage = () => {
         </div>
       </form>
 
-      <h3>Shipping Address</h3>
-      {defaultShippingAddress && (
-        <AddressForm
-          addressType="shipping"
-          initialValues={{
-            ...defaultShippingAddress,
-            isDefaultAddress:
-              defaultShippingAddress.id === customer?.defaultShippingAddressId,
-          }}
-        />
-      )}
-
-      <h3>Billing Address</h3>
-      {defaultBillingAddress && (
-        <AddressForm
-          addressType="billing"
-          initialValues={{
-            ...defaultBillingAddress,
-            isDefaultAddress:
-              defaultBillingAddress.id === customer?.defaultBillingAddressId,
-          }}
-        />
+      {customer?.addresses && customer?.addresses.length > 0 && (
+        <div className={styles['max-width']}>
+          {customer.addresses.map((address) => (
+            <div key={address.id}>
+              <h3>{getAddressType(address.id)}</h3>
+              <AddressForm
+                addressType={
+                  getAddressType(address.id) as 'shipping' | 'billing'
+                }
+                initialValues={address}
+                isDefaultAddress={
+                  address.id === customer.defaultShippingAddressId ||
+                  address.id === customer.defaultBillingAddressId
+                }
+              />
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
