@@ -1,4 +1,3 @@
-import Toast from '@/helpers/Toast';
 import { User } from '@/types/UserType';
 
 const getCustomer = async (): Promise<User | null> => {
@@ -10,7 +9,7 @@ const getCustomer = async (): Promise<User | null> => {
     if (token) {
       myHeaders.append('Authorization', `Bearer ${token}`);
     } else {
-      Toast({ message: 'No token found', status: 'error' });
+      throw new Error('No token found');
     }
 
     const requestOptions = {
@@ -24,13 +23,13 @@ const getCustomer = async (): Promise<User | null> => {
     );
 
     if (!response.ok) {
-      Toast({ message: 'Network response was not ok', status: 'error' });
+      throw new Error('Network response was not ok');
     }
 
     const customer: User = await response.json();
     return customer;
   } catch (error) {
-    Toast({ message: 'Error fetching customer data', status: 'error' });
+    // console.error('Error fetching customer data:', error);
     return null;
   }
 };

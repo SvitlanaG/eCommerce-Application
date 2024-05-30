@@ -15,7 +15,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!localStorage.getItem('userAccessToken')) {
-      setTimeout(() => navigate('/'), 300);
+      setTimeout(() => navigate('/login'), 300);
       Toast({ message: 'User is not logged in', status: 'error' });
     }
   }, [navigate]);
