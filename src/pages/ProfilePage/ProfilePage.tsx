@@ -9,6 +9,7 @@ import getCustomer from '@/services/getCustomer';
 import AddressForm from '@/components/AddressForm/AddressForm';
 import validateAge from '@/helpers/validateAge';
 import Toast from '@/helpers/Toast';
+import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -19,7 +20,20 @@ const ProfilePage = () => {
       Toast({ message: 'User is not logged in', status: 'error' });
     }
   }, [navigate]);
-
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
+  const handleOpenModal = () => {
+    setIsChangePasswordModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsChangePasswordModalOpen(false);
+  };
+  const handleChangePasswordSubmit = (/* data: ChangePasswordFormValues */) => {
+    // Handle password change logic here
+    console.log('Password change data:' /* data */);
+    // Close the modal after successful password change
+    handleCloseModal();
+  };
   const [customer, setCustomer] = useState<User | null>(null);
   const {
     register,
@@ -183,6 +197,20 @@ const ProfilePage = () => {
           </button>
         </div>
       </form>
+
+      <button
+        className={clsx(styles['button-large'], styles['button-secondary'])}
+        type="button"
+        onClick={handleOpenModal}
+      >
+        Change Password
+      </button>
+
+      <ChangePasswordModal
+        isOpen={isChangePasswordModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleChangePasswordSubmit}
+      />
 
       {customer?.addresses && customer?.addresses.length > 0 && (
         <div className={styles['max-width']}>

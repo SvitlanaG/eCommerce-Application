@@ -9,10 +9,11 @@
   @extend .button;
   @extend .text-button;
   @extend .text-button-large;
-  width: 160px;
+  width: 220px;
   height: 52px;
-  padding: 14px 40px;
+  padding: 14px 20px;
   border-radius: 30px;
+  margin-bottom: 1rem;
 }
 
 .button-small {
