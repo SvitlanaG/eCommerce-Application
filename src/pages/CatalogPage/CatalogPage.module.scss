@@ -4,6 +4,30 @@
 .container {
   width: 100%;
   margin: auto;
+  display: flex;
+  flex-direction: row;
+}
+.categories {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  .categoryBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #F85A08;
+  }
+  .categoryBtn:hover {
+    color: #F85A08;
+    cursor: pointer;
+  }
+  .list li{
+    margin: 10px;
+    cursor: pointer;
+  }
+  .list li:hover{
+    color: #F85A08;
+  }
 }
 .main-div {
   display: flex;
@@ -19,14 +43,81 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     width: 15rem;
     gap: 15px;
     .btn {
-      margin-top: auto;
       width: 80%;
-      border-radius: 10px;
+    }
+    .price {
+
+      font-family: Montserrat;
+      font-weight: 600;
+      line-height: 18px;
+      color: #a83e05;
+
+    }
+    .discounted {
+      color: rgb(173, 6, 6);
+      text-decoration: line-through;
+    }
+    .prices {
+      display: flex;
+      flex-direction: row;
+      column-gap: 10px;
+      font-size: 1.5rem;
     }
   }
+}
+.input-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  span {
+    display: flex;
+  }
+  .search-sort {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    .sortContainer {
+      display: flex;
+      justify-content:center;
+      position: absolute;
+      right: 0;
+      .sortIcon{
+        position: absolute;
+        left: 0;
+        color: #a7a7a7;
+      }
+    }
+    .sort{
+      border: 1px solid #a7a7a7;
+      border-radius: 10px;
+      background-color: white;
+      width: 100px;
+      height: 30px;
+      position: relative;
+      text-align: center;
+      color: #a7a7a7;
+      img {
+        width: 200px;
+        height: 50px;
+      }
+    }
+    input {
+      align-self: center;
+      border-radius: 20px;
+      border: 3px solid #ECEDEE;
+      width: 20rem;
+      height: 30px;
+    }
+  }
+
 }
 @media (max-width: 500px) {
   .main-div {

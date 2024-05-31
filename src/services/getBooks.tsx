@@ -1,4 +1,4 @@
-import { Book, Data, Product, StagedData } from '@/interfaces';
+import { Book, Data, Product, StagedData } from '@/types/products';
 
 const getBooks = async (): Promise<Product[]> => {
   try {
@@ -35,6 +35,7 @@ const getBooks = async (): Promise<Product[]> => {
             ? el.masterVariant.assets[0].sources
             : [],
         key: resp.results[ind].key,
+        sku: el.masterVariant.sku,
       };
       return product;
     });

@@ -12,27 +12,14 @@ export interface Product {
     fractionDigits: number;
   } | null;
   key: string;
+  sku: string;
 }
 
 export interface Book {
-  createdAt: string;
-  createdBy: { isPlatformClient: boolean };
-  id: string;
   key: string;
-  lastMessageSequenceNumber: number;
-  lastModifiedAt: string;
-  lastModifiedBy: { isPlatformClient: boolean };
-  lastVariantId: number;
   masterData: {
-    current: StagedData;
-    hasStagedChanges: boolean;
-    published: boolean;
     staged: StagedData;
   };
-  priceMode: string;
-  productType: { typeId: string; id: string };
-  version: number;
-  versionModifiedAt: string;
 }
 
 export interface Price {
@@ -60,26 +47,17 @@ export interface StagedData {
     typeId: string;
     id: string;
   }[];
-  categoryOrderHints: { [key: string]: string };
   description: { [locale: string]: string };
   masterVariant: {
-    image: [];
-    id: number;
     sku: string;
+    image: [];
     key: string;
     prices: Price[];
     assets: Asset[];
   };
-  metaTitle: { [locale: string]: string };
   name: { [locale: string]: string };
-  searchKeywords: { [locale: string]: string[] };
-  slug: { [locale: string]: string };
-  variants: [];
 }
 
 export interface Data {
-  count: number;
-  limit: number;
-  offset: number;
   results: Book[];
 }
