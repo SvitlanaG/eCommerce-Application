@@ -10,10 +10,11 @@
 .categories {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 170px;
   .categoryBtn {
     display: flex;
     align-items: center;
+    justify-content: center;
     border-bottom: 2px solid #F85A08;
   }
   .categoryBtn:hover {
@@ -77,14 +78,46 @@
   span {
     display: flex;
   }
-  input {
-    align-self: center;
-    border-radius: 20px;
-    border: 3px solid #ECEDEE;
-    width: 20rem;
-    height: 30px;
-    margin: auto;
+  .search-sort {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    .sortContainer {
+      display: flex;
+      justify-content:center;
+      position: absolute;
+      right: 0;
+      .sortIcon{
+        position: absolute;
+        left: 0;
+        color: #a7a7a7;
+      }
+    }
+    .sort{
+      border: 1px solid #a7a7a7;
+      border-radius: 10px;
+      background-color: white;
+      width: 100px;
+      height: 30px;
+      position: relative;
+      text-align: center;
+      color: #a7a7a7;
+      img {
+        width: 200px;
+        height: 50px;
+      }
+    }
+    input {
+      align-self: center;
+      border-radius: 20px;
+      border: 3px solid #ECEDEE;
+      width: 20rem;
+      height: 30px;
+    }
   }
+
 }
 @media (max-width: 500px) {
   .main-div {
