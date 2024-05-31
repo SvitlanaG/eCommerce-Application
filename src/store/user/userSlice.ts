@@ -26,6 +26,7 @@ const initialState: User = {
   billingAddressIds: [],
   token: '',
   isLoggedIn: !!localStorage.getItem('userAccessToken'),
+  version: 0,
 };
 
 export const userSlice = createSlice({

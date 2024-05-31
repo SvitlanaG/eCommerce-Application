@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setLoggedIn } from '@/store/user/userSlice';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesProfile from '@/pages/ProfilePage/ProfilePage.module.scss';
 import { User } from '@/types/UserType';
@@ -13,11 +15,11 @@ import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePassword
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!localStorage.getItem('userAccessToken')) {
       setTimeout(() => navigate('/login'), 300);
-      Toast({ message: 'User is not logged in', status: 'error' });
+      Toast({ message: 'You are not logged in', status: 'error' });
     }
   }, [navigate]);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
@@ -28,11 +30,19 @@ const ProfilePage = () => {
   const handleCloseModal = () => {
     setIsChangePasswordModalOpen(false);
   };
-  const handleChangePasswordSubmit = (/* data: ChangePasswordFormValues */) => {
-    // Handle password change logic here
-    console.log('Password change data:' /* data */);
-    // Close the modal after successful password change
+  const logOut = () => {
+    localStorage.removeItem('userAccessToken');
+    dispatch(setLoggedIn());
+    navigate('/login');
+  };
+  const handleChangePasswordSubmit = () => {
     handleCloseModal();
+    logOut();
+    Toast({
+      message:
+        'You have successfully changed your password! Please log in again.',
+      status: 'success',
+    });
   };
   const [customer, setCustomer] = useState<User | null>(null);
   const {

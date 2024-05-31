@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { clsx } from 'clsx';
 import styles from './ChangePasswordModal.module.scss';
 import validatePassword from '@/helpers/validatePassword';
 import openEye from '@/assets/icons/eyeOpen.svg';
 import closedEye from '@/assets/icons/eyeClosed.svg';
+import getCustomer from '@/services/getCustomer';
+import changePassword from '@/services/changePassword';
+import { User } from '@/types/UserType';
+import Toast from '@/helpers/Toast';
 
 interface ChangePasswordFormValues {
   currentPassword: string;
@@ -33,10 +37,19 @@ const ChangePasswordModal = ({
 
   const newPassword = watch('newPassword', '');
   const currentPassword = watch('currentPassword', '');
-
+  const [customer, setCustomer] = useState<User | null>(null);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      (async () => {
+        const fetchedCustomer = await getCustomer();
+        setCustomer(fetchedCustomer);
+      })();
+    }
+  }, [isOpen]);
 
   const handleShowCurrentPassword = () => {
     setShowCurrentPassword(!showCurrentPassword);
@@ -55,19 +68,47 @@ const ChangePasswordModal = ({
     onClose();
   };
 
-  if (!isOpen) return null;
-
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
+  const handlePasswordChange: SubmitHandler<ChangePasswordFormValues> = async (
+    data,
+  ) => {
+    if (customer) {
+      const payload = {
+        id: customer.id,
+        version: customer.version,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      };
+
+      const updatedCustomer = await changePassword(payload);
+      if (updatedCustomer) {
+        onSubmit(data);
+      } else {
+        Toast({
+          message:
+            'You entered an incorrect current password. Password change failed.',
+          status: 'error',
+        });
+      }
+    }
+  };
+
+  if (!isOpen) return null;
+
   return (
     <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
         <h2>Change Password</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <span className={clsx(styles['text-info'], styles['text-info-small'])}>
+          Note: After changing your password, you will be logged out and need to
+          log in again with your new password.
+        </span>
+        <form onSubmit={handleSubmit(handlePasswordChange)}>
           <div className={styles.inputWrapper}>
             <label htmlFor="currentPassword" className={styles.label}>
               <span>Current Password</span>
