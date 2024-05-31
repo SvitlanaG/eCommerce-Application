@@ -53,17 +53,18 @@
       font-family: Montserrat;
       font-weight: 600;
       line-height: 18px;
-      color: #F85A08;
+      color: #a83e05;
 
     }
     .discounted {
-      color: red;
+      color: rgb(173, 6, 6);
       text-decoration: line-through;
     }
     .prices {
       display: flex;
       flex-direction: row;
       column-gap: 10px;
+      font-size: 1.5rem;
     }
   }
 }
