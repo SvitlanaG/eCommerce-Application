@@ -35,6 +35,7 @@ const getBooks = async (): Promise<Product[]> => {
             ? el.masterVariant.assets[0].sources
             : [],
         key: resp.results[ind].key,
+        sku: el.masterVariant.sku,
       };
       return product;
     });

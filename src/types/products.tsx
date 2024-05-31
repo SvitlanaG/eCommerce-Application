@@ -12,6 +12,7 @@ export interface Product {
     fractionDigits: number;
   } | null;
   key: string;
+  sku: string;
 }
 
 export interface Book {
@@ -48,6 +49,7 @@ export interface StagedData {
   }[];
   description: { [locale: string]: string };
   masterVariant: {
+    sku: string;
     image: [];
     key: string;
     prices: Price[];
