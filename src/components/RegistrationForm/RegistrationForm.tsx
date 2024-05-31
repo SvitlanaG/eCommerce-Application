@@ -37,17 +37,18 @@ const RegistrationForm = () => {
     BY: /^[0-9]{6}$/,
     AM: /^[0-9]{4}$/,
   };
-  const watchBilling = watch('addressBilling.country');
-  const watchShipping = watch('addressShipping.country');
+
+  const watchShippingCountry = watch('addresses.0.country');
+  const watchBillingCountry = watch('addresses.1.country');
 
   useEffect(() => {
-    if (watchBilling) {
-      setPostalBillingPattern(countryPostalPatterns[watchBilling]);
+    if (watchShippingCountry) {
+      setPostalPattern(countryPostalPatterns[watchShippingCountry]);
     }
-    if (watchShipping) {
-      setPostalPattern(countryPostalPatterns[watchShipping]);
+    if (watchBillingCountry) {
+      setPostalBillingPattern(countryPostalPatterns[watchBillingCountry]);
     }
-  }, [watchShipping, watchBilling]);
+  }, [watchShippingCountry, watchBillingCountry]);
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     await registration(data, navigate);
@@ -57,29 +58,29 @@ const RegistrationForm = () => {
     }
   };
 
-  const [isShippingAddress, setIsShippingAddress] = useState(false);
-  const handleShippingAddress = () => {
-    setIsShippingAddress(!isShippingAddress);
+  const [isDefaultShippingAddress, setIsDefaultShippingAddress] =
+    useState(false);
+  const handleDefaultShippingAddress = () => {
+    setIsDefaultShippingAddress(!isDefaultShippingAddress);
   };
-  const [isDefaultAddressBilling, setIsDefaultAddressBilling] = useState(false);
 
-  const handleDefaultAddressBilling = () => {
-    setIsDefaultAddressBilling(!isDefaultAddressBilling);
+  const [isDefaultBillingAddress, setIsDefaultBillingAddress] = useState(false);
+  const handleDefaultBillingAddress = () => {
+    setIsDefaultBillingAddress(!isDefaultBillingAddress);
   };
+
   const [isBillingAddress, setIsBillingAddress] = useState(false);
-
   const handleBillingAddress = () => {
     setIsBillingAddress(!isBillingAddress);
-    setIsDefaultAddressBilling(false);
-    setValue('addressBilling.street', '', { shouldValidate: true });
-    setValue('addressBilling.city', '', { shouldValidate: true });
-    setValue('addressBilling.postalCode', '', { shouldValidate: true });
-    setValue('addressBilling.country', '', { shouldValidate: true });
+    setIsDefaultBillingAddress(false);
+    setValue('addresses.1.streetName', '', { shouldValidate: true });
+    setValue('addresses.1.city', '', { shouldValidate: true });
+    setValue('addresses.1.postalCode', '', { shouldValidate: true });
+    setValue('addresses.1.country', '', { shouldValidate: true });
   };
 
   const [showPassword, setShowPassword] = useState(false);
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
-
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -87,6 +88,7 @@ const RegistrationForm = () => {
   const handleShowConfirmPassword = () => {
     setIsConfirmPassword(!isConfirmPassword);
   };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <h3>Personal Information</h3>
@@ -143,6 +145,7 @@ const RegistrationForm = () => {
             <div className={styles.errorMessage}>{errors.lastName.message}</div>
           )}
         </label>
+
         <label htmlFor="dateOfBirth" className={styles.label}>
           <span>Date of birth *</span>
           <input
@@ -168,6 +171,7 @@ const RegistrationForm = () => {
           )}
         </label>
       </div>
+
       <h3>Sign-in Information</h3>
       <div className={styles.inputWrapper}>
         <label htmlFor="email" className={styles.label}>
@@ -239,7 +243,6 @@ const RegistrationForm = () => {
           <div className={styles.eye} onClick={handleShowConfirmPassword}>
             <img src={isConfirmPassword ? openEye : closedEye} alt="eye icon" />
           </div>
-
           {errors.confirmPassword && (
             <div className={styles.errorMessage}>
               {errors.confirmPassword.message}
@@ -247,19 +250,20 @@ const RegistrationForm = () => {
           )}
         </label>
       </div>
+
       <h3>Shipping Address</h3>
       <div className={styles.inputWrapper}>
-        <label htmlFor="country" className={styles.label}>
+        <label htmlFor="countryShipping" className={styles.label}>
           <span>Country *</span>
           <select
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.country && styles.error,
+              errors.addresses?.[0]?.country && styles.error,
             )}
-            id="country"
+            id="countryShipping"
             defaultValue=""
-            {...register('addressShipping.country', {
+            {...register('addresses.0.country', {
               required: 'This field is required',
             })}
           >
@@ -270,68 +274,74 @@ const RegistrationForm = () => {
             <option value="BY">Belarus</option>
             <option value="AM">Armenia</option>
           </select>
-          {errors.addressShipping?.country && (
+          {errors.addresses?.[0]?.country && (
             <div className={styles.errorMessage}>
-              {errors.addressShipping?.country.message}
+              {errors.addresses[0].country.message}
             </div>
           )}
         </label>
-        <label htmlFor="street" className={styles.label}>
+
+        <label htmlFor="streetShipping" className={styles.label}>
           <span>Street *</span>
           <input
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.street && styles.error,
+              errors.addresses?.[0]?.streetName && styles.error,
             )}
-            id="street"
+            id="streetShipping"
             type="text"
-            {...register('addressShipping.street', {
+            {...register('addresses.0.streetName', {
               required: 'This field is required',
+              pattern: {
+                value: /^[a-zA-Z0-9\s,'-]*$/,
+                message: 'Invalid street name',
+              },
             })}
           />
-          {errors.addressShipping?.street && (
+          {errors.addresses?.[0]?.streetName && (
             <div className={styles.errorMessage}>
-              {errors.addressShipping?.street.message}
+              {errors.addresses[0].streetName.message}
             </div>
           )}
         </label>
 
-        <label htmlFor="city" className={styles.label}>
+        <label htmlFor="cityShipping" className={styles.label}>
           <span>City *</span>
           <input
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.city && styles.error,
+              errors.addresses?.[0]?.city && styles.error,
             )}
-            id="city"
+            id="cityShipping"
             type="text"
-            {...register('addressShipping.city', {
+            {...register('addresses.0.city', {
               required: 'This field is required',
               pattern: {
-                value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
-                message: 'City must not contain special characters or numbers',
+                value: /^[a-zA-Z\s-]*$/,
+                message: 'Invalid city name',
               },
             })}
           />
-          {errors.addressShipping?.city && (
+          {errors.addresses?.[0]?.city && (
             <div className={styles.errorMessage}>
-              {errors.addressShipping?.city.message}
+              {errors.addresses[0].city.message}
             </div>
           )}
         </label>
-        <label htmlFor="code" className={styles.label}>
-          <span>Postal code *</span>
+
+        <label htmlFor="postalShipping" className={styles.label}>
+          <span>Postal Code *</span>
           <input
             className={clsx(
               styles['input-field'],
               styles['input-field-text'],
-              errors.addressShipping?.postalCode && styles.error,
+              errors.addresses?.[0]?.postalCode && styles.error,
             )}
-            id="code"
+            id="postalShipping"
             type="text"
-            {...register('addressShipping.postalCode', {
+            {...register('addresses.0.postalCode', {
               required: 'This field is required',
               pattern: postalPattern
                 ? {
@@ -341,9 +351,9 @@ const RegistrationForm = () => {
                 : undefined,
             })}
           />
-          {errors.addressShipping?.postalCode && (
+          {errors.addresses?.[0]?.postalCode && (
             <div className={styles.errorMessage}>
-              {errors.addressShipping?.postalCode.message}
+              {errors.addresses[0].postalCode.message}
             </div>
           )}
         </label>
@@ -353,10 +363,10 @@ const RegistrationForm = () => {
           className={styles['toggle-switch']}
         >
           <input
-            {...register('addressShipping.isDefaultAddress')}
+            {...register('addresses.0.isDefaultAddress')}
             type="checkbox"
-            checked={isShippingAddress}
-            onChange={handleShippingAddress}
+            checked={isDefaultShippingAddress}
+            onChange={handleDefaultShippingAddress}
             id="addressShipping.isDefaultAddress"
           />
           <span className={styles['toggle-slider']} />
@@ -370,7 +380,7 @@ const RegistrationForm = () => {
           className={styles['toggle-switch']}
         >
           <input
-            {...register('addressShipping.isBillingAddress')}
+            {...register('addresses.0.isBillingAddress')}
             type="checkbox"
             checked={isBillingAddress}
             onChange={handleBillingAddress}
@@ -393,11 +403,11 @@ const RegistrationForm = () => {
                 className={clsx(
                   styles['input-field'],
                   styles['input-field-text'],
-                  errors.addressBilling?.country && styles.error,
+                  errors.addresses?.[1]?.country && styles.error,
                 )}
                 id="countryBilling"
                 defaultValue=""
-                {...register('addressBilling.country', {
+                {...register('addresses.1.country', {
                   required: 'This field is required',
                 })}
               >
@@ -408,29 +418,34 @@ const RegistrationForm = () => {
                 <option value="BY">Belarus</option>
                 <option value="AM">Armenia</option>
               </select>
-              {errors.addressBilling?.country && (
+              {errors.addresses?.[1]?.country && (
                 <div className={styles.errorMessage}>
-                  {errors.addressBilling?.country.message}
+                  {errors.addresses[1].country.message}
                 </div>
               )}
             </label>
+
             <label htmlFor="streetBilling" className={styles.label}>
               <span>Street *</span>
               <input
                 className={clsx(
                   styles['input-field'],
                   styles['input-field-text'],
-                  errors.addressBilling?.street && styles.error,
+                  errors.addresses?.[1]?.streetName && styles.error,
                 )}
                 id="streetBilling"
                 type="text"
-                {...register('addressBilling.street', {
+                {...register('addresses.1.streetName', {
                   required: 'This field is required',
+                  pattern: {
+                    value: /^[a-zA-Z0-9\s,'-]*$/,
+                    message: 'Invalid street name',
+                  },
                 })}
               />
-              {errors.addressBilling?.street && (
+              {errors.addresses?.[1]?.streetName && (
                 <div className={styles.errorMessage}>
-                  {errors.addressBilling?.street.message}
+                  {errors.addresses[1].streetName.message}
                 </div>
               )}
             </label>
@@ -441,11 +456,11 @@ const RegistrationForm = () => {
                 className={clsx(
                   styles['input-field'],
                   styles['input-field-text'],
-                  errors.addressBilling?.city && styles.error,
+                  errors.addresses?.[1]?.city && styles.error,
                 )}
                 id="cityBilling"
                 type="text"
-                {...register('addressBilling.city', {
+                {...register('addresses.1.city', {
                   required: 'This field is required',
                   pattern: {
                     value: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
@@ -454,23 +469,24 @@ const RegistrationForm = () => {
                   },
                 })}
               />
-              {errors.addressBilling?.city && (
+              {errors.addresses?.[1]?.city && (
                 <div className={styles.errorMessage}>
-                  {errors.addressBilling?.city.message}
+                  {errors.addresses[1].city.message}
                 </div>
               )}
             </label>
-            <label htmlFor="codeBilling" className={styles.label}>
-              <span>Postal code *</span>
+
+            <label htmlFor="postalBilling" className={styles.label}>
+              <span>Postal Code *</span>
               <input
                 className={clsx(
                   styles['input-field'],
                   styles['input-field-text'],
-                  errors.addressBilling?.postalCode && styles.error,
+                  errors.addresses?.[1]?.postalCode && styles.error,
                 )}
-                id="codeBilling"
+                id="postalBilling"
                 type="text"
-                {...register('addressBilling.postalCode', {
+                {...register('addresses.1.postalCode', {
                   required: 'This field is required',
                   pattern: postalBillingPattern
                     ? {
@@ -480,9 +496,9 @@ const RegistrationForm = () => {
                     : undefined,
                 })}
               />
-              {errors.addressBilling?.postalCode && (
+              {errors.addresses?.[1]?.postalCode && (
                 <div className={styles.errorMessage}>
-                  {errors.addressBilling?.postalCode.message}
+                  {errors.addresses[1].postalCode.message}
                 </div>
               )}
             </label>
@@ -492,10 +508,10 @@ const RegistrationForm = () => {
               className={styles['toggle-switch']}
             >
               <input
-                {...register('addressBilling.isDefaultAddress')}
+                {...register('addresses.1.isDefaultAddress')}
                 type="checkbox"
-                checked={isDefaultAddressBilling}
-                onChange={handleDefaultAddressBilling}
+                checked={isDefaultBillingAddress}
+                onChange={handleDefaultBillingAddress}
                 id="addressBilling.isDefaultAddress"
               />
               <span className={styles['toggle-slider']} />
@@ -508,10 +524,10 @@ const RegistrationForm = () => {
       )}
 
       <button
-        className={clsx(styles['button-large'], styles['button-primary'])}
         type="submit"
+        className={clsx(styles['button-large'], styles['button-primary'])}
       >
-        Submit
+        Register
       </button>
 
       <div>Already have an account?</div>

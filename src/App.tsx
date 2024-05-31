@@ -6,6 +6,7 @@ import Catalog from '@/pages/CatalogPage/CatalogPage';
 import LoginPage from '@/pages/LoginPage/LoginPage';
 import RegistrationPage from '@/pages/RegistrationPage/RegistrationPage';
 import ErrorPage from '@/pages/ErrorPage/ErrorPage';
+import ProfilePage from '@/pages/ProfilePage/ProfilePage';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import styles from '@/App.module.scss';
@@ -28,6 +29,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />
               <Route path="*" element={<ErrorPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Routes>
           </div>
           <ToastContainer

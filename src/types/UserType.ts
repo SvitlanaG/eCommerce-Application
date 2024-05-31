@@ -1,5 +1,6 @@
-export type AddressShipping = {
-  street: string;
+export type Address = {
+  id: string;
+  streetName: string;
   city: string;
   postalCode: string;
   country: string;
@@ -7,23 +8,20 @@ export type AddressShipping = {
   isBillingAddress: boolean;
 };
 
-export type AddressBilling = {
-  street: string;
-  city: string;
-  postalCode: string;
-  country: string;
-  isDefaultAddress: boolean;
-};
-
 export type User = {
+  id: string;
+  version: number;
   email: string;
   password: string;
   confirmPassword?: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  addressShipping: AddressShipping;
-  addressBilling: AddressBilling;
+  addresses: Address[];
+  defaultShippingAddressId?: string;
+  defaultBillingAddressId?: string;
+  shippingAddressIds: string[];
+  billingAddressIds: string[];
   token?: string;
   isLoggedIn?: boolean;
 };
