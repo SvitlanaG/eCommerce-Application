@@ -3,20 +3,12 @@ import styles from '@/pages/MainPage/MainPage.module.scss';
 
 const Links = () => {
   return (
-    <>
-      <Link
-        to="/login"
-        className={`${styles['button-large']} ${styles['button-primary']}`}
-      >
-        Login
-      </Link>
-      <Link
-        to="/register"
-        className={`${styles['button-large']} ${styles['button-primary']}`}
-      >
-        Sign up
-      </Link>
-    </>
+    <Link
+      to="/catalog"
+      className={`${styles['button-large']} ${styles['button-primary']}`}
+    >
+      Catalog
+    </Link>
   );
 };
 
