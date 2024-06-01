@@ -56,7 +56,7 @@ const Books = ({ books }: { books: Product[] }) => {
           </div>
           <button
             type="submit"
-            className={clsx(styles['button-primary'], styles.btn)}
+            className={clsx(styles['button-small'], styles['button-primary'])}
           >
             Order
           </button>
