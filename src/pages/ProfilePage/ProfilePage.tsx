@@ -12,16 +12,19 @@ import AddressForm from '@/components/AddressForm/AddressForm';
 import validateAge from '@/helpers/validateAge';
 import Toast from '@/helpers/Toast';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+import updateCustomerData from '@/services/updateCustomer';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (!localStorage.getItem('userAccessToken')) {
       setTimeout(() => navigate('/login'), 300);
       Toast({ message: 'You are not logged in', status: 'error' });
     }
   }, [navigate]);
+
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
   const handleOpenModal = () => {
@@ -30,11 +33,13 @@ const ProfilePage = () => {
   const handleCloseModal = () => {
     setIsChangePasswordModalOpen(false);
   };
+
   const logOut = () => {
     localStorage.removeItem('userAccessToken');
     dispatch(setLoggedIn());
     navigate('/login');
   };
+
   const handleChangePasswordSubmit = () => {
     handleCloseModal();
     logOut();
@@ -44,6 +49,7 @@ const ProfilePage = () => {
       status: 'success',
     });
   };
+
   const [customer, setCustomer] = useState<User | null>(null);
   const {
     register,
@@ -64,14 +70,49 @@ const ProfilePage = () => {
     });
   }, [setValue]);
 
-  const onSubmit: SubmitHandler<User> = (/* data */) => {
-    // Handle form submission
+  const handleUpdateCustomer = async (data: User) => {
+    if (customer) {
+      const updateData = {
+        id: customer.id,
+        version: customer.version,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        dateOfBirth: data.dateOfBirth,
+        email: data.email,
+      };
+
+      const updatedUser = await updateCustomerData(updateData);
+
+      if (updatedUser) {
+        setCustomer(updatedUser);
+        Toast({
+          message: 'Customer data updated successfully',
+          status: 'success',
+        });
+      } else {
+        Toast({ message: 'Failed to update customer data', status: 'error' });
+      }
+    }
   };
 
   const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
-
   const editPersonalInfo = () => {
     setIsEditModePersonalInfo(!isEditModePersonalInfo);
+  };
+
+  const handleCancel = () => {
+    if (customer) {
+      setValue('email', customer.email);
+      setValue('firstName', customer.firstName);
+      setValue('lastName', customer.lastName);
+      setValue('dateOfBirth', customer.dateOfBirth);
+    }
+    setIsEditModePersonalInfo(false);
+  };
+
+  const onSubmit: SubmitHandler<User> = (data) => {
+    handleUpdateCustomer(data);
+    setIsEditModePersonalInfo(false);
   };
 
   const getAddressType = (addressId: string) => {
@@ -89,7 +130,6 @@ const ProfilePage = () => {
   return (
     <div className={styles.registration}>
       <h2>Your Profile</h2>
-      {/* <pre>{JSON.stringify(customer, null, 2)}</pre> */}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
         <div className={stylesProfile.inputWrapper}>
@@ -198,13 +238,37 @@ const ProfilePage = () => {
           </label>
 
           <span />
-          <button
-            className={clsx(styles['button-small'], styles['button-primary'])}
-            type="button"
-            onClick={editPersonalInfo}
-          >
-            Edit
-          </button>
+          {!isEditModePersonalInfo ? (
+            <button
+              className={clsx(styles['button-small'], styles['button-primary'])}
+              type="button"
+              onClick={editPersonalInfo}
+            >
+              Edit
+            </button>
+          ) : (
+            <div className={stylesProfile.buttons}>
+              <button
+                className={clsx(
+                  styles['button-small'],
+                  styles['button-secondary'],
+                )}
+                type="button"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+              <button
+                className={clsx(
+                  styles['button-small'],
+                  styles['button-primary'],
+                )}
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          )}
         </div>
       </form>
 
