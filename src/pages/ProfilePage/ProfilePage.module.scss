@@ -17,6 +17,10 @@
   & > :last-child {
     justify-self: end;
   }
+  .buttons > button {
+    margin-left: 1rem;
+  }
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }

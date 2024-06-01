@@ -15,28 +15,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 2px solid #F85A08;
+    border-bottom: 2px solid $orange-color;
   }
   .categoryBtn:hover {
-    color: #F85A08;
+    color: $orange-color;
     cursor: pointer;
   }
-  .list li{
+  .list li {
     margin: 10px;
     cursor: pointer;
   }
-  .list li:hover{
-    color: #F85A08;
+  .list li:hover {
+    color: $orange-color;
   }
 }
 .main-div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  row-gap: 5px;
+  row-gap: 1rem;
+  margin: 2rem 0;
   .img {
-    width: 10rem;
-    height: 12rem;
+    width: 100%;
+    height: 20rem;
     border-radius: 10px;
   }
   .imageDiv {
@@ -46,19 +47,16 @@
     justify-content: space-between;
     width: 15rem;
     gap: 15px;
-    .btn {
-      width: 80%;
-    }
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+
     .price {
-
-      font-family: Montserrat;
-      font-weight: 600;
-      line-height: 18px;
-      color: #a83e05;
-
+      @extend .text-subtitle;
+      color: $dark-color;
     }
     .discounted {
-      color: rgb(173, 6, 6);
+      color: $accent-color;
       text-decoration: line-through;
     }
     .prices {
@@ -86,24 +84,24 @@
     width: 100%;
     .sortContainer {
       display: flex;
-      justify-content:center;
+      justify-content: center;
       position: absolute;
       right: 0;
-      .sortIcon{
+      .sortIcon {
         position: absolute;
         left: 0;
-        color: #a7a7a7;
+        color: $gray-40;
       }
     }
-    .sort{
-      border: 1px solid #a7a7a7;
+    .sort {
+      border: 1px solid $gray-40;
       border-radius: 10px;
       background-color: white;
       width: 100px;
       height: 30px;
       position: relative;
       text-align: center;
-      color: #a7a7a7;
+      color: $gray-40;
       img {
         width: 200px;
         height: 50px;
@@ -112,12 +110,11 @@
     input {
       align-self: center;
       border-radius: 20px;
-      border: 3px solid #ECEDEE;
+      border: 3px solid #ecedee;
       width: 20rem;
       height: 30px;
     }
   }
-
 }
 @media (max-width: 500px) {
   .main-div {
