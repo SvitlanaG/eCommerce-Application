@@ -1,4 +1,4 @@
-import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserPlus, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clsx } from 'clsx';
@@ -79,17 +79,37 @@ const Header = () => {
             </div>
           </nav>
         ) : (
-          <div className={styles.logOut} onClick={logOut}>
-            <div
-              className={clsx(
-                styles['button-icon'],
-                styles['button-icon-secondary'],
-              )}
-            >
-              <FaSignOutAlt />
+          <nav className="flex flex-fd-row">
+            <div className={styles.login}>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.inactive
+                }
+              >
+                <div
+                  className={clsx(
+                    styles['button-icon'],
+                    styles['button-icon-secondary'],
+                  )}
+                >
+                  <FaUser />
+                </div>
+                <p className="text-button text-button-small">Profile</p>
+              </NavLink>
             </div>
-            <p className="text-button text-button-small">LogOut</p>
-          </div>
+            <div className={styles.login} onClick={logOut}>
+              <div
+                className={clsx(
+                  styles['button-icon'],
+                  styles['button-icon-secondary'],
+                )}
+              >
+                <FaSignOutAlt />
+              </div>
+              <p className="text-button text-button-small">LogOut</p>
+            </div>
+          </nav>
         )}
       </div>
     </header>

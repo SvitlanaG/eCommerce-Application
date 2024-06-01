@@ -93,23 +93,25 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       'Authorization',
       `Bearer ${localStorage.getItem('visitorIdentifier')}`,
     );
+
+    // Prepare shipping and billing addresses
     const shipping = {
-      country: data.addressShipping.country,
-      streetName: data.addressShipping.street,
-      city: data.addressShipping.city,
-      postalCode: data.addressShipping.postalCode,
+      country: data.addresses[0].country,
+      streetName: data.addresses[0].streetName,
+      city: data.addresses[0].city,
+      postalCode: data.addresses[0].postalCode,
+      isDefaultAddress: data.addresses[0].isDefaultAddress,
     };
     let billing = null;
-    let isDefault = data.addressBilling?.isDefaultAddress;
-    if (data.addressShipping.isBillingAddress) {
-      billing = shipping;
-      isDefault = data.addressShipping?.isDefaultAddress;
+    if (data.addresses[0].isBillingAddress) {
+      billing = { ...shipping };
     } else {
       billing = {
-        country: data.addressBilling.country,
-        streetName: data.addressBilling.street,
-        city: data.addressBilling.city,
-        postalCode: data.addressBilling.postalCode,
+        country: data.addresses[1].country,
+        streetName: data.addresses[1].streetName,
+        city: data.addresses[1].city,
+        postalCode: data.addresses[1].postalCode,
+        isDefaultAddress: data.addresses[1].isDefaultAddress,
       };
     }
     const raw = JSON.stringify({
@@ -118,14 +120,13 @@ export const registration = async (data: User, navigate: NavigateFunction) => {
       lastName: data.lastName,
       password: data.password,
       dateOfBirth: data.dateOfBirth,
-      addresses: [billing, shipping],
-      billingAddresses: [0],
-      shippingAddresses: [1],
-
-      defaultBillingAddress: isDefault ? 0 : undefined,
-      defaultShippingAddress: data.addressShipping?.isDefaultAddress
-        ? 1
+      addresses: [shipping, billing],
+      shippingAddresses: [0],
+      billingAddresses: [1],
+      defaultShippingAddress: data.addresses[0].isDefaultAddress
+        ? 0
         : undefined,
+      defaultBillingAddress: data.addresses[1].isDefaultAddress ? 1 : undefined,
     });
     const requestOptions = {
       method: 'POST',

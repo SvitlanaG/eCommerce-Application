@@ -1,22 +1,31 @@
 @import '@/index.scss';
 @import '@/styles/components/buttons.module.scss';
 
-.container {
+.wrapper {
   display: flex;
-  width: 100%;
-  height: 200px;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  height: 70vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
-.bookImg {
-  width: 58px;
-  height: 58px;
+.image,
+.content {
+  flex: 1;
+  flex-basis: 0;
 }
 
-.msg {
-  font-size: 2rem;
+.image img {
+  max-width: 100%;
+  height: auto;
+}
+.content {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+}
+
+.content * {
+  margin-bottom: 2rem;
 }

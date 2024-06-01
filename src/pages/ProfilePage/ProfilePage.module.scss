@@ -1,0 +1,27 @@
+@import '@/index.scss';
+@import '@/styles/components/inputs.module.scss';
+@import '@/styles/components/buttons.module.scss';
+@import '@/styles/components/toggleswitch.module.scss';
+
+.inputWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+  border: 1px solid $gray-20;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+
+  & > :last-child {
+    justify-self: end;
+  }
+  .buttons > button {
+    margin-left: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}

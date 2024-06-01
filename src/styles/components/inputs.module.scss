@@ -34,16 +34,17 @@
 
 .input-field:hover,
 .input-field:focus {
-  border-bottom: 2px solid $orange-color;
+  border-bottom: 2px solid $hover-color;
 }
 .input-field:focus-visible {
-  outline-color: $orange-color;
+  outline-color: $hover-color;
 }
 
 /* Style for disabled input */
 .input-field[disabled] {
-  color: $gray-40;
+  color: $gray-70;
   cursor: not-allowed;
+  border-color: transparent;
 }
 
 /* Style for error state */
