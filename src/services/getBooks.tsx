@@ -1,4 +1,4 @@
-import { Book, Data, Product, StagedData } from '@/types/products';
+import { Book, Data, Product } from '@/types/products';
 
 const getBooks = async (): Promise<Product[]> => {
   try {
@@ -16,12 +16,12 @@ const getBooks = async (): Promise<Product[]> => {
 
     const resp: Data = await (
       await fetch(
-        `${import.meta.env.VITE_CTP_API_URL}/rssecommercefinal/products`,
+        `${import.meta.env.VITE_CTP_API_URL}/rssecommercefinal/product-projections`,
         requestOptions,
       )
     ).json();
-    const staged = resp.results.map((el: Book) => el.masterData.staged);
-    const products: Product[] = staged.map((el: StagedData, ind: number) => {
+    console.log(resp);
+    const products: Product[] = resp.results.map((el: Book, ind: number) => {
       const product: Product = {
         categories: el.categories,
         description: el.description,
