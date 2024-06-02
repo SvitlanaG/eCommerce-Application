@@ -25,7 +25,7 @@ const Categories = ({ onSetBooks }: PropsCategories) => {
                 <span
                   onClick={async () => {
                     onSetBooks(
-                      (await getBooks(false)).filter((book) =>
+                      (await getBooks(false, false)).filter((book) =>
                         book.categories.some(
                           (category) => category.id === item.id,
                         ),

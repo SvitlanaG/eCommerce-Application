@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
@@ -15,13 +15,31 @@ const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    getBooks(false).then((products) => setBooks(products));
+    getBooks(false, false).then((products) => setBooks(products));
   }, []);
+  const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
+    if (ev.target.name === 'langauge') {
+      setBooks(
+        (await getBooks(false, false)).filter((book) =>
+          Object.keys(book.name).includes(ev.target.value),
+        ),
+      );
+    } else if (ev.target.name === 'price') {
+      setBooks(
+        await getBooks(
+          false,
+          true,
+          'variants.price.centAmount',
+          `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : +(ev.target.value + 30) * 100})`,
+        ),
+      );
+    }
+  };
 
   const sortBooks = async (criteria: string) => {
     if (criteria === 'priceAsc') {
       setBooks(
-        (await getBooks(true, 'price', 'asc')).filter((book) => {
+        (await getBooks(true, false, 'price', 'asc')).filter((book) => {
           const key = books.find((el) => el.key === book.key)?.key;
           if (key) {
             return key === book.key;
@@ -31,7 +49,7 @@ const CatalogPage = () => {
       );
     } else if (criteria === 'priceDesc') {
       setBooks(
-        (await getBooks(true, 'price', 'desc')).filter((book) => {
+        (await getBooks(true, false, 'price', 'desc')).filter((book) => {
           const key = books.find((el) => el.key === book.key)?.key;
           if (key) {
             return key === book.key;
@@ -42,7 +60,7 @@ const CatalogPage = () => {
     }
     if (criteria === 'name') {
       setBooks(
-        (await getBooks(true, 'name.en-US', 'asc')).filter((book) => {
+        (await getBooks(true, false, 'name.en-US', 'asc')).filter((book) => {
           const key = books.find((el) => el.key === book.key)?.key;
           if (key) {
             return key === book.key;
@@ -72,7 +90,7 @@ const CatalogPage = () => {
               className={styles.searchInput}
               onChange={async (e) => {
                 setBooks(
-                  (await getBooks(false)).filter((book) =>
+                  (await getBooks(false, false)).filter((book) =>
                     book.name['en-GB']
                       .toLowerCase()
                       .includes(e.target.value.toLowerCase()),
@@ -104,11 +122,11 @@ const CatalogPage = () => {
               <span className={clsx(styles.filter)}>filter</span>
               <img src={filter} alt="" className={clsx(styles.sortIcon)} />
             </div>
-            <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
-              <Prices />
-              <Languages />
-            </div>
           </div>
+        </div>
+        <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
+          <Prices handleChange={handleChange} />
+          <Languages handleChange={handleChange} />
         </div>
         <Books books={books} />
       </div>

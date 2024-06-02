@@ -101,31 +101,11 @@
       align-items: center;
       gap: 5px;
       cursor: pointer;
-      .details {
-        position: fixed;
-        right: 0;
-        top: 150px;
-        margin: 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .details > div> p{
-        text-align: center;
-        font-size: 1.3rem;
-        color: $orange-color;
-      }
-      .details > div>ul > li{
-        margin: 20px;
-      }
       .filterButtons{
         display: flex;
         flex-direction: row;
         align-items: center;
       }
-      .hidden {
-        display: none;
-      };
       // color: $gray-40;
     }
     .sort {
@@ -150,6 +130,26 @@
       height: 30px;
     }
   }
+  .details {
+    position: absolute;
+    right: 0;
+    top: 150px;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .details > div> p{
+    text-align: center;
+    font-size: 1.3rem;
+    color: $orange-color;
+  }
+  .details > div>ul > li{
+    margin: 20px;
+  }
+  .hidden {
+    display: none;
+  };
 }
 @media (max-width: 500px) {
   .main-div {
