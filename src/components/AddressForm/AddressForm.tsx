@@ -119,7 +119,8 @@ const AddressForm = ({
     }
   };
 
-  const editAddress = () => {
+  const editAddress = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
     setIsEditModeAddress(!isEditModeAddress);
   };
 
