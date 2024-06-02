@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import { Product } from '@/types/products';
 import { getDiscounts } from '@/services/catalog';
+import imageDefault from '@/assets/img/imageDefault.png';
 
 const Books = ({ books }: { books: Product[] }) => {
   const [discounted, setDiscounted] = useState<
@@ -29,6 +30,9 @@ const Books = ({ books }: { books: Product[] }) => {
         <div key={book.key} className={styles.imageDiv}>
           <img
             src={book.assetSources[0].uri}
+            onError={(ev) => {
+              ev.currentTarget.src = imageDefault;
+            }}
             alt="book"
             className={styles.img}
           />
