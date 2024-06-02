@@ -6,6 +6,7 @@ import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesAddress from '@/components/AddressForm/AddressForm.module.scss';
 import { Address, User } from '@/types/UserType';
 import removeAddress from '@/services/removeAddress';
+import changeAddress from '@/services/changeAddress';
 import Toast from '@/helpers/Toast';
 
 interface AddressFormProps {
@@ -13,6 +14,7 @@ interface AddressFormProps {
   initialValues: Address;
   addressTypes: string[];
   defaultAddresses: string[];
+  onChangeAddress: () => void;
 }
 
 interface OptionType {
@@ -25,6 +27,7 @@ const AddressForm = ({
   initialValues,
   addressTypes = [],
   defaultAddresses = [],
+  onChangeAddress,
 }: AddressFormProps) => {
   const {
     register,
@@ -86,15 +89,37 @@ const AddressForm = ({
   }, []);
 
   const onSubmit: SubmitHandler<Address> = async (data) => {
-    // Handle form submission
     data.addressTypes = selectedAddressTypes.map((option) => option.value);
     data.defaultAddresses = selectedDefaultAddresses.map(
       (option) => option.value,
     );
-    console.log(data);
+
+    const updatedUser = await changeAddress({
+      customerId: customer.id,
+      version: customer.version,
+      addressId: initialValues.id,
+      address: {
+        streetName: data.streetName,
+        postalCode: data.postalCode,
+        city: data.city,
+        country: data.country,
+      },
+    });
+
+    onChangeAddress();
+
+    if (updatedUser) {
+      Toast({
+        message: 'Address changed successfully',
+        status: 'success',
+      });
+      setIsEditModeAddress(false);
+    } else {
+      Toast({ message: 'Failed to change address', status: 'error' });
+    }
   };
 
-  const handleEditAddress = () => {
+  const editAddress = () => {
     setIsEditModeAddress(!isEditModeAddress);
   };
 
@@ -117,6 +142,7 @@ const AddressForm = ({
       version,
       addressId,
     });
+    onChangeAddress();
     if (updatedUser) {
       Toast({
         message: 'Address removed successfully',
@@ -275,7 +301,7 @@ const AddressForm = ({
             <button
               className={clsx(styles['button-small'], styles['button-primary'])}
               type="button"
-              onClick={handleEditAddress}
+              onClick={editAddress}
             >
               Edit
             </button>

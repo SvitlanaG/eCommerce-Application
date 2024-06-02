@@ -17,24 +17,44 @@ import updateCustomerData from '@/services/updateCustomer';
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [customer, setCustomer] = useState<User | null>(null);
+  const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    clearErrors,
+    formState: { errors },
+  } = useForm<User>({ mode: 'onChange' });
 
   useEffect(() => {
     if (!localStorage.getItem('userAccessToken')) {
       setTimeout(() => navigate('/login'), 300);
       Toast({ message: 'You are not logged in', status: 'error' });
+    } else {
+      getCustomer().then((data) => {
+        if (data) {
+          setCustomer(data);
+          setValue('email', data.email);
+          setValue('firstName', data.firstName);
+          setValue('lastName', data.lastName);
+          setValue('dateOfBirth', data.dateOfBirth);
+        }
+      });
     }
-  }, [navigate]);
-
-  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
-    useState(false);
-  const handleOpenModal = () => setIsChangePasswordModalOpen(true);
-  const handleCloseModal = () => setIsChangePasswordModalOpen(false);
+  }, [navigate, setValue]);
 
   const logOut = () => {
     localStorage.removeItem('userAccessToken');
     dispatch(setLoggedIn());
     navigate('/login');
   };
+
+  const handleOpenModal = () => setIsChangePasswordModalOpen(true);
+  const handleCloseModal = () => setIsChangePasswordModalOpen(false);
 
   const handleChangePasswordSubmit = () => {
     handleCloseModal();
@@ -45,27 +65,6 @@ const ProfilePage = () => {
       status: 'success',
     });
   };
-
-  const [customer, setCustomer] = useState<User | null>(null);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    clearErrors,
-    formState: { errors },
-  } = useForm<User>({ mode: 'onChange' });
-
-  useEffect(() => {
-    getCustomer().then((data) => {
-      if (data) {
-        setCustomer(data);
-        setValue('email', data.email);
-        setValue('firstName', data.firstName);
-        setValue('lastName', data.lastName);
-        setValue('dateOfBirth', data.dateOfBirth);
-      }
-    });
-  }, [setValue]);
 
   const handleUpdateCustomer = async (data: User) => {
     if (customer) {
@@ -92,7 +91,6 @@ const ProfilePage = () => {
     }
   };
 
-  const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
   const editPersonalInfo = () =>
     setIsEditModePersonalInfo(!isEditModePersonalInfo);
 
@@ -127,6 +125,14 @@ const ProfilePage = () => {
     if (customer?.defaultBillingAddressId === addressId)
       addresses.push('defaultBilling');
     return addresses;
+  };
+
+  const onChangeAddress = () => {
+    getCustomer().then((data) => {
+      if (data) {
+        setCustomer(data);
+      }
+    });
   };
 
   return (
@@ -298,6 +304,7 @@ const ProfilePage = () => {
               initialValues={address}
               addressTypes={getAddressTypes(address.id)}
               defaultAddresses={getDefaultAddresses(address.id)}
+              onChangeAddress={onChangeAddress}
             />
           </div>
         ))}
