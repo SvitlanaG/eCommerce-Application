@@ -87,6 +87,12 @@
   }
 }
 
+.button-delete {
+  @extend .button-secondary;
+  background-color: $accent-color;
+  color: $white-color;
+}
+
 .link {
   @extend .text-button, .text-button-small;
   text-decoration: none;

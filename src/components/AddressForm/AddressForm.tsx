@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { clsx } from 'clsx';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Select from 'react-select';
@@ -11,8 +11,8 @@ import Toast from '@/helpers/Toast';
 interface AddressFormProps {
   customer: User;
   initialValues: Address;
-  addressTypes?: string[];
-  defaultAddresses?: string[];
+  addressTypes: string[];
+  defaultAddresses: string[];
 }
 
 interface OptionType {
@@ -23,13 +23,14 @@ interface OptionType {
 const AddressForm = ({
   customer,
   initialValues,
-  addressTypes,
-  defaultAddresses,
+  addressTypes = [],
+  defaultAddresses = [],
 }: AddressFormProps) => {
   const {
     register,
     handleSubmit,
     setValue,
+    clearErrors,
     formState: { errors },
     watch,
   } = useForm<Address>({ mode: 'onChange', defaultValues: initialValues });
@@ -56,13 +57,21 @@ const AddressForm = ({
   const findOption = (options: OptionType[], value: string) =>
     options.find((option) => option.value === value);
 
-  const initialSelectedAddressTypes = addressTypes
-    ?.map((type) => findOption(optionsAddressType, type))
-    .filter(Boolean) as OptionType[];
+  const initialSelectedAddressTypes = useMemo(
+    () =>
+      addressTypes
+        ?.map((type) => findOption(optionsAddressType, type))
+        .filter(Boolean) as OptionType[],
+    [addressTypes],
+  );
 
-  const initialSelectedDefaultAddresses = defaultAddresses
-    ?.map((type) => findOption(optionsAddressDefault, type))
-    .filter(Boolean) as OptionType[];
+  const initialSelectedDefaultAddresses = useMemo(
+    () =>
+      defaultAddresses
+        ?.map((type) => findOption(optionsAddressDefault, type))
+        .filter(Boolean) as OptionType[],
+    [defaultAddresses],
+  );
 
   const [selectedAddressTypes, setSelectedAddressTypes] = useState<
     OptionType[]
@@ -74,7 +83,7 @@ const AddressForm = ({
   useEffect(() => {
     setSelectedAddressTypes(initialSelectedAddressTypes);
     setSelectedDefaultAddresses(initialSelectedDefaultAddresses);
-  }, [initialSelectedAddressTypes, initialSelectedDefaultAddresses]);
+  }, []);
 
   const onSubmit: SubmitHandler<Address> = async (data) => {
     // Handle form submission
@@ -90,9 +99,14 @@ const AddressForm = ({
   };
 
   const handleCancel = () => {
+    setValue('country', initialValues.country);
+    setValue('city', initialValues.city);
+    setValue('postalCode', initialValues.postalCode);
+    setValue('streetName', initialValues.streetName);
     setSelectedAddressTypes(initialSelectedAddressTypes);
     setSelectedDefaultAddresses(initialSelectedDefaultAddresses);
     setIsEditModeAddress(false);
+    clearErrors();
   };
 
   const handleDeleteAddress = async (addressId: string) => {
@@ -252,10 +266,7 @@ const AddressForm = ({
         {!isEditModeAddress ? (
           <div className={stylesAddress.buttons}>
             <button
-              className={clsx(
-                styles['button-small'],
-                styles['button-secondary'],
-              )}
+              className={clsx(styles['button-small'], styles['button-delete'])}
               type="button"
               onClick={() => handleDeleteAddress(initialValues.id)}
             >
@@ -296,11 +307,6 @@ const AddressForm = ({
       </div>
     </form>
   );
-};
-
-AddressForm.defaultProps = {
-  addressTypes: [],
-  defaultAddresses: [],
 };
 
 export default AddressForm;
