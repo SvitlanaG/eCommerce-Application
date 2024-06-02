@@ -14,23 +14,39 @@ import Languages from '@/components/Catalog/Languages';
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
   const [visible, setVisible] = useState(false);
+  const [category, setCategory] = useState('');
+  const [language, setLanguage] = useState('');
+  const [priceRange, setPriceRange] = useState<number | null>(null);
   useEffect(() => {
     getBooks(false, false).then((products) => setBooks(products));
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target.name === 'langauge') {
+      setLanguage(ev.target.value);
+      let url;
+      if (category !== '') {
+        url = `:"${category}"${priceRange ? `&filter=variants.price.centAmount:range(${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})` : ''}`;
+      } else if (priceRange)
+        url = `variants.price.centAmount:range (${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})`;
+      else url = '';
       setBooks(
-        (await getBooks(false, false)).filter((book) =>
-          Object.keys(book.name).includes(ev.target.value),
-        ),
+        (
+          await getBooks(
+            false,
+            Boolean(category) || Boolean(priceRange),
+            `${category ? 'categories.id' : ''}`,
+            url,
+          )
+        ).filter((book) => Object.keys(book.name).includes(ev.target.value)),
       );
     } else if (ev.target.name === 'price') {
+      setPriceRange(+ev.target.value);
       setBooks(
         await getBooks(
           false,
           true,
           'variants.price.centAmount',
-          `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})`,
+          `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
         ),
       );
     }
@@ -77,7 +93,12 @@ const CatalogPage = () => {
 
   return (
     <div className={styles.container} data-testid="catalog-container">
-      <Categories onSetBooks={(value: Product[]) => setBooks(value)} />
+      <Categories
+        language={language}
+        priceRange={priceRange}
+        onSetCategory={(value: string) => setCategory(value)}
+        onSetBooks={(value: Product[]) => setBooks(value)}
+      />
       <div className={styles['input-div']}>
         <div className={clsx(styles['search-sort'])}>
           <span>

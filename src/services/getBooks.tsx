@@ -24,6 +24,7 @@ const getBooks = async (
     else if (filter)
       url = `rssecommercefinal/product-projections/search?filter=${value} ${parameter}`;
 
+    console.log(url);
     const resp: Data = await (
       await fetch(`${import.meta.env.VITE_CTP_API_URL}/${url}`, requestOptions)
     ).json();
