@@ -42,12 +42,16 @@ const CatalogPage = () => {
     } else if (ev.target.name === 'price') {
       setPriceRange(+ev.target.value);
       setBooks(
-        await getBooks(
-          false,
-          true,
-          'variants.price.centAmount',
-          `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
-        ),
+        (
+          await getBooks(
+            false,
+            true,
+            'variants.price.centAmount',
+            `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
+          )
+        ).filter((book) => {
+          return language ? Object.keys(book.name).includes(language) : true;
+        }),
       );
     }
   };
