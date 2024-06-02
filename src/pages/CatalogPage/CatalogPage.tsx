@@ -30,7 +30,7 @@ const CatalogPage = () => {
           false,
           true,
           'variants.price.centAmount',
-          `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : +(ev.target.value + 30) * 100})`,
+          `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})`,
         ),
       );
     }
