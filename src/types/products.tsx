@@ -17,9 +17,19 @@ export interface Product {
 
 export interface Book {
   key: string;
-  masterData: {
-    staged: StagedData;
+  categories: {
+    typeId: string;
+    id: string;
+  }[];
+  description: { [locale: string]: string };
+  masterVariant: {
+    sku: string;
+    image: [];
+    key: string;
+    prices: Price[];
+    assets: Asset[];
   };
+  name: { [locale: string]: string };
 }
 
 export interface Price {
@@ -40,22 +50,6 @@ export interface Asset {
   name: { [locale: string]: string };
   sources: { uri: string }[];
   tags: string[];
-}
-
-export interface StagedData {
-  categories: {
-    typeId: string;
-    id: string;
-  }[];
-  description: { [locale: string]: string };
-  masterVariant: {
-    sku: string;
-    image: [];
-    key: string;
-    prices: Price[];
-    assets: Asset[];
-  };
-  name: { [locale: string]: string };
 }
 
 export interface Data {

@@ -82,22 +82,57 @@
     justify-content: center;
     position: relative;
     width: 100%;
+    gap: 10px;
     .sortContainer {
       display: flex;
       justify-content: center;
-      position: absolute;
-      right: 0;
+      position: relative;
       .sortIcon {
         position: absolute;
         left: 0;
         color: $gray-40;
       }
     }
+    .filterDiv {
+      display: flex;
+      position: absolute;
+      right: 0;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      .details {
+        position: fixed;
+        right: 0;
+        top: 150px;
+        margin: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .details > div> p{
+        text-align: center;
+        font-size: 1.3rem;
+        color: $orange-color;
+      }
+      .details > div>ul > li{
+        margin: 20px;
+      }
+      .filterButtons{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .hidden {
+        display: none;
+      };
+      // color: $gray-40;
+    }
     .sort {
       border: 1px solid $gray-40;
+      width: 10rem;
       border-radius: 10px;
       background-color: white;
-      width: 100px;
       height: 30px;
       position: relative;
       text-align: center;
@@ -107,7 +142,7 @@
         height: 50px;
       }
     }
-    input {
+    .searchInput {
       align-self: center;
       border-radius: 20px;
       border: 3px solid #ecedee;
