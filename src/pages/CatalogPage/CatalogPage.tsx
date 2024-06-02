@@ -7,9 +7,13 @@ import Search from '@/assets/icons/search.svg';
 import Categories from '@/components/Catalog/Categories';
 import Books from '@/components/Catalog/Books';
 import sortAscending from '@/assets/icons/sortAscending.svg';
+import filter from '@/assets/icons/filter.svg';
+import Prices from '@/components/Catalog/Prices';
+import Languages from '@/components/Catalog/Languages';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     getBooks(false).then((products) => setBooks(products));
   }, []);
@@ -65,6 +69,7 @@ const CatalogPage = () => {
               className={`${styles['input-img']} ${styles.search}`}
             />
             <input
+              className={styles.searchInput}
               onChange={async (e) => {
                 setBooks(
                   (await getBooks(false)).filter((book) =>
@@ -91,6 +96,19 @@ const CatalogPage = () => {
             </select>
             <img src={sortAscending} alt="" className={clsx(styles.sortIcon)} />
           </span>
+          <div className={clsx(styles.filterDiv)}>
+            <div
+              className={clsx(styles.filterButtons)}
+              onClick={() => setVisible(!visible)}
+            >
+              <span className={clsx(styles.filter)}>filter</span>
+              <img src={filter} alt="" className={clsx(styles.sortIcon)} />
+            </div>
+            <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
+              <Prices />
+              <Languages />
+            </div>
+          </div>
         </div>
         <Books books={books} />
       </div>
