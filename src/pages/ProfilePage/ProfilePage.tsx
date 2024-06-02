@@ -294,6 +294,7 @@ const ProfilePage = () => {
           <div key={address.id}>
             <h4>My Address Nr: {index + 1}</h4>
             <AddressForm
+              customer={customer}
               initialValues={address}
               addressTypes={getAddressTypes(address.id)}
               defaultAddresses={getDefaultAddresses(address.id)}

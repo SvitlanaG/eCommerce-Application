@@ -4,9 +4,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Select from 'react-select';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesAddress from '@/components/AddressForm/AddressForm.module.scss';
-import { Address } from '@/types/UserType';
+import { Address, User } from '@/types/UserType';
+import removeAddress from '@/services/removeAddress';
+import Toast from '@/helpers/Toast';
 
 interface AddressFormProps {
+  customer: User;
   initialValues: Address;
   addressTypes?: string[];
   defaultAddresses?: string[];
@@ -18,6 +21,7 @@ interface OptionType {
 }
 
 const AddressForm = ({
+  customer,
   initialValues,
   addressTypes,
   defaultAddresses,
@@ -91,9 +95,22 @@ const AddressForm = ({
     setIsEditModeAddress(false);
   };
 
-  const handleDeleteAddresse = () => {
-    // delete logic
-    console.log('Address deleted');
+  const handleDeleteAddress = async (addressId: string) => {
+    const customerId = customer.id;
+    const { version } = customer;
+    const updatedUser = await removeAddress({
+      customerId,
+      version,
+      addressId,
+    });
+    if (updatedUser) {
+      Toast({
+        message: 'Address removed successfully',
+        status: 'success',
+      });
+    } else {
+      Toast({ message: 'Failed to remove address', status: 'error' });
+    }
   };
 
   return (
@@ -240,7 +257,7 @@ const AddressForm = ({
                 styles['button-secondary'],
               )}
               type="button"
-              onClick={handleDeleteAddresse}
+              onClick={() => handleDeleteAddress(initialValues.id)}
             >
               Delete
             </button>
