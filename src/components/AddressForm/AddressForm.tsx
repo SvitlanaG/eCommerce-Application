@@ -1,21 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Select from 'react-select';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import stylesAddress from '@/components/AddressForm/AddressForm.module.scss';
 import { Address } from '@/types/UserType';
 
 interface AddressFormProps {
-  addressType: 'shipping' | 'billing';
-  // eslint-disable-next-line react/require-default-props
-  initialValues?: Address;
-  isDefaultAddress: boolean;
+  initialValues: Address;
+  addressTypes?: string[];
+  defaultAddresses?: string[];
+}
+
+interface OptionType {
+  value: string;
+  label: string;
 }
 
 const AddressForm = ({
-  addressType,
   initialValues,
-  isDefaultAddress,
+  addressTypes,
+  defaultAddresses,
 }: AddressFormProps) => {
   const {
     register,
@@ -31,27 +36,69 @@ const AddressForm = ({
     AM: /^[0-9]{4}$/,
   };
 
+  const optionsAddressType: OptionType[] = [
+    { value: 'shipping', label: 'Shipping' },
+    { value: 'billing', label: 'Billing' },
+  ];
+
+  const optionsAddressDefault: OptionType[] = [
+    { value: 'defaultShipping', label: 'Default shipping' },
+    { value: 'defaultBilling', label: 'Default billing' },
+  ];
+
   const [isEditModeAddress, setIsEditModeAddress] = useState(false);
   const selectedCountry = watch('country');
 
-  useEffect(() => {
-    if (initialValues) {
-      setValue('isDefaultAddress', isDefaultAddress);
-    }
-  }, [initialValues, isDefaultAddress, setValue]);
+  const findOption = (options: OptionType[], value: string) =>
+    options.find((option) => option.value === value);
 
-  const onSubmit: SubmitHandler<Address> = async (/* data */) => {
-    // Handle form submission here
-    // console.log(data);
+  const initialSelectedAddressTypes = addressTypes
+    ?.map((type) => findOption(optionsAddressType, type))
+    .filter(Boolean) as OptionType[];
+
+  const initialSelectedDefaultAddresses = defaultAddresses
+    ?.map((type) => findOption(optionsAddressDefault, type))
+    .filter(Boolean) as OptionType[];
+
+  const [selectedAddressTypes, setSelectedAddressTypes] = useState<
+    OptionType[]
+  >(initialSelectedAddressTypes);
+  const [selectedDefaultAddresses, setSelectedDefaultAddresses] = useState<
+    OptionType[]
+  >(initialSelectedDefaultAddresses);
+
+  useEffect(() => {
+    setSelectedAddressTypes(initialSelectedAddressTypes);
+    setSelectedDefaultAddresses(initialSelectedDefaultAddresses);
+  }, [initialSelectedAddressTypes, initialSelectedDefaultAddresses]);
+
+  const onSubmit: SubmitHandler<Address> = async (data) => {
+    // Handle form submission
+    data.addressTypes = selectedAddressTypes.map((option) => option.value);
+    data.defaultAddresses = selectedDefaultAddresses.map(
+      (option) => option.value,
+    );
+    console.log(data);
   };
 
-  const editAddress = () => {
+  const handleEditAddress = () => {
     setIsEditModeAddress(!isEditModeAddress);
+  };
+
+  const handleCancel = () => {
+    setSelectedAddressTypes(initialSelectedAddressTypes);
+    setSelectedDefaultAddresses(initialSelectedDefaultAddresses);
+    setIsEditModeAddress(false);
+  };
+
+  const handleDeleteAddresse = () => {
+    // delete logic
+    console.log('Address deleted');
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles.inputWrapper}>
+      <div className={stylesAddress['wrapper-address-form']}>
         <label htmlFor="country" className={styles.label}>
           <span>Country</span>
           <select
@@ -98,7 +145,6 @@ const AddressForm = ({
             </div>
           )}
         </label>
-
         <label htmlFor="city" className={styles.label}>
           <span>City</span>
           <input
@@ -147,46 +193,97 @@ const AddressForm = ({
             </div>
           )}
         </label>
-
-        <label htmlFor="isDefaultAddress" className={styles['toggle-switch']}>
-          <input
-            {...register('isDefaultAddress')}
-            type="checkbox"
-            id="isDefaultAddress"
-            disabled={!isEditModeAddress}
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="addressType" className={styles.label}>
+          <span>Address Type</span>
+          <Select
+            options={optionsAddressType}
+            className={styles['multi-select']}
+            inputId="addressType"
+            isMulti
+            isDisabled={!isEditModeAddress}
+            value={selectedAddressTypes}
+            onChange={(selected) => {
+              setSelectedAddressTypes(selected as OptionType[]);
+              setValue(
+                'addressTypes',
+                (selected as OptionType[]).map((option) => option.value),
+              );
+            }}
           />
-          <span className={styles['toggle-slider']} />
-          <span className={styles['toggle-switch-label']}>
-            Set as default address
-          </span>
         </label>
-        <button
-          id={`${addressType}-edit-button`}
-          className={clsx(
-            styles['button-small'],
-            styles['button-primary'],
-            stylesAddress['edit-button'],
-          )}
-          type="button"
-          onClick={editAddress}
-        >
-          Edit
-        </button>
-        {/* {isEditModeAddress && (
-          <button
-            className={clsx(
-              styles['button-small'],
-              styles['button-primary'],
-              stylesAddress['save-button'],
-            )}
-            type="submit"
-          >
-            Save
-          </button>
-        )} */}
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="defaultAddress" className={styles.label}>
+          <span>Default Address</span>
+          <Select
+            options={optionsAddressDefault}
+            className={styles['multi-select']}
+            inputId="defaultAddress"
+            isMulti
+            isDisabled={!isEditModeAddress}
+            value={selectedDefaultAddresses}
+            onChange={(selected) => {
+              setSelectedDefaultAddresses(selected as OptionType[]);
+              setValue(
+                'defaultAddresses',
+                (selected as OptionType[]).map((option) => option.value),
+              );
+            }}
+          />
+        </label>
+        <span />
+        {!isEditModeAddress ? (
+          <div className={stylesAddress.buttons}>
+            <button
+              className={clsx(
+                styles['button-small'],
+                styles['button-secondary'],
+              )}
+              type="button"
+              onClick={handleDeleteAddresse}
+            >
+              Delete
+            </button>
+            <button
+              className={clsx(styles['button-small'], styles['button-primary'])}
+              type="button"
+              onClick={handleEditAddress}
+            >
+              Edit
+            </button>
+          </div>
+        ) : (
+          <div className={stylesAddress.buttons}>
+            <button
+              className={clsx(
+                styles['button-small'],
+                styles['button-secondary'],
+              )}
+              type="button"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className={clsx(
+                styles['button-small'],
+                styles['button-primary'],
+                stylesAddress['save-button'],
+              )}
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );
+};
+
+AddressForm.defaultProps = {
+  addressTypes: [],
+  defaultAddresses: [],
 };
 
 export default AddressForm;

@@ -27,12 +27,8 @@ const ProfilePage = () => {
 
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
-  const handleOpenModal = () => {
-    setIsChangePasswordModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsChangePasswordModalOpen(false);
-  };
+  const handleOpenModal = () => setIsChangePasswordModalOpen(true);
+  const handleCloseModal = () => setIsChangePasswordModalOpen(false);
 
   const logOut = () => {
     localStorage.removeItem('userAccessToken');
@@ -55,6 +51,7 @@ const ProfilePage = () => {
     register,
     handleSubmit,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<User>({ mode: 'onChange' });
 
@@ -96,9 +93,8 @@ const ProfilePage = () => {
   };
 
   const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
-  const editPersonalInfo = () => {
+  const editPersonalInfo = () =>
     setIsEditModePersonalInfo(!isEditModePersonalInfo);
-  };
 
   const handleCancel = () => {
     if (customer) {
@@ -108,6 +104,7 @@ const ProfilePage = () => {
       setValue('dateOfBirth', customer.dateOfBirth);
     }
     setIsEditModePersonalInfo(false);
+    clearErrors();
   };
 
   const onSubmit: SubmitHandler<User> = (data) => {
@@ -115,16 +112,21 @@ const ProfilePage = () => {
     setIsEditModePersonalInfo(false);
   };
 
-  const getAddressType = (addressId: string) => {
-    if (customer?.defaultShippingAddressId === addressId)
-      return 'Default Shipping Address';
-    if (customer?.defaultBillingAddressId === addressId)
-      return 'Default Billing Address';
+  const getAddressTypes = (addressId: string) => {
+    const types: string[] = [];
     if (customer?.shippingAddressIds.includes(addressId))
-      return 'Shipping Address';
-    if (customer?.billingAddressIds.includes(addressId))
-      return 'Billing Address';
-    return '';
+      types.push('shipping');
+    if (customer?.billingAddressIds.includes(addressId)) types.push('billing');
+    return types;
+  };
+
+  const getDefaultAddresses = (addressId: string) => {
+    const addresses: string[] = [];
+    if (customer?.defaultShippingAddressId === addressId)
+      addresses.push('defaultShipping');
+    if (customer?.defaultBillingAddressId === addressId)
+      addresses.push('defaultBilling');
+    return addresses;
   };
 
   return (
@@ -286,25 +288,19 @@ const ProfilePage = () => {
         onSubmit={handleChangePasswordSubmit}
       />
 
-      {customer?.addresses && customer?.addresses.length > 0 && (
-        <div className={styles['max-width']}>
-          {customer.addresses.map((address) => (
-            <div key={address.id}>
-              <h3>{getAddressType(address.id)}</h3>
-              <AddressForm
-                addressType={
-                  getAddressType(address.id) as 'shipping' | 'billing'
-                }
-                initialValues={address}
-                isDefaultAddress={
-                  address.id === customer.defaultShippingAddressId ||
-                  address.id === customer.defaultBillingAddressId
-                }
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <h3>Address Information</h3>
+      <div className={styles['max-width']}>
+        {customer?.addresses?.map((address, index) => (
+          <div key={address.id}>
+            <h4>My Address Nr: {index + 1}</h4>
+            <AddressForm
+              initialValues={address}
+              addressTypes={getAddressTypes(address.id)}
+              defaultAddresses={getDefaultAddresses(address.id)}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
