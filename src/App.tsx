@@ -24,12 +24,12 @@ function App() {
         <main className={styles.main}>
           <div className={styles.container}>
             <Routes>
-              <Route path="" element={<MainPage />} />
+              <Route path="/" element={<MainPage />} />
               <Route path="/catalog" element={<Catalog />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />
-              <Route path="*" element={<ErrorPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
           <ToastContainer
