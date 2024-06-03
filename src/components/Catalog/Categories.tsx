@@ -2,7 +2,9 @@ import { useState } from 'react';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import Up from '@/assets/icons/up.svg';
+import Menu from '@/assets/icons/menu.svg';
 import Down from '@/assets/icons/down.svg';
+import Close from '@/assets/icons/close.svg';
 import { PropsCategories } from '@/types/Props';
 import useFetch from '@/hooks/useFetch';
 
@@ -21,6 +23,12 @@ const Categories = ({
         onClick={() => setIsListVisible(!isListVisible)}
       >
         <h4>categories</h4> <img src={isListVisible ? Up : Down} alt="" />
+      </span>
+      <span
+        className={styles.burgerBtn}
+        onClick={() => setIsListVisible(!isListVisible)}
+      >
+        <img src={isListVisible ? Close : Menu} alt="" />
       </span>
       <div className="list">
         <ul className={`${styles.list} ${isListVisible ? '' : 'hidden'}`}>

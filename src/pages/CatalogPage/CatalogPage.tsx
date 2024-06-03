@@ -105,7 +105,7 @@ const CatalogPage = () => {
       />
       <div className={styles['input-div']}>
         <div className={clsx(styles['search-sort'])}>
-          <span>
+          <span className={clsx(styles.searching)}>
             <img
               src={Search}
               alt="search"
