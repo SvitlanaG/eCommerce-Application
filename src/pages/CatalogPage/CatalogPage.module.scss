@@ -1,5 +1,7 @@
 @import '@/index.scss';
 @import '@/styles/components/buttons.module.scss';
+@import '@/styles/components/inputs.module.scss';
+
 
 .container {
   width: 100%;
@@ -32,7 +34,7 @@
 .main-div {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 0.5rem;
   row-gap: 1rem;
   margin: 2rem 0;
   .img {
@@ -101,32 +103,15 @@
       align-items: center;
       gap: 5px;
       cursor: pointer;
-      .details {
-        position: fixed;
-        right: 0;
-        top: 150px;
-        margin: 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .details > div> p{
-        text-align: center;
-        font-size: 1.3rem;
-        color: $orange-color;
-      }
-      .details > div>ul > li{
-        margin: 20px;
-      }
       .filterButtons{
         display: flex;
         flex-direction: row;
         align-items: center;
+        color: $gray-40;
       }
-      .hidden {
-        display: none;
-      };
-      // color: $gray-40;
+      .filterButtons:hover {
+        color: $orange-color;
+      }
     }
     .sort {
       border: 1px solid $gray-40;
@@ -150,6 +135,29 @@
       height: 30px;
     }
   }
+  .details {
+    position: absolute;
+    right: 0;
+    top: 150px;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .details > div> p{
+    text-align: center;
+    font-size: 1.3rem;
+    color: $orange-color;
+  }
+  .details > div>ul > li{
+    margin: 20px;
+  }
+  .details > div>ul > li label {
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  };
 }
 @media (max-width: 500px) {
   .main-div {
@@ -157,3 +165,53 @@
     align-items: center;
   }
 }
+
+@media (max-width: 1200px) {
+
+  .search-sort {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .main-div {
+    justify-content: center;
+  }
+  .searching {
+    position: relative;
+    order: 1;
+    display: flex;
+    justify-content: center; 
+    top: 30px;
+    margin: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .categoryBtn{
+    display: none !important;
+  }
+  .burgerBtn {
+    display: flex !important;
+    cursor: pointer;
+  }
+  .list {
+    position: absolute;
+    background-color: #ece9e9;
+    z-index: 10;
+  }
+}
+
+@media (min-width: 500px) {
+  .burgerBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .details {
+    background-color: #ece9e9;
+    margin: 0 !important;
+  }
+}
+

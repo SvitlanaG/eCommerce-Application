@@ -2,8 +2,9 @@ import { Book, Data, Product } from '@/types/products';
 
 const getBooks = async (
   sort: boolean,
+  filter: boolean,
   value?: string,
-  order?: string,
+  parameter?: string,
 ): Promise<Product[]> => {
   try {
     const myHeaders = new Headers();
@@ -19,7 +20,9 @@ const getBooks = async (
     };
     let url = `rssecommercefinal/product-projections`;
     if (sort)
-      url = `rssecommercefinal/product-projections/search?sort=${value} ${order}`;
+      url = `rssecommercefinal/product-projections/search?sort=${value} ${parameter}`;
+    else if (filter)
+      url = `rssecommercefinal/product-projections/search?filter=${value} ${parameter}`;
 
     const resp: Data = await (
       await fetch(`${import.meta.env.VITE_CTP_API_URL}/${url}`, requestOptions)
