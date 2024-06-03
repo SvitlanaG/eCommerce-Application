@@ -33,40 +33,44 @@ const Books = ({ books }: { books: Product[] }) => {
   return (
     <div className={styles['main-div']}>
       {books.map((book) => (
-        <div
-          key={book.key}
-          className={styles.imageDiv}
-          onClick={() => handleBookInfo(book.key)}
-        >
-          <img
-            src={book.assetSources[0].uri}
-            onError={(ev) => {
-              ev.currentTarget.src = imageDefault;
-            }}
-            alt="book"
-            className={styles.img}
-          />
-          <p key={book.key}>{book.name['en-GB']}</p>
-          <div className={clsx(styles.prices)}>
-            <p
-              className={`${clsx(styles.price)} ${discounted.find((discount) => discount?.sku === book.sku) && clsx(styles.discounted)}`}
-            >
-              {book.price?.centAmount &&
-                +(book.price.centAmount / 100).toFixed(2)}
-              $
+        <div key={book.key} className={styles.imageDiv}>
+          <div
+            className={styles.imageDescription}
+            onClick={() => handleBookInfo(book.key)}
+          >
+            <img
+              src={book.assetSources[0].uri}
+              onError={(ev) => {
+                ev.currentTarget.src = imageDefault;
+              }}
+              alt="book"
+              className={styles.img}
+            />
+            <p className={styles.bookName} key={book.key}>
+              {book.name['en-GB']}
             </p>
-            {discounted.find((discount) => discount?.sku === book.sku) && (
-              <span className={clsx(styles.price)}>
-                {+((book?.price?.centAmount ?? 0) / 100).toFixed(2) -
-                  +(
-                    +(
-                      discounted.find((discount) => discount?.sku === book.sku)
-                        ?.value ?? 0
-                    ) / 100
-                  ).toFixed(2)}
+            <div className={clsx(styles.prices)}>
+              <p
+                className={`${clsx(styles.price)} ${discounted.find((discount) => discount?.sku === book.sku) && clsx(styles.discounted)}`}
+              >
+                {book.price?.centAmount &&
+                  +(book.price.centAmount / 100).toFixed(2)}
                 $
-              </span>
-            )}
+              </p>
+              {discounted.find((discount) => discount?.sku === book.sku) && (
+                <span className={clsx(styles.price)}>
+                  {+((book?.price?.centAmount ?? 0) / 100).toFixed(2) -
+                    +(
+                      +(
+                        discounted.find(
+                          (discount) => discount?.sku === book.sku,
+                        )?.value ?? 0
+                      ) / 100
+                    ).toFixed(2)}
+                  $
+                </span>
+              )}
+            </div>
           </div>
           <button
             type="submit"
