@@ -18,6 +18,8 @@ const initialState: User = {
       country: '',
       isDefaultAddress: false,
       isBillingAddress: false,
+      addressTypes: [],
+      defaultAddresses: [],
     },
   ],
   defaultShippingAddressId: '',

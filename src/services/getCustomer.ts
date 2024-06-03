@@ -29,7 +29,6 @@ const getCustomer = async (): Promise<User | null> => {
     const customer: User = await response.json();
     return customer;
   } catch (error) {
-    // console.error('Error fetching customer data:', error);
     return null;
   }
 };

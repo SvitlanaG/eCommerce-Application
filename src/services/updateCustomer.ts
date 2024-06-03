@@ -62,7 +62,6 @@ const updateCustomerData = async (
     const updatedUser: User = await response.json();
     return updatedUser;
   } catch (error) {
-    console.error('Error updating customer data:', error);
     return null;
   }
 };
