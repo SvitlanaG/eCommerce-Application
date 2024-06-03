@@ -207,3 +207,11 @@
     display: none;
   }
 }
+
+@media (max-width: 700px) {
+  .details {
+    background-color: #ece9e9;
+    margin: 0 !important;
+  }
+}
+
