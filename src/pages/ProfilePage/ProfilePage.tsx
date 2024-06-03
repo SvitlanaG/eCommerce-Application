@@ -12,6 +12,7 @@ import AddressForm from '@/components/AddressForm/AddressForm';
 import validateAge from '@/helpers/validateAge';
 import Toast from '@/helpers/Toast';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+import AddAddressModal from '@/components/AddAddressModal/AddAddressModal';
 import updateCustomerData from '@/services/updateCustomer';
 
 const ProfilePage = () => {
@@ -21,6 +22,7 @@ const ProfilePage = () => {
   const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
+  const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
 
   const {
     register,
@@ -56,12 +58,23 @@ const ProfilePage = () => {
   const handleOpenModal = () => setIsChangePasswordModalOpen(true);
   const handleCloseModal = () => setIsChangePasswordModalOpen(false);
 
+  const handleOpenModalAddress = () => setIsAddAddressModalOpen(true);
+  const handleCloseModalAddress = () => setIsAddAddressModalOpen(false);
+
   const handleChangePasswordSubmit = () => {
     handleCloseModal();
     logOut();
     Toast({
       message:
         'You have successfully changed your password! Please log in again.',
+      status: 'success',
+    });
+  };
+
+  const handleAddAddressSubmit = () => {
+    handleCloseModalAddress();
+    Toast({
+      message: 'You have successfully added a new address!',
       status: 'success',
     });
   };
@@ -280,19 +293,42 @@ const ProfilePage = () => {
         </div>
       </form>
 
-      <button
-        className={clsx(styles['button-large'], styles['button-secondary'])}
-        type="button"
-        onClick={handleOpenModal}
-      >
-        Change Password
-      </button>
+      <h3>Actions</h3>
+      <div className={stylesProfile.inputWrapper}>
+        <span />
+        <div className={stylesProfile.buttons}>
+          <button
+            className={clsx(styles['button-large'], styles['button-secondary'])}
+            type="button"
+            onClick={handleOpenModal}
+          >
+            Change Password
+          </button>
 
-      <ChangePasswordModal
-        isOpen={isChangePasswordModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleChangePasswordSubmit}
-      />
+          <ChangePasswordModal
+            isOpen={isChangePasswordModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={handleChangePasswordSubmit}
+          />
+
+          <button
+            className={clsx(styles['button-large'], styles['button-primary'])}
+            type="button"
+            onClick={handleOpenModalAddress}
+          >
+            Add Address
+          </button>
+
+          {customer && (
+            <AddAddressModal
+              customer={customer}
+              isOpen={isAddAddressModalOpen}
+              onClose={handleCloseModalAddress}
+              onSubmit={handleAddAddressSubmit}
+            />
+          )}
+        </div>
+      </div>
 
       <h3>Address Information</h3>
       <div className={styles['max-width']}>
