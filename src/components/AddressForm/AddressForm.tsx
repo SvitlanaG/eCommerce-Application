@@ -86,7 +86,7 @@ const AddressForm = ({
   useEffect(() => {
     setSelectedAddressTypes(initialSelectedAddressTypes);
     setSelectedDefaultAddresses(initialSelectedDefaultAddresses);
-  }, []);
+  }, [initialSelectedAddressTypes, initialSelectedDefaultAddresses]);
 
   const onSubmit: SubmitHandler<Address> = async (data) => {
     data.addressTypes = selectedAddressTypes.map((option) => option.value);
@@ -94,7 +94,7 @@ const AddressForm = ({
       (option) => option.value,
     );
 
-    const updatedUser = await changeAddress({
+    const changeAddressData = {
       customerId: customer.id,
       version: customer.version,
       addressId: initialValues.id,
@@ -104,7 +104,23 @@ const AddressForm = ({
         city: data.city,
         country: data.country,
       },
-    });
+      defaultShipping: data.defaultAddresses.includes('defaultShipping'),
+      defaultBilling: data.defaultAddresses.includes('defaultBilling'),
+      addShippingAddress: data.addressTypes.includes('shipping')
+        ? initialValues.id
+        : null,
+      addBillingAddress: data.addressTypes.includes('billing')
+        ? initialValues.id
+        : null,
+      removeShippingAddress: !data.addressTypes.includes('shipping')
+        ? initialValues.id
+        : null,
+      removeBillingAddress: !data.addressTypes.includes('billing')
+        ? initialValues.id
+        : null,
+    };
+
+    const updatedUser = await changeAddress(changeAddressData);
 
     onChangeAddress();
 
@@ -156,7 +172,13 @@ const AddressForm = ({
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <div className={stylesAddress['wrapper-address-form']}>
+      <div
+        className={clsx(
+          stylesAddress['wrapper-address-form'],
+          defaultAddresses.length > 0 &&
+            stylesAddress['wrapper-address-form--not-empty'],
+        )}
+      >
         <label htmlFor="country" className={styles.label}>
           <span>Country</span>
           <select

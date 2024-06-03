@@ -17,6 +17,10 @@
     justify-self: end;
   }
 
+  &--not-empty {
+    border: 1px solid $orange-color;
+  }
+
   .buttons > button {
     margin-left: 1rem;
   }
