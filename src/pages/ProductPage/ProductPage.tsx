@@ -1,13 +1,18 @@
 // import { useEffect, useState } from 'react';
 // import { Book } from '@/types/products';
+// import getBookInfo from '@/services/getBookInfo';
 
-// const ProductPage = () => {
-//   const [book, setBook] = useState<Book>({} as Book);
-//   useEffect(() => {
-//     getBook
-//   }, []);
+import { useParams } from 'react-router-dom';
 
-//   return <div>{book.name}</div>;
-// };
+const ProductPage = () => {
+  // const [book, setBook] = useState<Book>({} as Book);
+  // useEffect(() => {
+  //   getBookInfo();
+  // }, []);
 
-// export default ProductPage;
+  const { key } = useParams();
+
+  return <div>{key}</div>;
+};
+
+export default ProductPage;

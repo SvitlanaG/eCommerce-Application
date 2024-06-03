@@ -18,8 +18,6 @@ const CatalogPage = () => {
     getBooks(false).then((products) => setBooks(products));
   }, []);
 
-  console.log(books);
-
   const sortBooks = async (criteria: string) => {
     if (criteria === 'priceAsc') {
       setBooks(

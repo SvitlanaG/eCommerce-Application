@@ -50,6 +50,7 @@
     padding: 0.5rem;
     margin: 0.5rem;
     border-radius: 0.5rem;
+    cursor: pointer;
 
     .price {
       @extend .text-subtitle;
@@ -110,22 +111,22 @@
         flex-direction: column;
         gap: 20px;
       }
-      .details > div> p{
+      .details > div > p {
         text-align: center;
         font-size: 1.3rem;
         color: $orange-color;
       }
-      .details > div>ul > li{
+      .details > div > ul > li {
         margin: 20px;
       }
-      .filterButtons{
+      .filterButtons {
         display: flex;
         flex-direction: row;
         align-items: center;
       }
       .hidden {
         display: none;
-      };
+      }
       // color: $gray-40;
     }
     .sort {

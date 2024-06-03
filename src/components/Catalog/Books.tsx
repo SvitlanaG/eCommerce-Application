@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
@@ -24,10 +25,19 @@ const Books = ({ books }: { books: Product[] }) => {
     });
   }, [books]);
 
+  const navigate = useNavigate();
+  const handleBookInfo = (key: string) => {
+    navigate(`/catalog/${key}`);
+  };
+
   return (
     <div className={styles['main-div']}>
       {books.map((book) => (
-        <div key={book.key} className={styles.imageDiv}>
+        <div
+          key={book.key}
+          className={styles.imageDiv}
+          onClick={() => handleBookInfo(book.key)}
+        >
           <img
             src={book.assetSources[0].uri}
             onError={(ev) => {
