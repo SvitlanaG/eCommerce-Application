@@ -11,7 +11,7 @@ interface AddAddressModalProps {
   customer: User;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: SubmitHandler<Address>;
+  onSubmit: () => void;
 }
 
 interface OptionType {
@@ -64,14 +64,21 @@ const AddAddressModal = ({
       postalCode: data.postalCode,
       city: data.city,
       country: data.country,
-      // addressTypes: selectedAddressTypes.map((option) => option.value),
-      // defaultAddresses: selectedDefaultAddresses.map((option) => option.value),
     };
+
+    const addressTypes = selectedAddressTypes.map((option) => option.value);
+    const defaultAddresses = selectedDefaultAddresses.map(
+      (option) => option.value,
+    );
 
     const updatedUser = await addAddress({
       customerId: customer.id,
       version: customer.version,
       address: newAddress,
+      defaultShipping: defaultAddresses.includes('defaultShipping'),
+      addShippingAddress: addressTypes.includes('shipping'),
+      defaultBilling: defaultAddresses.includes('defaultBilling'),
+      addBillingAddress: addressTypes.includes('billing'),
     });
 
     if (updatedUser) {

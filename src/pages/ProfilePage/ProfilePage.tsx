@@ -71,14 +71,6 @@ const ProfilePage = () => {
     });
   };
 
-  const handleAddAddressSubmit = () => {
-    handleCloseModalAddress();
-    Toast({
-      message: 'You have successfully added a new address!',
-      status: 'success',
-    });
-  };
-
   const handleUpdateCustomer = async (data: User) => {
     if (customer) {
       const updateData = {
@@ -324,7 +316,7 @@ const ProfilePage = () => {
               customer={customer}
               isOpen={isAddAddressModalOpen}
               onClose={handleCloseModalAddress}
-              onSubmit={handleAddAddressSubmit}
+              onSubmit={onChangeAddress}
             />
           )}
         </div>
