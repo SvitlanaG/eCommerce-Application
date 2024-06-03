@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { clsx } from 'clsx';
-import styles from './ChangePasswordModal.module.scss';
+import styles from '@/components/ChangePasswordModal/ChangePasswordModal.module.scss';
 import validatePassword from '@/helpers/validatePassword';
 import openEye from '@/assets/icons/eyeOpen.svg';
 import closedEye from '@/assets/icons/eyeClosed.svg';

@@ -12,33 +12,54 @@ import AddressForm from '@/components/AddressForm/AddressForm';
 import validateAge from '@/helpers/validateAge';
 import Toast from '@/helpers/Toast';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+import AddAddressModal from '@/components/AddAddressModal/AddAddressModal';
 import updateCustomerData from '@/services/updateCustomer';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [customer, setCustomer] = useState<User | null>(null);
+  const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
+  const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    clearErrors,
+    formState: { errors },
+  } = useForm<User>({ mode: 'onChange' });
 
   useEffect(() => {
     if (!localStorage.getItem('userAccessToken')) {
       setTimeout(() => navigate('/login'), 300);
       Toast({ message: 'You are not logged in', status: 'error' });
+    } else {
+      getCustomer().then((data) => {
+        if (data) {
+          setCustomer(data);
+          setValue('email', data.email);
+          setValue('firstName', data.firstName);
+          setValue('lastName', data.lastName);
+          setValue('dateOfBirth', data.dateOfBirth);
+        }
+      });
     }
-  }, [navigate]);
-
-  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
-    useState(false);
-  const handleOpenModal = () => {
-    setIsChangePasswordModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsChangePasswordModalOpen(false);
-  };
+  }, [navigate, setValue]);
 
   const logOut = () => {
     localStorage.removeItem('userAccessToken');
     dispatch(setLoggedIn());
     navigate('/login');
   };
+
+  const handleOpenModal = () => setIsChangePasswordModalOpen(true);
+  const handleCloseModal = () => setIsChangePasswordModalOpen(false);
+
+  const handleOpenModalAddress = () => setIsAddAddressModalOpen(true);
+  const handleCloseModalAddress = () => setIsAddAddressModalOpen(false);
 
   const handleChangePasswordSubmit = () => {
     handleCloseModal();
@@ -49,26 +70,6 @@ const ProfilePage = () => {
       status: 'success',
     });
   };
-
-  const [customer, setCustomer] = useState<User | null>(null);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<User>({ mode: 'onChange' });
-
-  useEffect(() => {
-    getCustomer().then((data) => {
-      if (data) {
-        setCustomer(data);
-        setValue('email', data.email);
-        setValue('firstName', data.firstName);
-        setValue('lastName', data.lastName);
-        setValue('dateOfBirth', data.dateOfBirth);
-      }
-    });
-  }, [setValue]);
 
   const handleUpdateCustomer = async (data: User) => {
     if (customer) {
@@ -95,10 +96,8 @@ const ProfilePage = () => {
     }
   };
 
-  const [isEditModePersonalInfo, setIsEditModePersonalInfo] = useState(false);
-  const editPersonalInfo = () => {
+  const editPersonalInfo = () =>
     setIsEditModePersonalInfo(!isEditModePersonalInfo);
-  };
 
   const handleCancel = () => {
     if (customer) {
@@ -108,6 +107,7 @@ const ProfilePage = () => {
       setValue('dateOfBirth', customer.dateOfBirth);
     }
     setIsEditModePersonalInfo(false);
+    clearErrors();
   };
 
   const onSubmit: SubmitHandler<User> = (data) => {
@@ -115,16 +115,29 @@ const ProfilePage = () => {
     setIsEditModePersonalInfo(false);
   };
 
-  const getAddressType = (addressId: string) => {
-    if (customer?.defaultShippingAddressId === addressId)
-      return 'Default Shipping Address';
-    if (customer?.defaultBillingAddressId === addressId)
-      return 'Default Billing Address';
+  const getAddressTypes = (addressId: string) => {
+    const types: string[] = [];
     if (customer?.shippingAddressIds.includes(addressId))
-      return 'Shipping Address';
-    if (customer?.billingAddressIds.includes(addressId))
-      return 'Billing Address';
-    return '';
+      types.push('shipping');
+    if (customer?.billingAddressIds.includes(addressId)) types.push('billing');
+    return types;
+  };
+
+  const getDefaultAddresses = (addressId: string) => {
+    const addresses: string[] = [];
+    if (customer?.defaultShippingAddressId === addressId)
+      addresses.push('defaultShipping');
+    if (customer?.defaultBillingAddressId === addressId)
+      addresses.push('defaultBilling');
+    return addresses;
+  };
+
+  const onChangeAddress = () => {
+    getCustomer().then((data) => {
+      if (data) {
+        setCustomer(data);
+      }
+    });
   };
 
   return (
@@ -272,39 +285,58 @@ const ProfilePage = () => {
         </div>
       </form>
 
-      <button
-        className={clsx(styles['button-large'], styles['button-secondary'])}
-        type="button"
-        onClick={handleOpenModal}
-      >
-        Change Password
-      </button>
+      <h3>Actions</h3>
+      <div className={stylesProfile.inputWrapper}>
+        <span />
+        <div className={stylesProfile.buttons}>
+          <button
+            className={clsx(styles['button-large'], styles['button-secondary'])}
+            type="button"
+            onClick={handleOpenModal}
+          >
+            Change Password
+          </button>
 
-      <ChangePasswordModal
-        isOpen={isChangePasswordModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleChangePasswordSubmit}
-      />
+          <ChangePasswordModal
+            isOpen={isChangePasswordModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={handleChangePasswordSubmit}
+          />
 
-      {customer?.addresses && customer?.addresses.length > 0 && (
-        <div className={styles['max-width']}>
-          {customer.addresses.map((address) => (
-            <div key={address.id}>
-              <h3>{getAddressType(address.id)}</h3>
-              <AddressForm
-                addressType={
-                  getAddressType(address.id) as 'shipping' | 'billing'
-                }
-                initialValues={address}
-                isDefaultAddress={
-                  address.id === customer.defaultShippingAddressId ||
-                  address.id === customer.defaultBillingAddressId
-                }
-              />
-            </div>
-          ))}
+          <button
+            className={clsx(styles['button-large'], styles['button-primary'])}
+            type="button"
+            onClick={handleOpenModalAddress}
+          >
+            Add Address
+          </button>
+
+          {customer && (
+            <AddAddressModal
+              customer={customer}
+              isOpen={isAddAddressModalOpen}
+              onClose={handleCloseModalAddress}
+              onSubmit={onChangeAddress}
+            />
+          )}
         </div>
-      )}
+      </div>
+
+      <h3>Address Information</h3>
+      <div className={styles['max-width']}>
+        {customer?.addresses?.map((address, index) => (
+          <div key={address.id}>
+            <h4>My Address Nr: {index + 1}</h4>
+            <AddressForm
+              customer={customer}
+              initialValues={address}
+              addressTypes={getAddressTypes(address.id)}
+              defaultAddresses={getDefaultAddresses(address.id)}
+              onChangeAddress={onChangeAddress}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

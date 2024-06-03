@@ -6,6 +6,8 @@ export type Address = {
   country: string;
   isDefaultAddress: boolean;
   isBillingAddress: boolean;
+  addressTypes: string[];
+  defaultAddresses: string[];
 };
 
 export type User = {
