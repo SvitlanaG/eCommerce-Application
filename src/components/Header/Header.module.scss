@@ -1,0 +1,90 @@
+@import '../../index.scss';
+@import '../../styles/components/buttons.module.scss';
+@import '../../App.module.scss';
+
+.header {
+  min-height: 7.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.logo,
+.login {
+  @include enabled;
+  width: 58px;
+  height: auto;
+}
+.logo img,
+.login img {
+  max-width: 100%;
+  height: auto;
+}
+
+.logo img {
+  padding: 0.2rem;
+  transition: 0.3s ease;
+  &:hover,
+  focus {
+    outline: 2px solid $orange-color;
+    outline-offset: -2px;
+    border-radius: 10px;
+  }
+  &:active {
+    box-shadow: $active;
+  }
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+}
+
+.logOut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include enabled;
+}
+
+.login p,
+.logOut p {
+  padding-top: 0.5rem;
+  color: $orange-color;
+}
+
+.login a,
+.logOut a {
+  text-decoration: none;
+}
+
+.product-name-slogan {
+  color: $orange-color;
+}
+
+.active {
+  transition: 0.3s ease;
+  border-bottom: 2px solid $orange-color;
+}
+
+.inactive {
+  transition: 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+@media (max-width: 576px) {
+  .product-name,
+  .product-name-slogan {
+    position: absolute;
+    left: -99999em;
+    width: 1px;
+    height: 1px;
+  }
+}

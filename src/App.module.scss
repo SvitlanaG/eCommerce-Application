@@ -1,0 +1,14 @@
+@import './index.scss';
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .main {
+    flex: 1;
+  }
+}
+
+.container {
+  @include container;
+}

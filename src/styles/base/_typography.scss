@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+$fontFamily: 'Montserrat', sans-serif;
+
+/* Define text alignment */
+$textAlignment: left;
+
+/* Apply desktop styles */
+h1 {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3rem;
+}
+
+h2 {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2.5rem;
+}
+
+h3 {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+h4 {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+h5 {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+}
+
+/* Apply styles for text elements */
+// Subtitle
+.text-subtitle {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-weight: 600;
+
+  &-large {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  &-small {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+}
+
+// Body
+.text-body {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-weight: 400;
+
+  &-large {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  &-small {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+}
+
+// Info
+.text-info {
+  font-family: $fontFamily;
+  text-align: $textAlignment;
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  &-large {
+    font-weight: 500;
+  }
+
+  &-small {
+    font-weight: 400;
+  }
+}
+
+// Button
+.text-button {
+  font-family: $fontFamily;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &-large {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  &-small {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
+}
+
+/* Apply mobile styles */
+@media (max-width: 992px) {
+  /* CSS rules for laptops */
+  h1 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+
+  .text-subtitle {
+    &-large {
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+    }
+  }
+
+  .text-button {
+    &-small {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  /* CSS rules for tablets */
+  h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    line-height: 2rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  // Subtitle
+  .text-body {
+    &-large {
+      font-size: 0.875rem;
+      line-height: 1.125rem;
+    }
+
+    &-small {
+      font-size: 0.9375rem;
+      line-height: 1.25rem;
+    }
+  }
+
+  // Button
+  .text-button {
+    &-large {
+      font-size: 1rem;
+      line-height: 1.25rem;
+    }
+
+    &-small {
+      font-size: 0.75rem;
+      line-height: 1.125rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  /* CSS rules for phones */
+}

@@ -1,0 +1,36 @@
+.flex {
+  display: flex;
+
+  &-fd-row {
+    flex-direction: row;
+  }
+  &-fd-column {
+    flex-direction: column;
+  }
+  &-fw-wrap {
+    flex-wrap: wrap;
+  }
+  &-jc-center {
+    justify-content: center;
+  }
+  &-jc-start {
+    justify-content: flex-start;
+  }
+  &-jc-space-between {
+    justify-content: space-between;
+  }
+  &-ai-center {
+    align-items: center;
+  }
+  &-as-stretch {
+    align-self: stretch;
+  }
+}
+
+.hidden {
+  position: absolute;
+  left: -99999em;
+  width: 1px;
+  height: 1px;
+}
+
