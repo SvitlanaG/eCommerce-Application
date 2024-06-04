@@ -6,6 +6,7 @@ import { setLoggedIn } from '@/store/user/userSlice';
 import { RootState } from '@/store/store';
 import Toast from '@/helpers/Toast';
 import styles from '@/components/Header/Header.module.scss';
+import NavigationTabs from '@/components/NavigationTabs/NavigationTabs';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -111,6 +112,9 @@ const Header = () => {
             </div>
           </nav>
         )}
+      </div>
+      <div className={styles.container}>
+        <NavigationTabs />
       </div>
     </header>
   );
