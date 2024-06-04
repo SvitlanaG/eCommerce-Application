@@ -89,10 +89,24 @@ const AddressForm = ({
   }, [initialSelectedAddressTypes, initialSelectedDefaultAddresses]);
 
   const onSubmit: SubmitHandler<Address> = async (data) => {
-    data.addressTypes = selectedAddressTypes.map((option) => option.value);
-    data.defaultAddresses = selectedDefaultAddresses.map(
+    const tempAddressTypes = selectedAddressTypes.map((option) => option.value);
+    const tempDefaultAddresses = selectedDefaultAddresses.map(
       (option) => option.value,
     );
+
+    if (
+      tempDefaultAddresses.includes('defaultShipping') &&
+      !tempAddressTypes.includes('shipping')
+    ) {
+      tempAddressTypes.push('shipping');
+    }
+
+    if (
+      tempDefaultAddresses.includes('defaultBilling') &&
+      !tempAddressTypes.includes('billing')
+    ) {
+      tempAddressTypes.push('billing');
+    }
 
     const changeAddressData = {
       customerId: customer.id,
@@ -104,18 +118,22 @@ const AddressForm = ({
         city: data.city,
         country: data.country,
       },
-      defaultShipping: data.defaultAddresses.includes('defaultShipping'),
-      defaultBilling: data.defaultAddresses.includes('defaultBilling'),
-      addShippingAddress: data.addressTypes.includes('shipping')
+      defaultShipping: tempDefaultAddresses.includes('defaultShipping')
+        ? true
+        : undefined,
+      defaultBilling: tempDefaultAddresses.includes('defaultBilling')
+        ? true
+        : undefined,
+      addShippingAddress: tempAddressTypes.includes('shipping')
         ? initialValues.id
         : null,
-      addBillingAddress: data.addressTypes.includes('billing')
+      addBillingAddress: tempAddressTypes.includes('billing')
         ? initialValues.id
         : null,
-      removeShippingAddress: !data.addressTypes.includes('shipping')
+      removeShippingAddress: !tempAddressTypes.includes('shipping')
         ? initialValues.id
         : null,
-      removeBillingAddress: !data.addressTypes.includes('billing')
+      removeBillingAddress: !tempAddressTypes.includes('billing')
         ? initialValues.id
         : null,
     };
@@ -275,7 +293,9 @@ const AddressForm = ({
         </label>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="addressType" className={styles.label}>
-          <span>Address Type</span>
+          <span>
+            Address Type (automatically filled if default address chosen)
+          </span>
           <Select
             options={optionsAddressType}
             className={styles['multi-select']}
