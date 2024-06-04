@@ -105,19 +105,15 @@ const changeAddress = async (
       });
     }
 
-    if (data.defaultShipping) {
-      actions.push({
-        action: 'setDefaultShippingAddress',
-        addressId: data.addressId,
-      });
-    }
+    actions.push({
+      action: 'setDefaultShippingAddress',
+      addressId: data.defaultShipping ? data.addressId : undefined,
+    });
 
-    if (data.defaultBilling) {
-      actions.push({
-        action: 'setDefaultBillingAddress',
-        addressId: data.addressId,
-      });
-    }
+    actions.push({
+      action: 'setDefaultBillingAddress',
+      addressId: data.defaultBilling ? data.addressId : undefined,
+    });
 
     const response = await fetch(
       `${import.meta.env.VITE_CTP_API_URL}/rssecommercefinal/customers/${data.customerId}`,
