@@ -180,11 +180,11 @@ const CatalogPage = () => {
               <span className={clsx(styles.filter)}>filter</span>
               <img src={filter} alt="" className={clsx(styles.sortIcon)} />
             </div>
+            <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
+              <Prices handleChange={handleChange} />
+              <Languages handleChange={handleChange} />
+            </div>
           </div>
-        </div>
-        <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
-          <Prices handleChange={handleChange} />
-          <Languages handleChange={handleChange} />
         </div>
         <Books books={books} />
       </div>
