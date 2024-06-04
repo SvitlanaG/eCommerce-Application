@@ -25,8 +25,6 @@ const ProductPage = () => {
     }
   }, [key, navigate]);
 
-  console.log('book', book);
-
   return (
     <div className={styles.product}>
       <div className={styles.info}>
