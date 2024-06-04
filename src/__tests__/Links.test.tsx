@@ -5,21 +5,16 @@ import Links from '@/components/Main/Links';
 import '@testing-library/jest-dom';
 
 describe('Links component', () => {
-  it('renders login and sign up links correctly', () => {
+  it('renders the catalog link correctly', () => {
     render(
       <MemoryRouter>
         <Links />
       </MemoryRouter>,
     );
 
-    // Check for login link
-    const loginLink = screen.getByRole('link', { name: /login/i });
-    expect(loginLink).toBeInTheDocument();
-    expect(loginLink).toHaveAttribute('href', '/login');
-
-    // Check for sign up link
-    const signUpLink = screen.getByRole('link', { name: /sign up/i });
-    expect(signUpLink).toBeInTheDocument();
-    expect(signUpLink).toHaveAttribute('href', '/register');
+    // Check for catalog link
+    const catalogLink = screen.getByRole('link', { name: /catalog/i });
+    expect(catalogLink).toBeInTheDocument();
+    expect(catalogLink).toHaveAttribute('href', '/catalog');
   });
 });
