@@ -5,6 +5,7 @@ import getBookInfo from '@/services/getBookInfo';
 import { Book } from '@/types/products';
 import styles from './ProductPage.module.scss';
 import ImageModal from '@/components/ImageModal/ImageModal';
+import { getDiscounts } from '@/services/catalog';
 
 const ProductPage = () => {
   const { key } = useParams();
@@ -25,13 +26,54 @@ const ProductPage = () => {
     }
   }, [key, navigate]);
 
-  console.log('book', book);
+  const [discounted, setDiscounted] = useState<
+    ({ sku: string; value: number } | null)[]
+  >([]);
+  useEffect(() => {
+    getDiscounts().then((discounts) => {
+      const skus = discounts.map((discount) => {
+        const matched = discount?.predicate
+          ?.split('=')[1]
+          .trim()
+          .replace(/"/g, '');
+        return matched
+          ? { sku: matched, value: discount.value.money[0].centAmount }
+          : null;
+      });
+      setDiscounted(skus);
+    });
+  }, [book]);
+
+  const price = book?.masterVariant?.prices[0]?.value?.centAmount;
 
   return (
     <div className={styles.product}>
       <div className={styles.info}>
         <h2>{book?.name['en-GB']}</h2>
         <p>{book?.description['en-GB']}</p>
+        <div className={styles.priceContainer}>
+          <div className={styles.price}>Price:</div>
+          <div
+            className={`${styles.price} ${discounted.find((d) => d?.sku === book?.masterVariant?.sku) && styles.discounted}`}
+          >
+            {price && +(price / 100).toFixed(2)}$
+          </div>
+          {discounted.find(
+            (discount) => discount?.sku === book?.masterVariant?.sku,
+          ) && (
+            <div className={styles.price}>
+              {+((price ?? 0) / 100).toFixed(2) -
+                +(
+                  +(
+                    discounted.find(
+                      (discount) => discount?.sku === book?.masterVariant?.sku,
+                    )?.value ?? 0
+                  ) / 100
+                ).toFixed(2)}
+              $
+            </div>
+          )}
+        </div>
       </div>
       <div className={styles.carouselContainer}>
         <Carousel data-bs-theme="dark">
