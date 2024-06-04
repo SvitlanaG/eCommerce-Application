@@ -17,17 +17,17 @@
   }
 
   &-label {
-    @extend .text-info-large;
+    @extend .text-info1-large;
   }
 }
 
 .assistive-text {
-  @extend .text-info;
+  @extend .text-info1;
   color: $gray-40;
 }
 
 .error-message {
-  @extend .text-info;
+  @extend .text-info1;
   color: $error-color;
 }
 

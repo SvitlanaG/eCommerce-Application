@@ -48,7 +48,7 @@ const Footer = () => {
             </a>
           </div>
           <div className={styles.copyright}>
-            <p className="text-info text-info-large">
+            <p className="text-info1 text-info1-large">
               &#169;2024 Book Lounge Online
             </p>
           </div>

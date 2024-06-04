@@ -104,7 +104,9 @@ const ChangePasswordModal = ({
     <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
         <h2>Change Password</h2>
-        <span className={clsx(styles['text-info'], styles['text-info-small'])}>
+        <span
+          className={clsx(styles['text-info1'], styles['text-info1-small'])}
+        >
           Note: After changing your password, you will be logged out and need to
           log in again with your new password.
         </span>

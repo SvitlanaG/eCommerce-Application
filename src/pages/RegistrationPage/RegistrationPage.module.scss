@@ -50,7 +50,7 @@
       flex-direction: column;
       position: relative;
       .errorMessage {
-        @extend .text-info;
+        @extend .text-info1;
         color: $error-color;
       }
       .eye {
