@@ -1,5 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel';
 import styles from './ImageModal.module.scss';
+import closeIcon from '@/assets/icons/close.svg';
 
 type Props = {
   isOpen: boolean;
@@ -32,6 +33,9 @@ const ImageModal = ({ isOpen, onClose, images }: Props) => {
             );
           })}
         </Carousel>
+        <div className={styles.closeModal} onClick={onClose}>
+          <img src={closeIcon} alt="close" />
+        </div>
       </div>
     </div>
   );
