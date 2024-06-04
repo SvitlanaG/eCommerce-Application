@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
+import Select, { SingleValue } from 'react-select';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
@@ -17,6 +18,20 @@ const CatalogPage = () => {
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
   const [priceRange, setPriceRange] = useState<number | null>(null);
+  const optionsSort: { value: string; label: string }[] = [
+    {
+      value: 'priceAsc',
+      label: 'ascending price',
+    },
+    {
+      value: 'priceDesc',
+      label: 'descending price',
+    },
+    {
+      value: 'name',
+      label: 'name',
+    },
+  ];
   useEffect(() => {
     getBooks(false, false).then((products) => setBooks(products));
   }, []);
@@ -90,9 +105,16 @@ const CatalogPage = () => {
       );
     }
   };
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const criteria = e.target.value;
-    sortBooks(criteria);
+  const handleSortChange = (
+    ev: SingleValue<{
+      value: string;
+      label: string;
+    }>,
+  ) => {
+    if (ev) {
+      const criteria = ev.value;
+      sortBooks(criteria);
+    }
   };
 
   return (
@@ -126,17 +148,28 @@ const CatalogPage = () => {
             />
           </span>
           <span className={clsx(styles.sortContainer)}>
-            <select
-              name="sort"
-              id="sort"
-              className={clsx(styles.sort)}
+            <Select
+              options={optionsSort}
+              className={styles.sort}
+              placeholder="Sort By"
               onChange={handleSortChange}
-            >
-              <option value="">sort by</option>
-              <option value="priceAsc">ascending price</option>
-              <option value="priceDesc">descending price</option>
-              <option value="name">name</option>
-            </select>
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  cursor: 'pointer',
+                  borderRadius: '10px',
+                }),
+                option: (baseStyles, state) => ({
+                  ...baseStyles,
+                  '&:hover': {
+                    backgroundColor: `#F86C08`,
+                    color: 'white',
+                  },
+                  backgroundColor: state.isSelected ? '#F86C08' : 'white',
+                  cursor: 'pointer',
+                }),
+              }}
+            />
             <img src={sortAscending} alt="" className={clsx(styles.sortIcon)} />
           </span>
           <div className={clsx(styles.filterDiv)}>

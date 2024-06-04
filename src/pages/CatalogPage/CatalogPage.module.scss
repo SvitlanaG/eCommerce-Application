@@ -113,12 +113,14 @@
     .sortContainer {
       display: flex;
       justify-content: center;
-      position: relative;
+      align-items: center;
+      position: relative; 
       .sortIcon {
         position: absolute;
         left: 0;
         color: $gray-40;
       }
+    
     }
     .filterDiv {
       display: flex;
@@ -139,11 +141,7 @@
       }
     }
     .sort {
-      border: 1px solid $gray-40;
       width: 10rem;
-      border-radius: 10px;
-      background-color: white;
-      height: 30px;
       position: relative;
       text-align: center;
       color: $gray-40;
@@ -163,7 +161,7 @@
   .details {
     position: absolute;
     right: 0;
-    top: 150px;
+    top: 200px;
     margin: 30px;
     display: flex;
     flex-direction: column;
