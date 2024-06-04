@@ -316,7 +316,7 @@ const ProfilePage = () => {
               customer={customer}
               isOpen={isAddAddressModalOpen}
               onClose={handleCloseModalAddress}
-              onSubmit={onChangeAddress}
+              onChangeAddress={onChangeAddress}
             />
           )}
         </div>

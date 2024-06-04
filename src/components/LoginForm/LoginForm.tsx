@@ -37,7 +37,7 @@ const LoginForm = () => {
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <h3>Account Credentials</h3>
-      <span className={clsx(styles['text-info'], styles['text-info-small'])}>
+      <span className={clsx(styles['text-info1'], styles['text-info1-small'])}>
         Fields marked with * are required.
       </span>
       <div className={styles.inputWrapperLogin}>

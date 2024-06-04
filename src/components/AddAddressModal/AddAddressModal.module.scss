@@ -47,7 +47,7 @@
         }
 
         .errorMessage {
-          @extend .text-info;
+          @extend .text-info1;
           color: $error-color;
         }
       }

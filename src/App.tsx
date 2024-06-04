@@ -12,6 +12,8 @@ import Footer from '@/components/Footer/Footer';
 import styles from '@/App.module.scss';
 import MainPage from '@/pages/MainPage/MainPage';
 import getVisitorIdentifier from '@/services/getIdentifier';
+import ProductPage from './pages/ProductPage/ProductPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   useEffect(() => {
@@ -24,12 +26,13 @@ function App() {
         <main className={styles.main}>
           <div className={styles.container}>
             <Routes>
-              <Route path="" element={<MainPage />} />
+              <Route path="/" element={<MainPage />} />
               <Route path="/catalog" element={<Catalog />} />
+              <Route path="/catalog/:key" element={<ProductPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />
-              <Route path="*" element={<ErrorPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
           <ToastContainer

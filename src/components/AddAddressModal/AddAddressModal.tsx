@@ -11,7 +11,7 @@ interface AddAddressModalProps {
   customer: User;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onChangeAddress: () => void;
 }
 
 interface OptionType {
@@ -23,6 +23,7 @@ const AddAddressModal = ({
   customer,
   isOpen,
   onClose,
+  onChangeAddress,
 }: AddAddressModalProps) => {
   const {
     register,
@@ -82,6 +83,7 @@ const AddAddressModal = ({
     });
 
     if (updatedUser) {
+      onChangeAddress();
       Toast({
         message: 'Address added successfully',
         status: 'success',
