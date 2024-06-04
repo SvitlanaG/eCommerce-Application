@@ -13,6 +13,7 @@ import styles from '@/App.module.scss';
 import MainPage from '@/pages/MainPage/MainPage';
 import getVisitorIdentifier from '@/services/getIdentifier';
 import ProductPage from './pages/ProductPage/ProductPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   useEffect(() => {
