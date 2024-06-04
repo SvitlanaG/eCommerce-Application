@@ -293,7 +293,9 @@ const AddressForm = ({
         </label>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="addressType" className={styles.label}>
-          <span>Address Type</span>
+          <span>
+            Address Type (automatically filled if default address chosen)
+          </span>
           <Select
             options={optionsAddressType}
             className={styles['multi-select']}
