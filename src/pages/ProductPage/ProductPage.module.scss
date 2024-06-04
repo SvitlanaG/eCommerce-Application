@@ -12,25 +12,28 @@
     align-items: center;
     gap: 15px;
   }
-
-  .imgWrapper {
+  .carouselContainer {
     width: 45vw;
-    height: 45vh;
-    min-width: 330px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .imgContainer {
-      width: 35vw;
-      height: 35vh;
-      min-width: 300px;
+    min-width: 350px;
+    .imgWrapper {
+      width: 45vw;
+      height: 45vh;
+      min-width: 350px;
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
-      .sliderImg {
-        max-width: 100%;
-        max-height: 100%;
+      .imgContainer {
+        width: 40vw;
+        height: 35vh;
+        min-width: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .sliderImg {
+          max-width: 100%;
+          max-height: 100%;
+        }
       }
     }
   }

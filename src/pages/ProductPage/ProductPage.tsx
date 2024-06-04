@@ -33,19 +33,24 @@ const ProductPage = () => {
         <h2>{book?.name['en-GB']}</h2>
         <p>{book?.description['en-GB']}</p>
       </div>
-      <Carousel data-bs-theme="dark">
-        {book?.masterVariant.assets?.[0]?.sources.map((i) => {
-          return (
-            <Carousel.Item key={i.uri}>
-              <div className={styles.imgWrapper}>
-                <div className={styles.imgContainer} onClick={handleOpenModal}>
-                  <img className={styles.sliderImg} src={i.uri} alt="Book" />
+      <div className={styles.carouselContainer}>
+        <Carousel data-bs-theme="dark">
+          {book?.masterVariant.assets?.[0]?.sources.map((i) => {
+            return (
+              <Carousel.Item key={i.uri}>
+                <div className={styles.imgWrapper}>
+                  <div
+                    className={styles.imgContainer}
+                    onClick={handleOpenModal}
+                  >
+                    <img className={styles.sliderImg} src={i.uri} alt="Book" />
+                  </div>
                 </div>
-              </div>
-            </Carousel.Item>
-          );
-        })}
-      </Carousel>
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
+      </div>
       <ImageModal
         isOpen={isShowModal}
         onClose={handleCloseModal}
