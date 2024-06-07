@@ -1,6 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
-import { FaUserPlus, FaSignInAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import {
+  FaUserPlus,
+  FaSignInAlt,
+  FaUser,
+  FaSignOutAlt,
+  FaShoppingCart,
+} from 'react-icons/fa';
 import styles from '@/components/Header/Header.module.scss';
 
 interface NavigationIconsProps {
@@ -49,6 +55,24 @@ const NavigationIcons = ({ isLoggedIn, logOut }: NavigationIconsProps) => {
               <p className="text-button text-button-small">Login</p>
             </NavLink>
           </div>
+          <div className={styles.login}>
+            <NavLink
+              to="/basket"
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.inactive
+              }
+            >
+              <div
+                className={clsx(
+                  styles['button-icon'],
+                  styles['button-icon-primary'],
+                )}
+              >
+                <FaShoppingCart />
+              </div>
+              <p className="text-button text-button-small">Basket</p>
+            </NavLink>
+          </div>
         </>
       ) : (
         <>
@@ -80,6 +104,24 @@ const NavigationIcons = ({ isLoggedIn, logOut }: NavigationIconsProps) => {
               <FaSignOutAlt />
             </div>
             <p className="text-button text-button-small">LogOut</p>
+          </div>
+          <div className={styles.login}>
+            <NavLink
+              to="/basket"
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.inactive
+              }
+            >
+              <div
+                className={clsx(
+                  styles['button-icon'],
+                  styles['button-icon-primary'],
+                )}
+              >
+                <FaShoppingCart />
+              </div>
+              <p className="text-button text-button-small">Basket</p>
+            </NavLink>
           </div>
         </>
       )}
