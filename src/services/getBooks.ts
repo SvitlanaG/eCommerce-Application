@@ -1,11 +1,6 @@
 import { Book, Data, Product } from '@/types/products';
 
-const getBooks = async (
-  sort: boolean,
-  filter: boolean,
-  value?: string,
-  parameter?: string,
-): Promise<Product[]> => {
+const getBooks = async (urlEnd: string): Promise<Product[]> => {
   try {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -18,12 +13,7 @@ const getBooks = async (
       method: 'GET',
       headers: myHeaders,
     };
-    let url = `rssecommercefinal/product-projections`;
-    if (sort)
-      url = `rssecommercefinal/product-projections/search?sort=${value} ${parameter}`;
-    else if (filter)
-      url = `rssecommercefinal/product-projections/search?filter=${value} ${parameter}`;
-
+    const url = `rssecommercefinal/product-projections/${urlEnd}`;
     const resp: Data = await (
       await fetch(`${import.meta.env.VITE_CTP_API_URL}/${url}`, requestOptions)
     ).json();
@@ -45,6 +35,7 @@ const getBooks = async (
       };
       return product;
     });
+    console.log(url);
     return products;
   } catch (error) {
     return [];
