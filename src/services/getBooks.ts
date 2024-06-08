@@ -35,7 +35,6 @@ const getBooks = async (urlEnd: string): Promise<Product[]> => {
       };
       return product;
     });
-    console.log(url);
     return products;
   } catch (error) {
     return [];
