@@ -1,6 +1,7 @@
 import Carousel from 'react-bootstrap/Carousel';
 import styles from './ImageModal.module.scss';
 import closeIcon from '@/assets/icons/close.svg';
+import handleBackdropClick from '@/hooks/useModalConfig';
 
 type Props = {
   isOpen: boolean;
@@ -9,16 +10,13 @@ type Props = {
 };
 
 const ImageModal = ({ isOpen, onClose, images }: Props) => {
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div
+      className={styles.modalBackdrop}
+      onClick={(e) => handleBackdropClick(e, onClose)}
+    >
       <div className={styles.imgModal}>
         <Carousel data-bs-theme="dark">
           {images?.map((i) => {

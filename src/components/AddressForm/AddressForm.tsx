@@ -8,6 +8,7 @@ import { Address, User } from '@/types/UserType';
 import removeAddress from '@/services/removeAddress';
 import changeAddress from '@/services/changeAddress';
 import Toast from '@/helpers/Toast';
+import { countryPostalPatterns } from '@/helpers/constants';
 
 interface AddressFormProps {
   customer: User;
@@ -37,12 +38,6 @@ const AddressForm = ({
     formState: { errors },
     watch,
   } = useForm<Address>({ mode: 'onChange', defaultValues: initialValues });
-
-  const countryPostalPatterns: Record<string, RegExp> = {
-    DE: /^[0-9]{5}$/,
-    BY: /^[0-9]{6}$/,
-    AM: /^[0-9]{4}$/,
-  };
 
   const optionsAddressType: OptionType[] = [
     { value: 'shipping', label: 'Shipping' },

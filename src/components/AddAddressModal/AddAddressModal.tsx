@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Select from 'react-select';
+import Select, { MultiValue } from 'react-select';
 import styles from '@/components/AddAddressModal/AddAddressModal.module.scss';
-import { Address, User } from '@/types/UserType';
+import { Address } from '@/types/UserType';
 import addAddress from '@/services/addAddress';
 import Toast from '@/helpers/Toast';
-
-interface AddAddressModalProps {
-  customer: User;
-  isOpen: boolean;
-  onClose: () => void;
-  onChangeAddress: () => void;
-}
-
-interface OptionType {
-  value: string;
-  label: string;
-}
+import {
+  countryPostalPatterns,
+  optionsAddressType,
+  optionsAddressDefault,
+} from '@/helpers/constants';
+import { OptionType } from '@/types/optionType';
+import { AddAddressModalProps } from '@/types/Props';
+import handleBackdropClick from '@/hooks/useModalConfig';
 
 const AddAddressModal = ({
   customer,
@@ -34,29 +30,13 @@ const AddAddressModal = ({
     reset,
   } = useForm<Address>({ mode: 'onChange', defaultValues: {} });
 
-  const countryPostalPatterns: Record<string, RegExp> = {
-    DE: /^[0-9]{5}$/,
-    BY: /^[0-9]{6}$/,
-    AM: /^[0-9]{4}$/,
-  };
-
-  const optionsAddressType: OptionType[] = [
-    { value: 'shipping', label: 'Shipping' },
-    { value: 'billing', label: 'Billing' },
-  ];
-
-  const optionsAddressDefault: OptionType[] = [
-    { value: 'defaultShipping', label: 'Default shipping' },
-    { value: 'defaultBilling', label: 'Default billing' },
-  ];
-
   const selectedCountry = watch('country');
 
   const [selectedAddressTypes, setSelectedAddressTypes] = useState<
-    OptionType[]
+    MultiValue<OptionType>
   >([]);
   const [selectedDefaultAddresses, setSelectedDefaultAddresses] = useState<
-    OptionType[]
+    MultiValue<OptionType>
   >([]);
 
   const onSubmit: SubmitHandler<Address> = async (data) => {
@@ -94,21 +74,34 @@ const AddAddressModal = ({
     }
   };
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   const handleCancel = () => {
     reset();
     onClose();
   };
 
+  const handleAddressTypes = (newValue: MultiValue<OptionType>) => {
+    setSelectedAddressTypes(newValue);
+    setValue(
+      'addressTypes',
+      newValue.map((option) => option.value),
+    );
+  };
+
+  const handleDefaultAddresses = (newValue: MultiValue<OptionType>) => {
+    setSelectedDefaultAddresses(newValue);
+    setValue(
+      'defaultAddresses',
+      newValue.map((option) => option.value),
+    );
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div
+      className={styles.modalBackdrop}
+      onClick={(e) => handleBackdropClick(e, onClose)}
+    >
       <div className={styles.modal}>
         <h2>Add new Address</h2>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -215,13 +208,7 @@ const AddAddressModal = ({
                 inputId="addressType"
                 isMulti
                 value={selectedAddressTypes}
-                onChange={(selected) => {
-                  setSelectedAddressTypes(selected as OptionType[]);
-                  setValue(
-                    'addressTypes',
-                    (selected as OptionType[]).map((option) => option.value),
-                  );
-                }}
+                onChange={handleAddressTypes}
               />
             </label>
             {/*  eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -233,13 +220,7 @@ const AddAddressModal = ({
                 inputId="defaultAddress"
                 isMulti
                 value={selectedDefaultAddresses}
-                onChange={(selected) => {
-                  setSelectedDefaultAddresses(selected as OptionType[]);
-                  setValue(
-                    'defaultAddresses',
-                    (selected as OptionType[]).map((option) => option.value),
-                  );
-                }}
+                onChange={handleDefaultAddresses}
               />
             </label>
             <span />
