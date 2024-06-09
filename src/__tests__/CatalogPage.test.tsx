@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter as Router } from 'react-router-dom';
-import CatalogPage from '@/pages/CatalogPage/CatalogPage';
+import CatalogPage from '@/pages/CatalogPage';
 
-// Mock the getBooks function
 vi.mock('@/services/getBooks', () => ({
   default: () =>
     Promise.resolve([
@@ -45,14 +44,11 @@ describe('CatalogPage component', () => {
       </Router>,
     );
 
-    // Check if the main container is rendered
     const container = screen.getByTestId('catalog-container');
     expect(container).toBeTruthy();
 
-    // Wait for the useEffect to fetch data and render books
     await screen.findAllByAltText('book');
 
-    // Check if books are rendered after loading
     const updatedBooks = screen.getAllByAltText('book');
     expect(updatedBooks).toHaveLength(3);
   });

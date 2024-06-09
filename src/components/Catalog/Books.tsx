@@ -33,9 +33,9 @@ const Books = ({ books }: { books: Product[] }) => {
   return (
     <div className={styles['main-div']}>
       {books.map((book) => (
-        <div key={book.key} className={styles.imageDiv}>
+        <div key={book.key} className={styles['image-div']}>
           <div
-            className={styles.imageDescription}
+            className={styles['image-description']}
             onClick={() => handleBookInfo(book.key)}
           >
             <img
@@ -46,7 +46,7 @@ const Books = ({ books }: { books: Product[] }) => {
               alt="book"
               className={styles.img}
             />
-            <p className={styles.bookName} key={book.key}>
+            <p className={styles['book-name']} key={book.key}>
               {book.name['en-GB']}
             </p>
             <div className={clsx(styles.prices)}>

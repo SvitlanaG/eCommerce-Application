@@ -101,7 +101,7 @@ const ChangePasswordModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div className={styles['modal-backdrop']} onClick={handleBackdropClick}>
       <div className={styles.modal}>
         <h2>Change Password</h2>
         <span
@@ -111,7 +111,7 @@ const ChangePasswordModal = ({
           log in again with your new password.
         </span>
         <form onSubmit={handleSubmit(handlePasswordChange)}>
-          <div className={styles.inputWrapper}>
+          <div className={styles['input-wrapper']}>
             <label htmlFor="currentPassword" className={styles.label}>
               <span>Current Password</span>
               <input
@@ -138,7 +138,7 @@ const ChangePasswordModal = ({
                 />
               </div>
               {errors.currentPassword && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.currentPassword.message}
                 </div>
               )}
@@ -175,7 +175,7 @@ const ChangePasswordModal = ({
                 />
               </div>
               {errors.newPassword && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.newPassword.message}
                 </div>
               )}
@@ -207,7 +207,7 @@ const ChangePasswordModal = ({
                 />
               </div>
               {errors.confirmNewPassword && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.confirmNewPassword.message}
                 </div>
               )}

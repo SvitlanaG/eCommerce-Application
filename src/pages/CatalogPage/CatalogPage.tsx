@@ -134,7 +134,7 @@ const CatalogPage = () => {
               className={`${styles['input-img']} ${styles.search}`}
             />
             <input
-              className={styles.searchInput}
+              className={styles['search-input']}
               onChange={async (e) => {
                 setBooks(
                   (await getBooks(false, false)).filter((book) =>
@@ -147,7 +147,7 @@ const CatalogPage = () => {
               type="search"
             />
           </span>
-          <span className={clsx(styles.sortContainer)}>
+          <span className={clsx(styles['sort-container'])}>
             <Select
               options={optionsSort}
               className={styles.sort}
@@ -170,15 +170,19 @@ const CatalogPage = () => {
                 }),
               }}
             />
-            <img src={sortAscending} alt="" className={clsx(styles.sortIcon)} />
+            <img
+              src={sortAscending}
+              alt=""
+              className={clsx(styles['sort-icon'])}
+            />
           </span>
-          <div className={clsx(styles.filterDiv)}>
+          <div className={clsx(styles['filter-div'])}>
             <div
-              className={clsx(styles.filterButtons)}
+              className={clsx(styles['filter-buttons'])}
               onClick={() => setVisible(!visible)}
             >
               <span className={clsx(styles.filter)}>filter</span>
-              <img src={filter} alt="" className={clsx(styles.sortIcon)} />
+              <img src={filter} alt="" className={clsx(styles['sort-icon'])} />
             </div>
             <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
               <Prices handleChange={handleChange} />

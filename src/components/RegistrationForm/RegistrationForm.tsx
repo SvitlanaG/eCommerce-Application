@@ -95,7 +95,7 @@ const RegistrationForm = () => {
       <span className={clsx(styles['text-info1'], styles['text-info1-small'])}>
         Fields marked with * are required.
       </span>
-      <div className={styles.inputWrapper}>
+      <div className={styles['input-wrapper']}>
         <label htmlFor="firstName" className={styles.label}>
           <span>First name *</span>
           <input
@@ -116,7 +116,7 @@ const RegistrationForm = () => {
             })}
           />
           {errors.firstName && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.firstName.message}
             </div>
           )}
@@ -142,7 +142,9 @@ const RegistrationForm = () => {
             })}
           />
           {errors.lastName && (
-            <div className={styles.errorMessage}>{errors.lastName.message}</div>
+            <div className={styles['error-message']}>
+              {errors.lastName.message}
+            </div>
           )}
         </label>
 
@@ -165,7 +167,7 @@ const RegistrationForm = () => {
             })}
           />
           {errors.dateOfBirth && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.dateOfBirth.message}
             </div>
           )}
@@ -173,7 +175,7 @@ const RegistrationForm = () => {
       </div>
 
       <h3>Sign-in Information</h3>
-      <div className={styles.inputWrapper}>
+      <div className={styles['input-wrapper']}>
         <label htmlFor="email" className={styles.label}>
           <span>Email *</span>
           <input
@@ -193,7 +195,9 @@ const RegistrationForm = () => {
             })}
           />
           {errors.email && (
-            <div className={styles.errorMessage}>{errors.email.message}</div>
+            <div className={styles['error-message']}>
+              {errors.email.message}
+            </div>
           )}
         </label>
 
@@ -220,7 +224,9 @@ const RegistrationForm = () => {
             <img src={showPassword ? openEye : closedEye} alt="eye icon" />
           </div>
           {errors.password && (
-            <div className={styles.errorMessage}>{errors.password.message}</div>
+            <div className={styles['error-message']}>
+              {errors.password.message}
+            </div>
           )}
         </label>
 
@@ -244,7 +250,7 @@ const RegistrationForm = () => {
             <img src={isConfirmPassword ? openEye : closedEye} alt="eye icon" />
           </div>
           {errors.confirmPassword && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.confirmPassword.message}
             </div>
           )}
@@ -252,7 +258,7 @@ const RegistrationForm = () => {
       </div>
 
       <h3>Shipping Address</h3>
-      <div className={styles.inputWrapper}>
+      <div className={styles['input-wrapper']}>
         <label htmlFor="countryShipping" className={styles.label}>
           <span>Country *</span>
           <select
@@ -275,7 +281,7 @@ const RegistrationForm = () => {
             <option value="AM">Armenia</option>
           </select>
           {errors.addresses?.[0]?.country && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.addresses[0].country.message}
             </div>
           )}
@@ -300,7 +306,7 @@ const RegistrationForm = () => {
             })}
           />
           {errors.addresses?.[0]?.streetName && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.addresses[0].streetName.message}
             </div>
           )}
@@ -325,7 +331,7 @@ const RegistrationForm = () => {
             })}
           />
           {errors.addresses?.[0]?.city && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.addresses[0].city.message}
             </div>
           )}
@@ -352,7 +358,7 @@ const RegistrationForm = () => {
             })}
           />
           {errors.addresses?.[0]?.postalCode && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.addresses[0].postalCode.message}
             </div>
           )}
@@ -396,7 +402,7 @@ const RegistrationForm = () => {
       {!isBillingAddress && (
         <>
           <h3>Billing Address</h3>
-          <div className={styles.inputWrapper}>
+          <div className={styles['input-wrapper']}>
             <label htmlFor="countryBilling" className={styles.label}>
               <span>Country *</span>
               <select
@@ -419,7 +425,7 @@ const RegistrationForm = () => {
                 <option value="AM">Armenia</option>
               </select>
               {errors.addresses?.[1]?.country && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.addresses[1].country.message}
                 </div>
               )}
@@ -444,7 +450,7 @@ const RegistrationForm = () => {
                 })}
               />
               {errors.addresses?.[1]?.streetName && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.addresses[1].streetName.message}
                 </div>
               )}
@@ -470,7 +476,7 @@ const RegistrationForm = () => {
                 })}
               />
               {errors.addresses?.[1]?.city && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.addresses[1].city.message}
                 </div>
               )}
@@ -497,7 +503,7 @@ const RegistrationForm = () => {
                 })}
               />
               {errors.addresses?.[1]?.postalCode && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.addresses[1].postalCode.message}
                 </div>
               )}

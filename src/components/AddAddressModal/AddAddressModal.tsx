@@ -108,7 +108,7 @@ const AddAddressModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div className={styles['modal-backdrop']} onClick={handleBackdropClick}>
       <div className={styles.modal}>
         <h2>Add new Address</h2>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -134,7 +134,7 @@ const AddAddressModal = ({
                 <option value="AM">Armenia</option>
               </select>
               {errors.country && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.country.message}
                 </div>
               )}
@@ -154,7 +154,7 @@ const AddAddressModal = ({
                 })}
               />
               {errors.streetName && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.streetName.message}
                 </div>
               )}
@@ -179,7 +179,9 @@ const AddAddressModal = ({
                 })}
               />
               {errors.city && (
-                <div className={styles.errorMessage}>{errors.city.message}</div>
+                <div className={styles['error-message']}>
+                  {errors.city.message}
+                </div>
               )}
             </label>
             <label htmlFor="postalCode" className={styles.label}>
@@ -201,7 +203,7 @@ const AddAddressModal = ({
                 })}
               />
               {errors.postalCode && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.postalCode.message}
                 </div>
               )}

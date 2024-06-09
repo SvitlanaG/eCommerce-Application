@@ -12,7 +12,6 @@ describe('Links component', () => {
       </MemoryRouter>,
     );
 
-    // Check for catalog link
     const catalogLink = screen.getByRole('link', { name: /catalog/i });
     expect(catalogLink).toBeInTheDocument();
     expect(catalogLink).toHaveAttribute('href', '/catalog');
