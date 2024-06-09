@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
-import getBooks from '@/services/getBooks';
 import Up from '@/assets/icons/up.svg';
 import Menu from '@/assets/icons/menu.svg';
 import Down from '@/assets/icons/down.svg';
 import Close from '@/assets/icons/close.svg';
 import { PropsCategories } from '@/types/Props';
 import useFetch from '@/hooks/useFetch';
+import { filterBooks } from '@/helpers/Utils/utils';
+import { Product } from '@/types/products';
 
 const Categories = ({
   onSetBooks,
@@ -38,29 +39,10 @@ const Categories = ({
                 <span
                   onClick={async () => {
                     onSetCategory(item.id);
-                    onSetBooks(
-                      (await getBooks(false, false))
-                        .filter((book) =>
-                          book.categories.some(
-                            (category) => category.id === item.id,
-                          ),
-                        )
-                        .filter((book) => {
-                          return language
-                            ? Object.keys(book.name).includes(language)
-                            : true;
-                        })
-                        .filter((book) => {
-                          if (priceRange) {
-                            return priceRange === 100
-                              ? (book.price?.centAmount ?? 0) >= 100 * 100
-                              : (book.price?.centAmount ?? 0) >=
-                                  priceRange * 100 &&
-                                  (book.price?.centAmount ?? 0) <=
-                                    (priceRange + 30) * 100;
-                          }
-                          return true;
-                        }),
+                    filterBooks(language, priceRange, item).then(
+                      (data: Product[]) => {
+                        onSetBooks(data);
+                      },
                     );
                   }}
                 >
