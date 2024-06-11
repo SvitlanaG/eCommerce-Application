@@ -10,7 +10,7 @@ import {
 import styles from '@/components/Header/Header.module.scss';
 
 interface NavigationIconsProps {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | undefined;
   logOut: () => void;
 }
 
