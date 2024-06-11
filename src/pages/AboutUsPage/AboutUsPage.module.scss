@@ -19,7 +19,7 @@
   }
 
   .info-text {
-    @extend .text-body;
+    @extend .text-body, .text-body-large;
     margin: 0.75rem 0;
   }
 
@@ -41,8 +41,22 @@
 
 .rs-school {
   & img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    width: 10rem;
+    padding: 0.5rem;
+    transition: 0.3s ease;
+
+    &:hover,
+    focus {
+      outline: 2px solid $dark-color;
+      outline-offset: -2px;
+      border-radius: 10px;
+    }
+    &:active {
+      box-shadow: $active;
+    }
+
+    @media (max-width: 768px) {
+      width: 8rem;
+    }
   }
 }
