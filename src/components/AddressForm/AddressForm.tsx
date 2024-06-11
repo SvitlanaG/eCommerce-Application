@@ -8,6 +8,8 @@ import { Address, User } from '@/types/UserType';
 import removeAddress from '@/services/removeAddress';
 import changeAddress from '@/services/changeAddress';
 import Toast from '@/helpers/Toast';
+import { countryPostalPatterns } from '@/helpers/constants';
+import AddressFormButtons from '@/components/AddressFormButtons/AddressFormButtons';
 
 interface AddressFormProps {
   customer: User;
@@ -37,12 +39,6 @@ const AddressForm = ({
     formState: { errors },
     watch,
   } = useForm<Address>({ mode: 'onChange', defaultValues: initialValues });
-
-  const countryPostalPatterns: Record<string, RegExp> = {
-    DE: /^[0-9]{5}$/,
-    BY: /^[0-9]{6}$/,
-    AM: /^[0-9]{4}$/,
-  };
 
   const optionsAddressType: OptionType[] = [
     { value: 'shipping', label: 'Shipping' },
@@ -334,47 +330,12 @@ const AddressForm = ({
           />
         </label>
         <span />
-        {!isEditModeAddress ? (
-          <div className={stylesAddress.buttons}>
-            <button
-              className={clsx(styles['button-small'], styles['button-delete'])}
-              type="button"
-              onClick={() => handleDeleteAddress(initialValues.id)}
-            >
-              Delete
-            </button>
-            <button
-              className={clsx(styles['button-small'], styles['button-primary'])}
-              type="button"
-              onClick={editAddress}
-            >
-              Edit
-            </button>
-          </div>
-        ) : (
-          <div className={stylesAddress.buttons}>
-            <button
-              className={clsx(
-                styles['button-small'],
-                styles['button-secondary'],
-              )}
-              type="button"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              className={clsx(
-                styles['button-small'],
-                styles['button-primary'],
-                stylesAddress['save-button'],
-              )}
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
-        )}
+        <AddressFormButtons
+          isEditMode={isEditModeAddress}
+          handleDelete={() => handleDeleteAddress(initialValues.id)}
+          handleEdit={editAddress}
+          handleCancel={handleCancel}
+        />
       </div>
     </form>
   );

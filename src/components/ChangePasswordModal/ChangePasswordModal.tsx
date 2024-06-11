@@ -9,6 +9,7 @@ import getCustomer from '@/services/getCustomer';
 import changePassword from '@/services/changePassword';
 import { User } from '@/types/UserType';
 import Toast from '@/helpers/Toast';
+import handleBackdropClick from '@/hooks/useModalConfig';
 
 interface ChangePasswordFormValues {
   currentPassword: string;
@@ -68,12 +69,6 @@ const ChangePasswordModal = ({
     onClose();
   };
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   const handlePasswordChange: SubmitHandler<ChangePasswordFormValues> = async (
     data,
   ) => {
@@ -101,7 +96,10 @@ const ChangePasswordModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles['modal-backdrop']} onClick={handleBackdropClick}>
+    <div
+      className={styles['modal-backdrop']}
+      onClick={(e) => handleBackdropClick(e, onClose)}
+    >
       <div className={styles.modal}>
         <h2>Change Password</h2>
         <span

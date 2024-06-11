@@ -11,6 +11,8 @@ import closedEye from '@/assets/icons/eyeClosed.svg';
 import styles from '@/pages/RegistrationPage/RegistrationPage.module.scss';
 import validatePassword from '@/helpers/validatePassword';
 import validateAge from '@/helpers/validateAge';
+import { countryPostalPatterns } from '@/helpers/constants';
+import { handleShowPassword } from '@/hooks/usePasswordManager';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -32,11 +34,6 @@ const RegistrationForm = () => {
   const [postalBillingPattern, setPostalBillingPattern] = useState<
     RegExp | undefined
   >(undefined);
-  const countryPostalPatterns: Record<string, RegExp> = {
-    DE: /^[0-9]{5}$/,
-    BY: /^[0-9]{6}$/,
-    AM: /^[0-9]{4}$/,
-  };
 
   const watchShippingCountry = watch('addresses.0.country');
   const watchBillingCountry = watch('addresses.1.country');
@@ -81,9 +78,6 @@ const RegistrationForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   const handleShowConfirmPassword = () => {
     setIsConfirmPassword(!isConfirmPassword);
@@ -220,7 +214,10 @@ const RegistrationForm = () => {
               validate: validatePassword,
             })}
           />
-          <div className={styles.eye} onClick={handleShowPassword}>
+          <div
+            className={styles.eye}
+            onClick={() => handleShowPassword(showPassword, setShowPassword)}
+          >
             <img src={showPassword ? openEye : closedEye} alt="eye icon" />
           </div>
           {errors.password && (
