@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, vi, Mock } from 'vitest';
-import AddressForm from '@/components/AddressForm/AddressForm';
+import AddressForm from '@/components/AddressForm';
 import { User, Address } from '@/types/UserType';
 import changeAddress from '@/services/changeAddress';
 import removeAddress from '@/services/removeAddress';
@@ -53,18 +53,13 @@ describe('AddressForm component', () => {
       />,
     );
 
-    // Click the edit button to switch to edit mode
     fireEvent.click(screen.getByText(/Edit/i));
-
-    // Change the city field to a new value
     fireEvent.change(screen.getByLabelText(/City/i), {
       target: { value: 'New City' },
     });
 
-    // Click the save button
     fireEvent.click(screen.getByText(/Save/i));
 
-    // Wait for the async submission
     await waitFor(() => {
       expect(changeAddress).toHaveBeenCalled();
       expect(mockOnChangeAddress).toHaveBeenCalled();
@@ -89,10 +84,8 @@ describe('AddressForm component', () => {
       />,
     );
 
-    // Click the delete button
     fireEvent.click(screen.getByText(/Delete/i));
 
-    // Wait for the async deletion
     await waitFor(() => {
       expect(removeAddress).toHaveBeenCalled();
       expect(mockOnChangeAddress).toHaveBeenCalled();

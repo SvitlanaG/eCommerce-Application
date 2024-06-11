@@ -18,22 +18,26 @@ const ImageModal = ({ isOpen, onClose, images }: Props) => {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
-      <div className={styles.imgModal}>
+    <div className={styles['modal-backdrop']} onClick={handleBackdropClick}>
+      <div className={styles['img-modal']}>
         <Carousel data-bs-theme="dark">
           {images?.map((i) => {
             return (
               <Carousel.Item key={i.uri}>
-                <div className={styles.imgWrapper}>
-                  <div className={styles.imgContainer}>
-                    <img className={styles.sliderImg} src={i.uri} alt="Book" />
+                <div className={styles['img-wrapper']}>
+                  <div className={styles['img-container']}>
+                    <img
+                      className={styles['slider-img']}
+                      src={i.uri}
+                      alt="Book"
+                    />
                   </div>
                 </div>
               </Carousel.Item>
             );
           })}
         </Carousel>
-        <div className={styles.closeModal} onClick={onClose}>
+        <div className={styles['close-modal']} onClick={onClose}>
           <img src={closeIcon} alt="close" />
         </div>
       </div>

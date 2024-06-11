@@ -40,7 +40,7 @@ const LoginForm = () => {
       <span className={clsx(styles['text-info1'], styles['text-info1-small'])}>
         Fields marked with * are required.
       </span>
-      <div className={styles.inputWrapperLogin}>
+      <div className={styles['input-wrapper-login']}>
         <label htmlFor="email" className={styles.label}>
           <span>Email *</span>
           <input
@@ -60,7 +60,9 @@ const LoginForm = () => {
             })}
           />
           {errors.email && (
-            <div className={styles.errorMessage}>{errors.email.message}</div>
+            <div className={styles['error-message']}>
+              {errors.email.message}
+            </div>
           )}
         </label>
 
@@ -87,7 +89,9 @@ const LoginForm = () => {
             <img src={showPassword ? openEye : closedEye} alt="eye icon" />
           </div>
           {errors.password && (
-            <div className={styles.errorMessage}>{errors.password.message}</div>
+            <div className={styles['error-message']}>
+              {errors.password.message}
+            </div>
           )}
         </label>
       </div>

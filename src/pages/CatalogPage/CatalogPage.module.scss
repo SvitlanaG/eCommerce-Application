@@ -15,13 +15,13 @@
   display: flex;
   flex-direction: column;
   width: 170px;
-  .categoryBtn {
+  .category-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     border-bottom: 2px solid $orange-color;
   }
-  .categoryBtn:hover {
+  .category-btn:hover {
     color: $orange-color;
     cursor: pointer;
   }
@@ -40,7 +40,7 @@
   row-gap: 1rem;
   margin: 2rem 0;
 
-  .imageDiv {
+  .image-div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +61,7 @@
       }
     }
 
-    .imageDescription {
+    .image-description {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -76,7 +76,7 @@
         margin-bottom: 15px;
       }
 
-      .bookName {
+      .book-name {
         height: 50px;
       }
 
@@ -113,19 +113,18 @@
     position: relative;
     width: 100%;
     gap: 10px;
-    .sortContainer {
+    .sort-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative; 
-      .sortIcon {
+      position: relative;
+      .sort-icon {
         position: absolute;
         left: 0;
         color: $gray-40;
       }
-    
     }
-    .filterDiv {
+    .filter-div {
       display: flex;
       position: absolute;
       right: 0;
@@ -133,13 +132,13 @@
       align-items: center;
       gap: 5px;
       cursor: pointer;
-      .filterButtons {
+      .filter-buttons {
         display: flex;
         flex-direction: row;
         align-items: center;
         color: $gray-40;
       }
-      .filterButtons:hover {
+      .filter-buttons:hover {
         color: $orange-color;
       }
       .details {
@@ -181,7 +180,7 @@
         height: 50px;
       }
     }
-    .searchInput {
+    .search-input {
       align-self: center;
       border-radius: 20px;
       border: 3px solid #ecedee;
@@ -218,10 +217,10 @@
 }
 
 @media (max-width: 500px) {
-  .categoryBtn {
+  .category-btn {
     display: none !important;
   }
-  .burgerBtn {
+  .burger-btn {
     display: flex !important;
     cursor: pointer;
   }
@@ -235,7 +234,7 @@
 }
 
 @media (min-width: 500px) {
-  .burgerBtn {
+  .burger-btn {
     display: none;
   }
 }

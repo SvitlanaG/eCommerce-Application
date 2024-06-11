@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
-import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
+import RegistrationForm from '@/components/RegistrationForm';
 import { store } from '@/store/store';
 
 describe('RegistrationForm component', () => {
@@ -16,7 +16,6 @@ describe('RegistrationForm component', () => {
       </Provider>,
     );
 
-    // Check for input fields
     const firstNameInput = screen.getByLabelText(/first name \*/i);
     const lastNameInput = screen.getByLabelText(/last name \*/i);
     const emailInput = screen.getByLabelText(/email \*/i);
@@ -45,11 +44,9 @@ describe('RegistrationForm component', () => {
     expect(cityShippingInput).toBeInTheDocument();
     expect(postalShippingInput).toBeInTheDocument();
 
-    // Check for submit button
     const submitButton = screen.getByText('Register');
     expect(submitButton).toBeInTheDocument();
 
-    // Check for the link to login page
     const loginLink = screen.getByText(/login/i);
     expect(loginLink).toBeInTheDocument();
     expect(loginLink).toHaveAttribute('href', '/login');

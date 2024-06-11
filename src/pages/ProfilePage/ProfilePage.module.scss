@@ -3,7 +3,7 @@
 @import '@/styles/components/buttons.module.scss';
 @import '@/styles/components/toggleswitch.module.scss';
 
-.inputWrapper {
+.input-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: stretch;

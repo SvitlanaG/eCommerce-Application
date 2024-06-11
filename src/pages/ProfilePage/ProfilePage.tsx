@@ -145,7 +145,7 @@ const ProfilePage = () => {
       <h2>Your Profile</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h3>Personal Information</h3>
-        <div className={stylesProfile.inputWrapper}>
+        <div className={stylesProfile['input-wrapper']}>
           <label htmlFor="firstName" className={styles.label}>
             <span>First name</span>
             <input
@@ -167,7 +167,7 @@ const ProfilePage = () => {
               disabled={!isEditModePersonalInfo}
             />
             {errors.firstName && (
-              <div className={styles.errorMessage}>
+              <div className={styles['error-message']}>
                 {errors.firstName.message}
               </div>
             )}
@@ -194,7 +194,7 @@ const ProfilePage = () => {
               disabled={!isEditModePersonalInfo}
             />
             {errors.lastName && (
-              <div className={styles.errorMessage}>
+              <div className={styles['error-message']}>
                 {errors.lastName.message}
               </div>
             )}
@@ -220,7 +220,7 @@ const ProfilePage = () => {
               disabled={!isEditModePersonalInfo}
             />
             {errors.dateOfBirth && (
-              <div className={styles.errorMessage}>
+              <div className={styles['error-message']}>
                 {errors.dateOfBirth.message}
               </div>
             )}
@@ -246,7 +246,9 @@ const ProfilePage = () => {
               disabled={!isEditModePersonalInfo}
             />
             {errors.email && (
-              <div className={styles.errorMessage}>{errors.email.message}</div>
+              <div className={styles['error-message']}>
+                {errors.email.message}
+              </div>
             )}
           </label>
 
@@ -286,7 +288,7 @@ const ProfilePage = () => {
       </form>
 
       <h3>Actions</h3>
-      <div className={stylesProfile.inputWrapper}>
+      <div className={stylesProfile['input-wrapper']}>
         <span />
         <div className={stylesProfile.buttons}>
           <button

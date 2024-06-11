@@ -3,7 +3,7 @@
 @import '@/styles/components/buttons.module.scss';
 @import '@/components/AddressForm/AddressForm.module.scss';
 
-.modalBackdrop {
+.modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -46,7 +46,7 @@
           margin: 1rem 0 0.2rem 0;
         }
 
-        .errorMessage {
+        .error-message {
           @extend .text-info1;
           color: $error-color;
         }

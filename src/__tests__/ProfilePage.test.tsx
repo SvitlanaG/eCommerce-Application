@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
-import ProfilePage from '@/pages/ProfilePage/ProfilePage';
+import ProfilePage from '@/pages/ProfilePage';
 import '@testing-library/jest-dom';
 
 describe('ProfilePage component', () => {
@@ -32,7 +32,6 @@ describe('ProfilePage component', () => {
       </Provider>,
     );
 
-    // Check if modal is closed by default
     expect(screen.queryByTestId('close-button')).toBeNull();
     expect(screen.queryByTestId('submit-button')).toBeNull();
   });
