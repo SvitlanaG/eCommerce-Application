@@ -20,13 +20,13 @@ const Categories = ({
   return (
     <div className={styles.categories}>
       <span
-        className={styles.categoryBtn}
+        className={styles['category-btn']}
         onClick={() => setIsListVisible(!isListVisible)}
       >
         <h4>categories</h4> <img src={isListVisible ? Up : Down} alt="" />
       </span>
       <span
-        className={styles.burgerBtn}
+        className={styles['burger-btn']}
         onClick={() => setIsListVisible(!isListVisible)}
       >
         <img src={isListVisible ? Close : Menu} alt="" />

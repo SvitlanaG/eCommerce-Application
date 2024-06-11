@@ -215,7 +215,9 @@ const AddressForm = ({
             <option value="AM">Armenia</option>
           </select>
           {errors.country && (
-            <div className={styles.errorMessage}>{errors.country.message}</div>
+            <div className={styles['error-message']}>
+              {errors.country.message}
+            </div>
           )}
         </label>
         <label htmlFor="streetName" className={styles.label}>
@@ -234,7 +236,7 @@ const AddressForm = ({
             disabled={!isEditModeAddress}
           />
           {errors.streetName && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.streetName.message}
             </div>
           )}
@@ -259,7 +261,7 @@ const AddressForm = ({
             disabled={!isEditModeAddress}
           />
           {errors.city && (
-            <div className={styles.errorMessage}>{errors.city.message}</div>
+            <div className={styles['error-message']}>{errors.city.message}</div>
           )}
         </label>
         <label htmlFor="postalCode" className={styles.label}>
@@ -282,7 +284,7 @@ const AddressForm = ({
             disabled={!isEditModeAddress}
           />
           {errors.postalCode && (
-            <div className={styles.errorMessage}>
+            <div className={styles['error-message']}>
               {errors.postalCode.message}
             </div>
           )}
