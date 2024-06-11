@@ -1,6 +1,6 @@
 @import '@/components/ChangePasswordModal/ChangePasswordModal.module.scss';
 
-.imgModal {
+.img-modal {
   position: relative;
   display: flex;
   justify-content: center;
@@ -15,14 +15,14 @@
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
-  .imgWrapper {
+  .img-wrapper {
     width: 75vw;
     height: 75vh;
     min-width: 330px;
     display: flex;
     justify-content: center;
     align-items: center;
-    .imgContainer {
+    .img-container {
       width: 70vw;
       height: 70vh;
       min-width: 300px;
@@ -30,13 +30,13 @@
       justify-content: center;
       align-items: center;
 
-      .sliderImg {
+      .slider-img {
         max-width: 90%;
         max-height: 90%;
       }
     }
   }
-  .closeModal {
+  .close-modal {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;

@@ -9,6 +9,7 @@ import getCustomer from '@/services/getCustomer';
 import changePassword from '@/services/changePassword';
 import { User } from '@/types/UserType';
 import Toast from '@/helpers/Toast';
+import handleBackdropClick from '@/hooks/useModalConfig';
 
 interface ChangePasswordFormValues {
   currentPassword: string;
@@ -68,12 +69,6 @@ const ChangePasswordModal = ({
     onClose();
   };
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   const handlePasswordChange: SubmitHandler<ChangePasswordFormValues> = async (
     data,
   ) => {
@@ -101,7 +96,10 @@ const ChangePasswordModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div
+      className={styles['modal-backdrop']}
+      onClick={(e) => handleBackdropClick(e, onClose)}
+    >
       <div className={styles.modal}>
         <h2>Change Password</h2>
         <span
@@ -111,7 +109,7 @@ const ChangePasswordModal = ({
           log in again with your new password.
         </span>
         <form onSubmit={handleSubmit(handlePasswordChange)}>
-          <div className={styles.inputWrapper}>
+          <div className={styles['input-wrapper']}>
             <label htmlFor="currentPassword" className={styles.label}>
               <span>Current Password</span>
               <input
@@ -138,7 +136,7 @@ const ChangePasswordModal = ({
                 />
               </div>
               {errors.currentPassword && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.currentPassword.message}
                 </div>
               )}
@@ -175,7 +173,7 @@ const ChangePasswordModal = ({
                 />
               </div>
               {errors.newPassword && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.newPassword.message}
                 </div>
               )}
@@ -207,7 +205,7 @@ const ChangePasswordModal = ({
                 />
               </div>
               {errors.confirmNewPassword && (
-                <div className={styles.errorMessage}>
+                <div className={styles['error-message']}>
                   {errors.confirmNewPassword.message}
                 </div>
               )}

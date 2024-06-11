@@ -5,6 +5,7 @@ import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import { Product } from '@/types/products';
 import { getDiscounts } from '@/services/catalog';
 import imageDefault from '@/assets/img/imageDefault.png';
+import getDiscounted from '@/helpers/Utils/utils';
 
 const Books = ({ books }: { books: Product[] }) => {
   const [discounted, setDiscounted] = useState<
@@ -13,7 +14,7 @@ const Books = ({ books }: { books: Product[] }) => {
   useEffect(() => {
     getDiscounts().then((discounts) => {
       const skus = discounts.map((discount) => {
-        const matched = discount?.predicate
+        const matched = discount?.predicate // get sku from predicate raw value
           ?.split('=')[1]
           .trim()
           .replace(/"/g, '');
@@ -33,9 +34,9 @@ const Books = ({ books }: { books: Product[] }) => {
   return (
     <div className={styles['main-div']}>
       {books.map((book) => (
-        <div key={book.key} className={styles.imageDiv}>
+        <div key={book.key} className={styles['image-div']}>
           <div
-            className={styles.imageDescription}
+            className={styles['image-description']}
             onClick={() => handleBookInfo(book.key)}
           >
             <img
@@ -46,7 +47,7 @@ const Books = ({ books }: { books: Product[] }) => {
               alt="book"
               className={styles.img}
             />
-            <p className={styles.bookName} key={book.key}>
+            <p className={styles['book-name']} key={book.key}>
               {book.name['en-GB']}
             </p>
             <div className={clsx(styles.prices)}>
@@ -59,15 +60,7 @@ const Books = ({ books }: { books: Product[] }) => {
               </p>
               {discounted.find((discount) => discount?.sku === book.sku) && (
                 <span className={clsx(styles.price)}>
-                  {+((book?.price?.centAmount ?? 0) / 100).toFixed(2) -
-                    +(
-                      +(
-                        discounted.find(
-                          (discount) => discount?.sku === book.sku,
-                        )?.value ?? 0
-                      ) / 100
-                    ).toFixed(2)}
-                  $
+                  {getDiscounted(book, discounted)}$
                 </span>
               )}
             </div>

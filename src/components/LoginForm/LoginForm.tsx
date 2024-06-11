@@ -10,6 +10,7 @@ import openEye from '@/assets/icons/eyeOpen.svg';
 import closedEye from '@/assets/icons/eyeClosed.svg';
 import { setLoggedIn } from '@/store/user/userSlice';
 import validatePassword from '@/helpers/validatePassword';
+import { handleShowPassword } from '@/hooks/usePasswordManager';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -30,9 +31,6 @@ const LoginForm = () => {
     }
   };
   const [showPassword, setShowPassword] = useState(false);
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -40,7 +38,7 @@ const LoginForm = () => {
       <span className={clsx(styles['text-info1'], styles['text-info1-small'])}>
         Fields marked with * are required.
       </span>
-      <div className={styles.inputWrapperLogin}>
+      <div className={styles['input-wrapper-login']}>
         <label htmlFor="email" className={styles.label}>
           <span>Email *</span>
           <input
@@ -60,7 +58,9 @@ const LoginForm = () => {
             })}
           />
           {errors.email && (
-            <div className={styles.errorMessage}>{errors.email.message}</div>
+            <div className={styles['error-message']}>
+              {errors.email.message}
+            </div>
           )}
         </label>
 
@@ -83,11 +83,16 @@ const LoginForm = () => {
               validate: validatePassword,
             })}
           />
-          <div className={styles.eye} onClick={handleShowPassword}>
+          <div
+            className={styles.eye}
+            onClick={() => handleShowPassword(showPassword, setShowPassword)}
+          >
             <img src={showPassword ? openEye : closedEye} alt="eye icon" />
           </div>
           {errors.password && (
-            <div className={styles.errorMessage}>{errors.password.message}</div>
+            <div className={styles['error-message']}>
+              {errors.password.message}
+            </div>
           )}
         </label>
       </div>

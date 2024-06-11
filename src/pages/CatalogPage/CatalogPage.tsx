@@ -11,6 +11,8 @@ import sortAscending from '@/assets/icons/sortAscending.svg';
 import filter from '@/assets/icons/filter.svg';
 import Prices from '@/components/Catalog/Prices';
 import Languages from '@/components/Catalog/Languages';
+import { sortCondition } from '@/helpers/Utils/utils';
+import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
@@ -18,91 +20,49 @@ const CatalogPage = () => {
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
   const [priceRange, setPriceRange] = useState<number | null>(null);
-  const optionsSort: { value: string; label: string }[] = [
-    {
-      value: 'priceAsc',
-      label: 'ascending price',
-    },
-    {
-      value: 'priceDesc',
-      label: 'descending price',
-    },
-    {
-      value: 'name',
-      label: 'name',
-    },
-  ];
   useEffect(() => {
-    getBooks(false, false).then((products) => setBooks(products));
+    getBooks('').then((products) => setBooks(products));
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target.name === 'langauge') {
       setLanguage(ev.target.value);
       let url;
       if (category !== '') {
-        url = `:"${category}"${priceRange ? `&filter=variants.price.centAmount:range(${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})` : ''}`;
+        url = `search?filter=categories.id:"${category}"${priceRange ? `&filter=variants.price.centAmount:range(${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})` : ''}`;
       } else if (priceRange)
-        url = `variants.price.centAmount:range (${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})`;
+        url = `search?filter=variants.price.centAmount: range (${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})`;
       else url = '';
-      setBooks(
-        (
-          await getBooks(
-            false,
-            Boolean(category) || Boolean(priceRange),
-            `${category ? 'categories.id' : ''}`,
-            url,
-          )
-        ).filter((book) => Object.keys(book.name).includes(ev.target.value)),
-      );
+      getBooks(url).then((data: Product[]) => {
+        setBooks(
+          data.filter((book) =>
+            Object.keys(book.name).includes(ev.target.value),
+          ),
+        );
+      });
     } else if (ev.target.name === 'price') {
       setPriceRange(+ev.target.value);
-      setBooks(
-        (
-          await getBooks(
-            false,
-            true,
-            'variants.price.centAmount',
-            `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
-          )
-        ).filter((book) => {
-          return language ? Object.keys(book.name).includes(language) : true;
-        }),
-      );
+      getBooks(
+        `search?filter=variants.price.centAmount:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
+      ).then((data: Product[]) => {
+        setBooks(
+          data.filter((book) => {
+            return language ? Object.keys(book.name).includes(language) : true;
+          }),
+        );
+      });
     }
   };
 
   const sortBooks = async (criteria: string) => {
-    if (criteria === 'priceAsc') {
-      setBooks(
-        (await getBooks(true, false, 'price', 'asc')).filter((book) => {
-          const key = books.find((el) => el.key === book.key)?.key;
-          if (key) {
-            return key === book.key;
-          }
-          return false;
-        }),
-      );
-    } else if (criteria === 'priceDesc') {
-      setBooks(
-        (await getBooks(true, false, 'price', 'desc')).filter((book) => {
-          const key = books.find((el) => el.key === book.key)?.key;
-          if (key) {
-            return key === book.key;
-          }
-          return false;
-        }),
-      );
+    if (criteria === 'asc' || criteria === 'desc') {
+      getBooks(`search?sort=price ${criteria}`).then((data: Product[]) => {
+        setBooks(data.filter((book) => sortCondition(book, books)));
+      });
     }
     if (criteria === 'name') {
-      setBooks(
-        (await getBooks(true, false, 'name.en-US', 'asc')).filter((book) => {
-          const key = books.find((el) => el.key === book.key)?.key;
-          if (key) {
-            return key === book.key;
-          }
-          return false;
-        }),
-      );
+      getBooks(`search?sort=name.en-US asc`).then((data: Product[]) => {
+        setBooks(data.filter((book) => sortCondition(book, books)));
+      });
     }
   };
   const handleSortChange = (
@@ -134,20 +94,22 @@ const CatalogPage = () => {
               className={`${styles['input-img']} ${styles.search}`}
             />
             <input
-              className={styles.searchInput}
+              className={styles['search-input']}
               onChange={async (e) => {
-                setBooks(
-                  (await getBooks(false, false)).filter((book) =>
-                    book.name['en-GB']
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase()),
-                  ),
-                );
+                getBooks('').then((data: Product[]) => {
+                  setBooks(
+                    data.filter((book) =>
+                      book.name['en-GB']
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()),
+                    ),
+                  );
+                });
               }}
               type="search"
             />
           </span>
-          <span className={clsx(styles.sortContainer)}>
+          <span className={clsx(styles['sort-container'])}>
             <Select
               options={optionsSort}
               className={styles.sort}
@@ -170,15 +132,19 @@ const CatalogPage = () => {
                 }),
               }}
             />
-            <img src={sortAscending} alt="" className={clsx(styles.sortIcon)} />
+            <img
+              src={sortAscending}
+              alt=""
+              className={clsx(styles['sort-icon'])}
+            />
           </span>
-          <div className={clsx(styles.filterDiv)}>
+          <div className={clsx(styles['filter-div'])}>
             <div
-              className={clsx(styles.filterButtons)}
+              className={clsx(styles['filter-buttons'])}
               onClick={() => setVisible(!visible)}
             >
               <span className={clsx(styles.filter)}>filter</span>
-              <img src={filter} alt="" className={clsx(styles.sortIcon)} />
+              <img src={filter} alt="" className={clsx(styles['sort-icon'])} />
             </div>
             <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
               <Prices handleChange={handleChange} />

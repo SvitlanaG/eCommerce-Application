@@ -51,7 +51,7 @@ const ProductPage = () => {
       <div className={styles.info}>
         <h2>{book?.name['en-GB']}</h2>
         <p>{book?.description['en-GB']}</p>
-        <div className={styles.priceContainer}>
+        <div className={styles['price-container']}>
           <div className={styles.price}>Price:</div>
           <div
             className={`${styles.price} ${discounted.find((d) => d?.sku === book?.masterVariant?.sku) && styles.discounted}`}
@@ -75,17 +75,21 @@ const ProductPage = () => {
           )}
         </div>
       </div>
-      <div className={styles.carouselContainer}>
+      <div className={styles['carousel-container']}>
         <Carousel data-bs-theme="dark">
           {book?.masterVariant.assets?.[0]?.sources.map((i) => {
             return (
               <Carousel.Item key={i.uri}>
-                <div className={styles.imgWrapper}>
+                <div className={styles['img-wrapper']}>
                   <div
-                    className={styles.imgContainer}
+                    className={styles['img-container']}
                     onClick={handleOpenModal}
                   >
-                    <img className={styles.sliderImg} src={i.uri} alt="Book" />
+                    <img
+                      className={styles['slider-img']}
+                      src={i.uri}
+                      alt="Book"
+                    />
                   </div>
                 </div>
               </Carousel.Item>

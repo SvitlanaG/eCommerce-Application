@@ -1,6 +1,7 @@
 import Carousel from 'react-bootstrap/Carousel';
 import styles from './ImageModal.module.scss';
 import closeIcon from '@/assets/icons/close.svg';
+import handleBackdropClick from '@/hooks/useModalConfig';
 
 type Props = {
   isOpen: boolean;
@@ -9,31 +10,32 @@ type Props = {
 };
 
 const ImageModal = ({ isOpen, onClose, images }: Props) => {
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
-      <div className={styles.imgModal}>
+    <div
+      className={styles['modal-backdrop']}
+      onClick={(e) => handleBackdropClick(e, onClose)}
+    >
+      <div className={styles['img-modal']}>
         <Carousel data-bs-theme="dark">
           {images?.map((i) => {
             return (
               <Carousel.Item key={i.uri}>
-                <div className={styles.imgWrapper}>
-                  <div className={styles.imgContainer}>
-                    <img className={styles.sliderImg} src={i.uri} alt="Book" />
+                <div className={styles['img-wrapper']}>
+                  <div className={styles['img-container']}>
+                    <img
+                      className={styles['slider-img']}
+                      src={i.uri}
+                      alt="Book"
+                    />
                   </div>
                 </div>
               </Carousel.Item>
             );
           })}
         </Carousel>
-        <div className={styles.closeModal} onClick={onClose}>
+        <div className={styles['close-modal']} onClick={onClose}>
           <img src={closeIcon} alt="close" />
         </div>
       </div>
