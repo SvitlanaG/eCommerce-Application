@@ -1,5 +1,12 @@
 import { toast, ToastPosition } from 'react-toastify';
 
+enum ToastStatus {
+  Info = 'info',
+  Error = 'error',
+  Success = 'success',
+  Warning = 'warning',
+}
+
 type ToastOptions = {
   position?: ToastPosition;
   autoClose?: number;
@@ -28,9 +35,9 @@ const Toast = ({ status, message }: IOptions) => {
     theme: 'light',
   };
 
-  if (status === 'success') {
+  if (status === ToastStatus.Success) {
     toast.success(message, toastOptions);
-  } else if (status === 'error') {
+  } else if (status === ToastStatus.Error) {
     toast.error(message, toastOptions);
   }
   return null;
