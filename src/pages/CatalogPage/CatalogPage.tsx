@@ -12,7 +12,7 @@ import filter from '@/assets/icons/filter.svg';
 import Prices from '@/components/Catalog/Prices';
 import Languages from '@/components/Catalog/Languages';
 import { sortCondition } from '@/helpers/Utils/utils';
-import optionsSort from '@/helpers/constants';
+import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
