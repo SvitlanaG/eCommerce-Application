@@ -1,1 +1,62 @@
 @import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
+
+.team-member-odd {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-direction: row-reverse;
+  border: 1px solid $gray-20;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  text-align: left;
+
+  & img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+  }
+
+  .info-text {
+    @extend .text-body, .text-body-large;
+    margin: 0.75rem 0;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.team-member-even {
+  flex-direction: row;
+  background-color: $gray-5;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.rs-school {
+  & img {
+    width: 10rem;
+    padding: 0.5rem;
+    transition: 0.3s ease;
+
+    &:hover,
+    focus {
+      outline: 2px solid $dark-color;
+      outline-offset: -2px;
+      border-radius: 10px;
+    }
+    &:active {
+      box-shadow: $active;
+    }
+
+    @media (max-width: 768px) {
+      width: 8rem;
+    }
+  }
+}
