@@ -7,7 +7,13 @@ import { getDiscounts } from '@/services/catalog';
 import imageDefault from '@/assets/img/imageDefault.png';
 import getDiscounted from '@/helpers/Utils/utils';
 
-const Books = ({ books }: { books: Product[] }) => {
+const Books = ({
+  books,
+  // customerID,
+}: {
+  books: Product[];
+  // customerID: string;
+}) => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
@@ -25,6 +31,11 @@ const Books = ({ books }: { books: Product[] }) => {
       setDiscounted(skus);
     });
   }, [books]);
+  // const addCart = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  //   if (customerID) {
+  //     console.log('id:', customerID);
+  //   }
+  // };
 
   const navigate = useNavigate();
   const handleBookInfo = (key: string) => {
@@ -67,9 +78,14 @@ const Books = ({ books }: { books: Product[] }) => {
           </div>
           <button
             type="submit"
-            className={clsx(styles['button-small'], styles['button-primary'])}
+            // onClick={addCart}
+            className={clsx(
+              styles['button-small'],
+              styles['button-primary'],
+              styles['btn-cart'],
+            )}
           >
-            Order
+            Add To Cart
           </button>
         </div>
       ))}
