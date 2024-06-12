@@ -21,7 +21,7 @@ const teamMembers: TeamMember[] = [
     name: 'Ara Stepanyan',
     role: 'Frontend Developer',
     location: 'Yerevan',
-    bio: 'Ara is a skilled developer capable of creating client-side websites. He is always eager to learn new technologies and languages. His technical stack includes C, C++, Docker-Compose, and JavaScript. He holds a Master’s Degree from the National Polytechnical University of Armenia and has completed the Common Core program at 42 international coding school.',
+    bio: 'Ara is a skilled developer capable of creating client-side websites. He is always eager to learn new technologies and languages. His technical stack includes C, C++, Docker-Compose, and JavaScript.He has completed the Common Core program at 42 international coding school.',
     contributions:
       'Comprehensive README, CommerceTools Project and API Client Setup, Main page, 404 page, SUBMIT on Registration, Catalog Product page, Intergration of Login and Registration pages with CommerceTools',
     collaboration:
