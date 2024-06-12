@@ -15,6 +15,10 @@
 .content {
   flex: 1;
   flex-basis: 0;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 }
 
 .image img {
