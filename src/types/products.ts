@@ -1,4 +1,5 @@
 export interface Product {
+  id: string;
   categories: {
     typeId: string;
     id: string;
@@ -16,6 +17,7 @@ export interface Product {
 }
 
 export interface Book {
+  id: string;
   key: string;
   categories: {
     typeId: string;

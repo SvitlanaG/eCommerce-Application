@@ -19,6 +19,7 @@ const getBooks = async (urlEnd: string): Promise<Product[]> => {
     ).json();
     const products: Product[] = resp.results.map((el: Book, ind: number) => {
       const product: Product = {
+        id: el.id,
         categories: el.categories,
         description: el.description,
         name: el.name,

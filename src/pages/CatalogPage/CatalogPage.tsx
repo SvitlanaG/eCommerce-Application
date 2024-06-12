@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Select, { SingleValue } from 'react-select';
-import { useSelector } from 'react-redux';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
@@ -14,14 +13,12 @@ import Prices from '@/components/Catalog/Prices';
 import Languages from '@/components/Catalog/Languages';
 import { sortCondition } from '@/helpers/Utils/utils';
 import { optionsSort } from '@/helpers/constants';
-import { RootState } from '@/store/store';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
-  const customerId = useSelector((state: RootState) => state.user.id);
   const [priceRange, setPriceRange] = useState<number | null>(null);
   useEffect(() => {
     getBooks('').then((products) => setBooks(products));
@@ -155,7 +152,7 @@ const CatalogPage = () => {
             </div>
           </div>
         </div>
-        <Books books={books} customerID={customerId} />
+        <Books books={books} />
       </div>
     </div>
   );

@@ -6,14 +6,9 @@ import { Product } from '@/types/products';
 import { getDiscounts } from '@/services/catalog';
 import imageDefault from '@/assets/img/imageDefault.png';
 import getDiscounted from '@/helpers/Utils/utils';
+import { getCart, updateCart } from '@/services/cart';
 
-const Books = ({
-  books,
-  // customerID,
-}: {
-  books: Product[];
-  // customerID: string;
-}) => {
+const Books = ({ books }: { books: Product[] }) => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
@@ -31,11 +26,13 @@ const Books = ({
       setDiscounted(skus);
     });
   }, [books]);
-  // const addCart = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-  //   if (customerID) {
-  //     console.log('id:', customerID);
-  //   }
-  // };
+  const addCart = (productId: string) => {
+    getCart().then(async (cartInfo) => {
+      if (cartInfo) {
+        await updateCart(cartInfo.id, cartInfo.version, productId);
+      }
+    });
+  };
 
   const navigate = useNavigate();
   const handleBookInfo = (key: string) => {
@@ -78,7 +75,7 @@ const Books = ({
           </div>
           <button
             type="submit"
-            // onClick={addCart}
+            onClick={() => addCart(book.id)}
             className={clsx(
               styles['button-small'],
               styles['button-primary'],
