@@ -75,6 +75,7 @@ const AboutUsPage = () => {
             className={clsx(styles['team-member-odd'], {
               [styles['team-member-even']]: index === 1,
             })}
+            role="article"
           >
             <div>
               <img src={member.photo} alt={member.name} />
@@ -88,15 +89,13 @@ const AboutUsPage = () => {
                 <strong>Location:</strong> {member.location}
               </p>
               <p className={styles['info-text']}>
-                <strong>Bio: </strong>
-                {member.bio}
+                <strong>Bio:</strong> {member.bio}
               </p>
               <p className={styles['info-text']}>
                 <strong>Contributions:</strong> {member.contributions}
               </p>
               <p className={styles['info-text']}>
-                <strong>Collaboration: </strong>
-                {member.collaboration}
+                <strong>Collaboration:</strong> {member.collaboration}
               </p>
               <a
                 href={member.github}
