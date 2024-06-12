@@ -136,11 +136,12 @@
 
     &:hover,
     &:focus {
-      background-color: $hover;
+      border: 1px solid $white-color;
+      outline: 1px solid $orange-color;
     }
 
     &:active {
-      background-color: $pressed;
+      box-shadow: $active;
     }
 
     &:disabled {
