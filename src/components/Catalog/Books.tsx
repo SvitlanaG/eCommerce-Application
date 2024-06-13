@@ -6,6 +6,7 @@ import { Product } from '@/types/products';
 import { getDiscounts } from '@/services/catalog';
 import imageDefault from '@/assets/img/imageDefault.png';
 import getDiscounted from '@/helpers/Utils/utils';
+import { getCart, updateCart } from '@/services/cart';
 
 const Books = ({ books }: { books: Product[] }) => {
   const [discounted, setDiscounted] = useState<
@@ -25,6 +26,14 @@ const Books = ({ books }: { books: Product[] }) => {
       setDiscounted(skus);
     });
   }, [books]);
+  const addCart = (productId: string) => {
+    getCart().then(async (cartInfo) => {
+      if (cartInfo) {
+        localStorage.setItem('cartId', cartInfo.id);
+        await updateCart(cartInfo.id, cartInfo.version, productId);
+      }
+    });
+  };
 
   const navigate = useNavigate();
   const handleBookInfo = (key: string) => {
@@ -67,9 +76,14 @@ const Books = ({ books }: { books: Product[] }) => {
           </div>
           <button
             type="submit"
-            className={clsx(styles['button-small'], styles['button-primary'])}
+            onClick={() => addCart(book.id)}
+            className={clsx(
+              styles['button-small'],
+              styles['button-primary'],
+              styles['btn-cart'],
+            )}
           >
-            Order
+            Add To Cart
           </button>
         </div>
       ))}
