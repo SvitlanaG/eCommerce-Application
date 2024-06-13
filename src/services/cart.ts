@@ -6,10 +6,11 @@ export const updateCart = async (
   productId: string,
 ) => {
   const myHeaders = new Headers();
+  const token = localStorage.getItem('userAccessToken');
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append(
     'Authorization',
-    `Bearer ${localStorage.getItem('visitorIdentifier')}`,
+    `Bearer ${token || localStorage.getItem('visitorIdentifier')}`,
   );
 
   const raw = JSON.stringify({
@@ -46,11 +47,12 @@ export const updateCart = async (
 };
 
 export const createCart = async () => {
+  const token = localStorage.getItem('userAccessToken');
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append(
     'Authorization',
-    `Bearer ${localStorage.getItem('visitorIdentifier')}`,
+    `Bearer ${token || localStorage.getItem('visitorIdentifier')}`,
   );
 
   const raw = JSON.stringify({
@@ -81,12 +83,15 @@ export const createCart = async () => {
 export const getCart = async (): Promise<{
   id: string;
   version: number;
+  productIds: string[];
+  quantity: number[];
 } | null> => {
+  const token = localStorage.getItem('userAccessToken');
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append(
     'Authorization',
-    `Bearer ${localStorage.getItem('visitorIdentifier')}`,
+    `Bearer ${token || localStorage.getItem('visitorIdentifier')}`,
   );
 
   const requestOptions = {
@@ -105,14 +110,28 @@ export const getCart = async (): Promise<{
     }
     const { id, version }: { id: string; version: number } =
       await response.json();
-    return { id, version };
+    const {
+      productIds,
+      quantity,
+    }: { productIds: string[]; quantity: number[] } = (
+      await response.json()
+    ).lineItems.map((el: { productId: string; quantity: number }) => {
+      return { productId: el.productId, quantity: el.quantity };
+    });
+    return { id, version, productIds, quantity };
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === '404') {
         try {
           await createCart();
           const cart = await getCart();
-          if (cart) return { id: cart.id, version: cart.version };
+          if (cart)
+            return {
+              id: cart.id,
+              version: cart.version,
+              quantity: cart.quantity,
+              productIds: cart.productIds,
+            };
         } catch (createError) {
           return null;
         }

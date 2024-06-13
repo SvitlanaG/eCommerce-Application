@@ -12,11 +12,22 @@ export const signIn = async (data: UserLogin) => {
       'Authorization',
       `Bearer ${localStorage.getItem('visitorIdentifier')}`,
     );
-
-    const raw = JSON.stringify({
-      email: data.email,
-      password: data.password,
-    });
+    let raw = '';
+    if (localStorage.getItem('cartId')) {
+      raw = JSON.stringify({
+        email: data.email,
+        password: data.password,
+        anonymousCart: {
+          id: localStorage.getItem('cartId'),
+          typeId: 'cart',
+        },
+      });
+    } else {
+      raw = JSON.stringify({
+        email: data.email,
+        password: data.password,
+      });
+    }
 
     const requestOptions = {
       method: 'POST',
@@ -25,7 +36,7 @@ export const signIn = async (data: UserLogin) => {
     };
 
     const response = await fetch(
-      'https://api.europe-west1.gcp.commercetools.com/rssecommercefinal/me/login',
+      `${import.meta.env.VITE_CTP_API_URL}/${import.meta.env.VITE_CTP_PROJECT_KEY}/me/login`,
       requestOptions,
     );
     if (!response.ok) {

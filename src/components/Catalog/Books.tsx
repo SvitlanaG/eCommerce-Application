@@ -29,6 +29,7 @@ const Books = ({ books }: { books: Product[] }) => {
   const addCart = (productId: string) => {
     getCart().then(async (cartInfo) => {
       if (cartInfo) {
+        localStorage.setItem('cartId', cartInfo.id);
         await updateCart(cartInfo.id, cartInfo.version, productId);
       }
     });
