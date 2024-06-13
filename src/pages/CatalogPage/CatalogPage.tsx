@@ -152,7 +152,7 @@ const CatalogPage = () => {
             </div>
           </div>
         </div>
-        <Books books={books} />
+        <Books books={books} disable={false} />
       </div>
     </div>
   );

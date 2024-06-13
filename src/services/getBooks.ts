@@ -89,7 +89,7 @@ export const getBookById = async (productId: string) => {
     };
     return extractedData;
   } catch (error) {
-    return [];
+    return null;
   }
 };
 

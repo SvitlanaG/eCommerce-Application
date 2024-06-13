@@ -8,7 +8,7 @@ import imageDefault from '@/assets/img/imageDefault.png';
 import getDiscounted from '@/helpers/Utils/utils';
 import { getCart, updateCart } from '@/services/cart';
 
-const Books = ({ books }: { books: Product[] }) => {
+const Books = ({ books, disable }: { books: Product[]; disable: boolean }) => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
@@ -77,10 +77,12 @@ const Books = ({ books }: { books: Product[] }) => {
           <button
             type="submit"
             onClick={() => addCart(book.id)}
+            disabled={disable}
             className={clsx(
               styles['button-small'],
               styles['button-primary'],
               styles['btn-cart'],
+              { [styles.disabled]: disable },
             )}
           >
             Add To Cart

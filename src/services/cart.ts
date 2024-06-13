@@ -108,16 +108,17 @@ export const getCart = async (): Promise<{
       const { statusCode }: Errors = await response.json();
       throw new Error(`${statusCode}`);
     }
-    const { id, version }: { id: string; version: number } =
-      await response.json();
     const {
-      productIds,
-      quantity,
-    }: { productIds: string[]; quantity: number[] } = (
-      await response.json()
-    ).lineItems.map((el: { productId: string; quantity: number }) => {
-      return { productId: el.productId, quantity: el.quantity };
-    });
+      id,
+      version,
+      lineItems,
+    }: {
+      id: string;
+      version: number;
+      lineItems: { productId: string; quantity: number }[];
+    } = await response.json();
+    const productIds = lineItems.map((el) => el.productId);
+    const quantity = lineItems.map((el) => el.quantity);
     return { id, version, productIds, quantity };
   } catch (error) {
     if (error instanceof Error) {

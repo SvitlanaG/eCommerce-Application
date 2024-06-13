@@ -56,6 +56,11 @@
       width: 100%;
     }
 
+    .disabled {
+      background-color: rgb(218, 192, 144);
+      border: none;
+    }
+
     @media (hover: hover) {
       &:hover {
         background-size: cover;
