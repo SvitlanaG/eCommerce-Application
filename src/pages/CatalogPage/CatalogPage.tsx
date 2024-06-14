@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Select, { SingleValue } from 'react-select';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
@@ -12,6 +13,7 @@ import filter from '@/assets/icons/filter.svg';
 import Prices from '@/components/Catalog/Prices';
 import Languages from '@/components/Catalog/Languages';
 import { sortCondition } from '@/helpers/Utils/utils';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
@@ -20,8 +22,12 @@ const CatalogPage = () => {
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
   const [priceRange, setPriceRange] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
-    getBooks('').then((products) => setBooks(products));
+    getBooks('').then((products) => {
+      setBooks(products);
+      setLoading(false);
+    });
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target.name === 'langauge') {
@@ -152,7 +158,21 @@ const CatalogPage = () => {
             </div>
           </div>
         </div>
-        <Books books={books} disable={false} />
+        {loading ? (
+          <SkeletonTheme highlightColor="#444">
+            <div className={styles.skeletonContainer}>
+              {Array.from({ length: 3 }).map(() => (
+                <Skeleton
+                  height={300}
+                  width="200px"
+                  style={{ margin: '10px' }}
+                />
+              ))}
+            </div>
+          </SkeletonTheme>
+        ) : (
+          <Books books={books} disable={false} />
+        )}
       </div>
     </div>
   );

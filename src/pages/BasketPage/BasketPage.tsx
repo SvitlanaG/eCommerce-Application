@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import styles from '@/pages/BasketPage/BasketPage.module.scss';
 import EmptyCart from '@/components/EmptyCart';
 import { getCart } from '@/services/cart';
@@ -34,7 +34,13 @@ const BasketPage = () => {
   return (
     <div>
       {isLoading ? (
-        <Skeleton count={20} />
+        <SkeletonTheme highlightColor="#444">
+          <div className={styles.skeletonContainer}>
+            {Array.from({ length: 3 }).map(() => (
+              <Skeleton height={300} width="200px" style={{ margin: '10px' }} />
+            ))}
+          </div>
+        </SkeletonTheme>
       ) : (
         <div>
           <h2>Your Basket - Review Your Selections</h2>
