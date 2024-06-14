@@ -12,6 +12,11 @@ const Books = ({ books, disable }: { books: Product[]; disable: boolean }) => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
+  const [productIds, setProductIds] = useState<string[]>([]);
+  const [cartAdded, setCartAdded] = useState<number | null>(null);
+  useEffect(() => {
+    getCart().then((data) => setProductIds(data ? data.productIds : []));
+  }, [cartAdded]);
   useEffect(() => {
     getDiscounts().then((discounts) => {
       const skus = discounts.map((discount) => {
@@ -31,6 +36,7 @@ const Books = ({ books, disable }: { books: Product[]; disable: boolean }) => {
       if (cartInfo) {
         localStorage.setItem('cartId', cartInfo.id);
         await updateCart(cartInfo.id, cartInfo.version, productId);
+        setCartAdded(cartInfo.version);
       }
     });
   };
@@ -77,12 +83,16 @@ const Books = ({ books, disable }: { books: Product[]; disable: boolean }) => {
           <button
             type="submit"
             onClick={() => addCart(book.id)}
-            disabled={disable}
+            disabled={productIds.includes(book.id) ? true : disable}
             className={clsx(
               styles['button-small'],
               styles['button-primary'],
               styles['btn-cart'],
-              { [styles.disabled]: disable },
+              {
+                [styles.disabled]: productIds.includes(book.id)
+                  ? true
+                  : disable,
+              },
             )}
           >
             Add To Cart

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import clsx from 'clsx';
 import styles from '@/pages/BasketPage/BasketPage.module.scss';
 import EmptyCart from '@/components/EmptyCart';
 import { getCart } from '@/services/cart';
@@ -48,7 +49,9 @@ const BasketPage = () => {
             {products.length === 0 ? (
               <EmptyCart />
             ) : (
-              <div className={styles['input-div']}>
+              <div
+                className={clsx(styles['input-div'], styles['book-baskets'])}
+              >
                 <Books books={products} disable />
               </div>
             )}
