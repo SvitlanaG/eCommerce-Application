@@ -89,7 +89,7 @@ export const login = async (data: UserLogin, navigate: NavigateFunction) => {
     await signIn(data);
     await getUserToken(data);
     Toast({ message: 'login successful', status: 'success' });
-    await getVisitorIdentifier();
+    await getVisitorIdentifier(true);
     navigate('/');
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });

@@ -1,19 +1,20 @@
 import { UserToken } from '@/types/UserType';
 
-const getVisitorIdentifier = async () => {
+const getVisitorIdentifier = async (loggedIn?: boolean) => {
   const tokenData = localStorage.getItem('identifiers');
 
-  if (tokenData) {
-    const {
-      accessToken,
-      expiration,
-    }: { accessToken: string; expiration: number } = JSON.parse(tokenData);
-    const currentTime = new Date().getTime();
-    if (currentTime < expiration) {
-      return accessToken;
+  if (!loggedIn) {
+    if (tokenData) {
+      const {
+        accessToken,
+        expiration,
+      }: { accessToken: string; expiration: number } = JSON.parse(tokenData);
+      const currentTime = new Date().getTime();
+      if (currentTime < expiration) {
+        return accessToken;
+      }
     }
   }
-
   try {
     const clientId = import.meta.env.VITE_CTP_CLIENT_ID;
     const clientSecret = import.meta.env.VITE_CTP_CLIENT_SECRET;
