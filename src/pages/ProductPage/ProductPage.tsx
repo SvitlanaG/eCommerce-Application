@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import Carousel from 'react-bootstrap/Carousel';
 import getBookInfo from '@/services/getBookInfo';
 import { Book } from '@/types/products';
@@ -12,6 +13,10 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const [book, setBook] = useState<Book | null>(null);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
+  const [bookId, setBookId] = useState('');
+
+  console.log(bookId);
 
   const handleOpenModal = () => setIsShowModal(true);
   const handleCloseModal = () => setIsShowModal(false);
@@ -21,6 +26,7 @@ const ProductPage = () => {
       getBookInfo(key, navigate).then((result) => {
         if (result) {
           setBook(result.masterData?.current);
+          setBookId(result.id);
         }
       });
     }
@@ -74,6 +80,31 @@ const ProductPage = () => {
             </div>
           )}
         </div>
+        {isInCart ? (
+          <button
+            type="submit"
+            onClick={() => setIsInCart(!isInCart)}
+            className={clsx(
+              styles['button-small'],
+              styles['button-primary'],
+              styles['btn-cart'],
+            )}
+          >
+            Add To Cart
+          </button>
+        ) : (
+          <button
+            type="submit"
+            onClick={() => setIsInCart(!isInCart)}
+            className={clsx(
+              styles['button-small'],
+              styles['button-primary'],
+              styles['btn-cart'],
+            )}
+          >
+            Delete from cart
+          </button>
+        )}
       </div>
       <div className={styles['carousel-container']}>
         <Carousel data-bs-theme="dark">
