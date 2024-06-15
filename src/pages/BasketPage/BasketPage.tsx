@@ -37,8 +37,13 @@ const BasketPage = () => {
       {isLoading ? (
         <SkeletonTheme highlightColor="#444">
           <div className={styles.skeletonContainer}>
-            {Array.from({ length: 3 }).map(() => (
-              <Skeleton height={300} width="200px" style={{ margin: '10px' }} />
+            {['skeleton1', 'skeleton2', 'skeleton3'].map((skeletonId) => (
+              <Skeleton
+                key={skeletonId}
+                height={300}
+                width="200px"
+                style={{ margin: '10px' }}
+              />
             ))}
           </div>
         </SkeletonTheme>
@@ -52,7 +57,7 @@ const BasketPage = () => {
               <div
                 className={clsx(styles['input-div'], styles['book-baskets'])}
               >
-                <Books books={products} disable />
+                <Books books={products} disable fromBasket />
               </div>
             )}
           </div>

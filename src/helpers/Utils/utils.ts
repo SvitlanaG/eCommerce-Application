@@ -58,4 +58,13 @@ export const sortCondition = (book: Product, books: Product[]) => {
   return false;
 };
 
+export const calculateTotal = (
+  Books: Product[],
+  discounted: ({ sku: string; value: number } | null)[],
+) => {
+  return Books.reduce((total: number, book: Product) => {
+    return total + getDiscounted(book, discounted);
+  }, 0);
+};
+
 export default getDiscounted;
