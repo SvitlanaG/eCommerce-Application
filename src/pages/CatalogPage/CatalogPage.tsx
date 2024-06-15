@@ -161,8 +161,9 @@ const CatalogPage = () => {
         {loading ? (
           <SkeletonTheme highlightColor="#444">
             <div className={styles.skeletonContainer}>
-              {Array.from({ length: 3 }).map(() => (
+              {['skeleton1', 'skeleton2', 'skeleton3'].map((skeletonId) => (
                 <Skeleton
+                  key={skeletonId}
                   height={300}
                   width="200px"
                   style={{ margin: '10px' }}
@@ -171,7 +172,7 @@ const CatalogPage = () => {
             </div>
           </SkeletonTheme>
         ) : (
-          <Books books={books} disable={false} />
+          <Books books={books} disable={false} fromBasket={false} />
         )}
       </div>
     </div>
