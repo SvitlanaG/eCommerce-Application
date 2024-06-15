@@ -18,18 +18,22 @@ import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
+  const [limitBooks, setLimitBooks] = useState<Product[]>([]);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
   const [priceRange, setPriceRange] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [visibleBtn, setVisibleBtn] = useState(true);
   useEffect(() => {
-    getBooks('').then((products) => {
+    getBooks(`?limit=5`).then((products) => {
       setBooks(products);
+      setLimitBooks(products);
       setLoading(false);
     });
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
+    setVisibleBtn(false);
     if (ev.target.name === 'langauge') {
       setLanguage(ev.target.value);
       let url;
@@ -40,8 +44,10 @@ const CatalogPage = () => {
       else url = '';
       getBooks(url).then((data: Product[]) => {
         setBooks(
-          data.filter((book) =>
-            Object.keys(book.name).includes(ev.target.value),
+          data.filter(
+            (book) =>
+              Object.keys(book.name).includes(ev.target.value) &&
+              limitBooks.map((el) => el.id).includes(book.id),
           ),
         );
       });
@@ -52,7 +58,10 @@ const CatalogPage = () => {
       ).then((data: Product[]) => {
         setBooks(
           data.filter((book) => {
-            return language ? Object.keys(book.name).includes(language) : true;
+            return language
+              ? Object.keys(book.name).includes(language) &&
+                  limitBooks.map((el) => el.id).includes(book.id)
+              : true && limitBooks.map((el) => el.id).includes(book.id);
           }),
         );
       });
@@ -83,6 +92,15 @@ const CatalogPage = () => {
     }
   };
 
+  const showMore = () => {
+    getBooks(`?limit=5&offset=${books.length}`).then((products) => {
+      const data = [...books, ...products];
+      setBooks(data);
+      setLimitBooks(data);
+      if (data.length === products[0].total) setVisibleBtn(false);
+    });
+  };
+
   return (
     <div className={styles.container} data-testid="catalog-container">
       <Categories
@@ -90,6 +108,8 @@ const CatalogPage = () => {
         priceRange={priceRange}
         onSetCategory={(value: string) => setCategory(value)}
         onSetBooks={(value: Product[]) => setBooks(value)}
+        limitBooks={limitBooks}
+        onSetVisibleBtn={setVisibleBtn}
       />
       <div className={styles['input-div']}>
         <div className={clsx(styles['search-sort'])}>
@@ -174,6 +194,44 @@ const CatalogPage = () => {
         ) : (
           <Books books={books} disable={false} fromBasket={false} />
         )}
+        <div>
+          <div
+            onClick={showMore}
+            className={clsx(
+              styles['show-more'],
+              !visibleBtn ? styles.hidden : '',
+            )}
+          >
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="0.5"
+                y="0.5"
+                width="59"
+                height="59"
+                rx="29.5"
+                stroke="#665F55"
+              />
+              <path
+                d="M39.8883 31.5C39.1645 36.3113 35.013 40 30 40C24.4772 40 20 35.5228 20 30C20 24.4772 24.4772 20 30 20C34.1006 20 37.6248 22.4682 39.1679 26"
+                stroke="#403F3D"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M35 26H39.4C39.7314 26 40 25.7314 40 25.4V21"
+                stroke="#403F3D"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   );

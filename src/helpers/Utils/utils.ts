@@ -19,6 +19,7 @@ export const filterBooks = async (
   language: string,
   priceRange: number | null,
   item: Category,
+  limitBooks: Product[],
 ) => {
   try {
     const books = await getBooks('');
@@ -43,7 +44,10 @@ export const filterBooks = async (
             priceInCents <= (priceRange + 30) * 100;
         }
       }
-      return isCategoryMatch && isLanguageMatch && isPriceMatch;
+      const isLimitedMatch = limitBooks.map((el) => el.id).includes(book.id);
+      return (
+        isCategoryMatch && isLanguageMatch && isPriceMatch && isLimitedMatch
+      );
     });
   } catch (error) {
     return [];

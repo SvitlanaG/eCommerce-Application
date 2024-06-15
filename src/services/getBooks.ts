@@ -39,6 +39,7 @@ const getBooks = async (urlEnd: string): Promise<Product[]> => {
             ? el.masterVariant.assets[0].sources
             : [],
         key: resp.results[ind].key,
+        total: resp.total,
         sku: el.masterVariant.sku,
       };
       return product;
@@ -77,7 +78,8 @@ export const getBookById = async (productId: string) => {
     const { sku, prices, assets } = masterVariant;
     const assetSources = assets.length > 0 ? assets[0].sources : [];
     const price = prices.length > 0 ? prices[0].value : null;
-    const extractedData = {
+    const extractedData: Product = {
+      total: 1,
       id,
       categories,
       description,
