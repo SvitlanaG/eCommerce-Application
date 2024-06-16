@@ -7,34 +7,35 @@ import { Book } from '@/types/products';
 import styles from './ProductPage.module.scss';
 import ImageModal from '@/components/ImageModal/ImageModal';
 import { getDiscounts } from '@/services/catalog';
+import { getCart, updateCart } from '@/services/cart';
+import removeFromCart from '@/services/removeFromCart';
 
 const ProductPage = () => {
   const { key } = useParams();
   const navigate = useNavigate();
   const [book, setBook] = useState<Book | null>(null);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [isInCart, setIsInCart] = useState(false);
   const [bookId, setBookId] = useState('');
-
-  console.log(bookId);
+  const [lineItemId, setLineItemId] = useState('');
+  const [lineItemQuantity, setLineItemQuantity] = useState(1);
+  const [productIds, setProductIds] = useState<string[]>([]);
+  const [cartVersion, setCartVersion] = useState<number | null>(null);
+  const [discounted, setDiscounted] = useState<
+    ({ sku: string; value: number } | null)[]
+  >([]);
+  const [isAddButton, setIsAddButton] = useState(false);
 
   const handleOpenModal = () => setIsShowModal(true);
   const handleCloseModal = () => setIsShowModal(false);
 
-  useEffect(() => {
-    if (key) {
-      getBookInfo(key, navigate).then((result) => {
-        if (result) {
-          setBook(result.masterData?.current);
-          setBookId(result.id);
-        }
-      });
+  const handleButtonName = () => {
+    if (productIds.includes(bookId)) {
+      setIsAddButton(false);
+    } else {
+      setIsAddButton(true);
     }
-  }, [key, navigate]);
+  };
 
-  const [discounted, setDiscounted] = useState<
-    ({ sku: string; value: number } | null)[]
-  >([]);
   useEffect(() => {
     getDiscounts().then((discounts) => {
       const skus = discounts.map((discount) => {
@@ -51,6 +52,75 @@ const ProductPage = () => {
   }, [book]);
 
   const price = book?.masterVariant?.prices[0]?.value?.centAmount;
+
+  // console.log(productIds);
+  // console.log(bookId);
+
+  useEffect(() => {
+    getCart().then((data) => {
+      console.log(data?.lineItems);
+      console.log('book', bookId);
+      const lineItemsArray = data?.lineItems;
+      if (lineItemsArray) {
+        for (let i = 0; i < lineItemsArray.length; i += 1) {
+          if (lineItemsArray[i].productId === bookId) {
+            setLineItemId(lineItemsArray[i].id);
+            setLineItemQuantity(lineItemsArray[i].quantity);
+            console.log('lineid', lineItemId, lineItemQuantity);
+          }
+        }
+      }
+    });
+  }, [bookId, lineItemId]);
+
+  useEffect(() => {
+    getCart().then((data) => {
+      setProductIds(data ? data.productIds : []);
+    });
+  }, [cartVersion]);
+
+  const addCart = (productId: string) => {
+    getCart().then(async (cartInfo) => {
+      if (cartInfo) {
+        localStorage.setItem('cartId', cartInfo.id);
+        await updateCart(cartInfo.id, cartInfo.version, productId);
+        setCartVersion(cartInfo.version);
+      }
+    });
+  };
+
+  const handleCartVersion = () => {
+    getCart().then(async (cartInfo) => {
+      if (cartInfo) {
+        setCartVersion(cartInfo.version);
+      }
+    });
+  };
+
+  const removeBook = async (
+    itemId: string,
+    version: number,
+    quantity: number,
+  ) => {
+    const cartId = localStorage.getItem('cartId');
+    console.log('click', cartId, itemId, version, quantity);
+    if (cartId && cartVersion) {
+      await removeFromCart(cartId, version, itemId, quantity);
+    }
+  };
+
+  useEffect(() => {
+    if (key) {
+      getBookInfo(key, navigate).then((result) => {
+        if (result) {
+          setBookId(result.id);
+          setBook(result.masterData?.current);
+        }
+      });
+    }
+    handleCartVersion();
+    handleButtonName();
+  }, [key, navigate]);
 
   return (
     <div className={styles.product}>
@@ -80,22 +150,15 @@ const ProductPage = () => {
             </div>
           )}
         </div>
-        {isInCart ? (
+        {isAddButton ? (
           <button
-            type="submit"
-            onClick={() => setIsInCart(!isInCart)}
-            className={clsx(
-              styles['button-small'],
-              styles['button-primary'],
-              styles['btn-cart'],
-            )}
-          >
-            Add To Cart
-          </button>
-        ) : (
-          <button
-            type="submit"
-            onClick={() => setIsInCart(!isInCart)}
+            type="button"
+            onClick={() => {
+              if (cartVersion) {
+                removeBook(lineItemId, cartVersion, lineItemQuantity);
+                handleButtonName();
+              }
+            }}
             className={clsx(
               styles['button-small'],
               styles['button-primary'],
@@ -103,6 +166,21 @@ const ProductPage = () => {
             )}
           >
             Delete from cart
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              addCart(bookId);
+              setIsAddButton(true);
+            }}
+            className={clsx(
+              styles['button-small'],
+              styles['button-primary'],
+              styles['btn-cart'],
+            )}
+          >
+            Add To Cart
           </button>
         )}
       </div>
