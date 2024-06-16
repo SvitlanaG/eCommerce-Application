@@ -4,7 +4,6 @@ import { getCart } from './cart';
 
 const removeFromCart = async (
   cartId: string,
-  // version: number,
   lineItemId: string,
   quantity: number = 1,
 ) => {
@@ -23,8 +22,6 @@ const removeFromCart = async (
       version = cartInfo.version;
     }
   });
-
-  console.log(version);
 
   const raw = JSON.stringify({
     version,

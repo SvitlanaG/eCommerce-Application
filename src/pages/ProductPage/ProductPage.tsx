@@ -23,7 +23,6 @@ const ProductPage = () => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
-  // const [isAddButton, setIsAddButton] = useState(false);
 
   const price = book?.masterVariant?.prices[0]?.value?.centAmount;
 
@@ -49,8 +48,6 @@ const ProductPage = () => {
 
   const handleLimeItems = async () => {
     await getCart().then((data) => {
-      console.log(data?.lineItems);
-      console.log('book', bookId);
       const lineItemsArray = data?.lineItems;
       if (lineItemsArray) {
         for (let i = 0; i < lineItemsArray.length; i += 1) {
@@ -60,23 +57,8 @@ const ProductPage = () => {
           }
         }
       }
-      console.log('lineitemid', lineItemId);
     });
   };
-
-  // const handleButtonName = () => {
-  //   getCart().then(async (data) => {
-  //     await setProductIds(data ? data.productIds : []);
-  //     setIsAddButton(!productIds.includes(bookId));
-  //   });
-  //   console.log('product', productIds);
-  //   console.log('bookid', bookId);
-  // };
-  // const handleButtonName = async () => {
-  //   await setTimeout(() => {
-  //     setIsAddButton(!productIds.includes(bookId));
-  //   }, 300);
-  // };
 
   const addCart = (productId: string) => {
     getCart().then(async (cartInfo) => {
@@ -84,7 +66,6 @@ const ProductPage = () => {
         localStorage.setItem('cartId', cartInfo.id);
         await updateCart(cartInfo.id, cartInfo.version, productId);
         setCartVersion(cartInfo.version);
-        console.log(cartInfo.version);
         await handleLimeItems();
       }
     });
@@ -92,7 +73,6 @@ const ProductPage = () => {
 
   const removeBook = async (itemId: string, quantity: number) => {
     const cartId = localStorage.getItem('cartId');
-    console.log('click', cartId, itemId, quantity);
     if (cartId) {
       await removeFromCart(cartId, itemId, quantity);
     }
@@ -124,8 +104,6 @@ const ProductPage = () => {
   useEffect(() => {
     handleLimeItems();
   }, [bookId, lineItemId]);
-
-  // handleButtonName();
 
   return (
     <div className={styles.product}>
