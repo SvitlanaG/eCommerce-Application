@@ -1,4 +1,5 @@
 import { Errors } from '@/types/Errors';
+import Toast from '@/helpers/Toast';
 
 const removeFromCart = async (
   cartId: string,
@@ -38,9 +39,16 @@ const removeFromCart = async (
     );
     if (!response.ok) {
       const { message }: Errors = await response.json();
+      Toast({
+        message: 'Something went wrong. Please reload your page',
+        status: 'error',
+      });
       throw new Error(`${message}`);
     }
-    alert('Success');
+    Toast({
+      message: 'The book was successfully removed from the cart!',
+      status: 'success',
+    });
     return true;
   } catch (error) {
     return false;
