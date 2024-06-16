@@ -112,18 +112,25 @@ const Books = ({
               Add To Cart
             </button>
             {fromBasket && (
-              <button
-                className={clsx(
-                  s.delete,
-                  styles['button-small'],
-                  styles['button-primary'],
-                  styles['btn-cart'],
-                )}
-                type="submit"
-              >
-                <span>delete from cart</span>
-                <img src={Delete} alt="" />
-              </button>
+              <>
+                <div>
+                  <button type="button">minus</button>
+                  <span>quantity</span>
+                  <button type="button">plus</button>
+                </div>
+                <button
+                  className={clsx(
+                    s.delete,
+                    styles['button-small'],
+                    styles['button-primary'],
+                    styles['btn-cart'],
+                  )}
+                  type="submit"
+                >
+                  <span>delete from cart</span>
+                  <img src={Delete} alt="" />
+                </button>
+              </>
             )}
           </div>
         ))}

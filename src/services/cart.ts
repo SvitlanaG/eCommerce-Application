@@ -1,3 +1,4 @@
+import Toast from '@/helpers/Toast';
 import { Errors } from '@/types/Errors';
 
 export const updateCart = async (
@@ -40,8 +41,16 @@ export const updateCart = async (
       const { message }: Errors = await response.json();
       throw new Error(`${message}`);
     }
+    Toast({
+      message: 'The book was successfully add to the cart!',
+      status: 'success',
+    });
     return true;
   } catch (error) {
+    Toast({
+      message: 'Something went wrong. Try again later!',
+      status: 'error',
+    });
     return false;
   }
 };

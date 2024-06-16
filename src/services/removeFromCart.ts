@@ -44,10 +44,6 @@ const removeFromCart = async (lineItemId: string, quantity: number = 1) => {
     );
     if (!response.ok) {
       const { message }: Errors = await response.json();
-      Toast({
-        message: 'Something went wrong. Please reload your page',
-        status: 'error',
-      });
       throw new Error(`${message}`);
     }
     Toast({
@@ -56,6 +52,10 @@ const removeFromCart = async (lineItemId: string, quantity: number = 1) => {
     });
     return true;
   } catch (error) {
+    Toast({
+      message: 'Something went wrong. Try again later!',
+      status: 'error',
+    });
     return false;
   }
 };
