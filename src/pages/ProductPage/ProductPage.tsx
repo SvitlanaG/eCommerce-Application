@@ -23,15 +23,15 @@ const ProductPage = () => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
-  const [isAddButton, setIsAddButton] = useState(true);
+  // const [isAddButton, setIsAddButton] = useState(false);
 
   const price = book?.masterVariant?.prices[0]?.value?.centAmount;
 
   const handleOpenModal = () => setIsShowModal(true);
   const handleCloseModal = () => setIsShowModal(false);
 
-  const handleProductsIds = () => {
-    getCart().then((data) => {
+  const handleProductsIds = async () => {
+    await getCart().then((data) => {
       setProductIds(data ? data.productIds : []);
     });
   };
@@ -47,6 +47,23 @@ const ProductPage = () => {
     }
   };
 
+  const handleLimeItems = async () => {
+    await getCart().then((data) => {
+      console.log(data?.lineItems);
+      console.log('book', bookId);
+      const lineItemsArray = data?.lineItems;
+      if (lineItemsArray) {
+        for (let i = 0; i < lineItemsArray.length; i += 1) {
+          if (lineItemsArray[i].productId === bookId) {
+            setLineItemId(lineItemsArray[i].id);
+            setLineItemQuantity(lineItemsArray[i].quantity);
+          }
+        }
+      }
+      console.log('lineitemid', lineItemId);
+    });
+  };
+
   // const handleButtonName = () => {
   //   getCart().then(async (data) => {
   //     await setProductIds(data ? data.productIds : []);
@@ -55,11 +72,11 @@ const ProductPage = () => {
   //   console.log('product', productIds);
   //   console.log('bookid', bookId);
   // };
-  const handleButtonName = async () => {
-    await setTimeout(() => {
-      setIsAddButton(!productIds.includes(bookId));
-    }, 300);
-  };
+  // const handleButtonName = async () => {
+  //   await setTimeout(() => {
+  //     setIsAddButton(!productIds.includes(bookId));
+  //   }, 300);
+  // };
 
   const addCart = (productId: string) => {
     getCart().then(async (cartInfo) => {
@@ -68,26 +85,26 @@ const ProductPage = () => {
         await updateCart(cartInfo.id, cartInfo.version, productId);
         setCartVersion(cartInfo.version);
         console.log(cartInfo.version);
-      }
-    });
-  };
-
-  const handleCartVersion = async () => {
-    await getCart().then(async (cartInfo) => {
-      if (cartInfo) {
-        setCartVersion(cartInfo.version);
+        await handleLimeItems();
       }
     });
   };
 
   const removeBook = async (itemId: string, quantity: number) => {
     const cartId = localStorage.getItem('cartId');
-    await handleCartVersion();
-    console.log('click', cartId, itemId, quantity, cartVersion);
-    if (cartId && cartVersion) {
-      await removeFromCart(cartId, cartVersion, itemId, quantity);
+    console.log('click', cartId, itemId, quantity);
+    if (cartId) {
+      await removeFromCart(cartId, itemId, quantity);
     }
   };
+
+  useEffect(() => {
+    handleBookInfo();
+  }, [key, navigate]);
+
+  useEffect(() => {
+    handleProductsIds();
+  }, [cartVersion]);
 
   useEffect(() => {
     getDiscounts().then((discounts) => {
@@ -105,32 +122,10 @@ const ProductPage = () => {
   }, [book]);
 
   useEffect(() => {
-    getCart().then((data) => {
-      console.log(data?.lineItems);
-      console.log('book', bookId);
-      const lineItemsArray = data?.lineItems;
-      if (lineItemsArray) {
-        for (let i = 0; i < lineItemsArray.length; i += 1) {
-          if (lineItemsArray[i].productId === bookId) {
-            setLineItemId(lineItemsArray[i].id);
-            setLineItemQuantity(lineItemsArray[i].quantity);
-          }
-        }
-      }
-      console.log(lineItemQuantity);
-    });
+    handleLimeItems();
   }, [bookId, lineItemId]);
 
-  useEffect(() => {
-    handleBookInfo();
-    handleCartVersion();
-  }, [key, navigate]);
-
-  useEffect(() => {
-    handleProductsIds();
-  }, [cartVersion]);
-
-  handleButtonName();
+  // handleButtonName();
 
   return (
     <div className={styles.product}>
@@ -160,13 +155,13 @@ const ProductPage = () => {
             </div>
           )}
         </div>
-        {isAddButton ? (
+        {!productIds.includes(bookId) ? (
           <button
             type="button"
             onClick={() => {
               addCart(bookId);
               // handleButtonName();
-              setIsAddButton(false);
+              // setIsAddButton(false);
             }}
             className={clsx(
               styles['button-small'],
@@ -179,12 +174,13 @@ const ProductPage = () => {
         ) : (
           <button
             type="button"
-            onClick={() => {
-              if (cartVersion) {
-                removeBook(lineItemId, lineItemQuantity);
-                // handleButtonName();
-                setIsAddButton(true);
-              }
+            onClick={async () => {
+              // handleButtonName();
+              // setIsAddButton(true);
+              await removeBook(lineItemId, lineItemQuantity);
+              await getCart().then((data) => {
+                setProductIds(data ? data.productIds : []);
+              });
             }}
             className={clsx(
               styles['button-small'],

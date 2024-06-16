@@ -1,9 +1,10 @@
 import { Errors } from '@/types/Errors';
 import Toast from '@/helpers/Toast';
+import { getCart } from './cart';
 
 const removeFromCart = async (
   cartId: string,
-  version: number,
+  // version: number,
   lineItemId: string,
   quantity: number = 1,
 ) => {
@@ -14,6 +15,16 @@ const removeFromCart = async (
     'Authorization',
     `Bearer ${token || localStorage.getItem('visitorIdentifier')}`,
   );
+
+  let version;
+
+  await getCart().then((cartInfo): void => {
+    if (cartInfo) {
+      version = cartInfo.version;
+    }
+  });
+
+  console.log(version);
 
   const raw = JSON.stringify({
     version,
