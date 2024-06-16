@@ -66,12 +66,21 @@ const BasketPage = () => {
                 <Books books={products} disable fromBasket />
                 <button
                   type="button"
+                  className={clsx(
+                    styles['button-small'],
+                    styles['button-primary'],
+                    styles['btn-cart'],
+                  )}
                   onClick={async () => {
-                    await emptyCart();
-                    handleIsEmpty();
+                    // eslint-disable-next-line no-restricted-globals, no-alert
+                    const isCart = confirm('Are you sure? ');
+                    if (isCart) {
+                      await emptyCart();
+                      handleIsEmpty();
+                    }
                   }}
                 >
-                  Empty cart
+                  Clear Cart
                 </button>
               </div>
             )}
