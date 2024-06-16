@@ -8,6 +8,7 @@ import { getBookById } from '@/services/getBooks';
 import { Product } from '@/types/products';
 import { Books } from '@/components/Catalog';
 import 'react-loading-skeleton/dist/skeleton.css';
+import emptyCart from '@/services/emptyCart';
 
 const BasketPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -61,6 +62,9 @@ const BasketPage = () => {
               </div>
             )}
           </div>
+          <button type="button" onClick={() => emptyCart()}>
+            Empty cart
+          </button>
         </div>
       )}
     </div>

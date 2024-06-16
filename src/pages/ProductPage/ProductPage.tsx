@@ -67,6 +67,7 @@ const ProductPage = () => {
         localStorage.setItem('cartId', cartInfo.id);
         await updateCart(cartInfo.id, cartInfo.version, productId);
         setCartVersion(cartInfo.version);
+        console.log(cartInfo.version);
       }
     });
   };
