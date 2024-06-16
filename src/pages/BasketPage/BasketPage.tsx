@@ -8,10 +8,16 @@ import { getBookById } from '@/services/getBooks';
 import { Product } from '@/types/products';
 import { Books } from '@/components/Catalog';
 import 'react-loading-skeleton/dist/skeleton.css';
+import emptyCart from '@/services/emptyCart';
 
 const BasketPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [isEmpty, setisEmpty] = useState(false);
+
+  const handleIsEmpty = () => {
+    setisEmpty(!isEmpty);
+  };
 
   useEffect(() => {
     getCart().then((data) => {
@@ -30,7 +36,7 @@ const BasketPage = () => {
         });
       }
     });
-  }, []);
+  }, [isEmpty]);
 
   return (
     <div>
@@ -58,6 +64,24 @@ const BasketPage = () => {
                 className={clsx(styles['input-div'], styles['book-baskets'])}
               >
                 <Books books={products} disable fromBasket />
+                <button
+                  type="button"
+                  className={clsx(
+                    styles['button-small'],
+                    styles['button-primary'],
+                    styles['btn-cart'],
+                  )}
+                  onClick={async () => {
+                    // eslint-disable-next-line no-restricted-globals, no-alert
+                    const isCart = confirm('Are you sure? ');
+                    if (isCart) {
+                      await emptyCart();
+                      handleIsEmpty();
+                    }
+                  }}
+                >
+                  Clear Cart
+                </button>
               </div>
             )}
           </div>

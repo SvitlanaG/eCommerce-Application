@@ -1,3 +1,4 @@
+import Toast from '@/helpers/Toast';
 import { Errors } from '@/types/Errors';
 
 export const updateCart = async (
@@ -40,8 +41,16 @@ export const updateCart = async (
       const { message }: Errors = await response.json();
       throw new Error(`${message}`);
     }
+    Toast({
+      message: 'The book was successfully add to the cart!',
+      status: 'success',
+    });
     return true;
   } catch (error) {
+    Toast({
+      message: 'Something went wrong. Try again later!',
+      status: 'error',
+    });
     return false;
   }
 };
@@ -85,6 +94,7 @@ export const getCart = async (): Promise<{
   version: number;
   productIds: string[];
   quantity: number[];
+  lineItems: { id: string; productId: string; quantity: number }[];
 } | null> => {
   const token = localStorage.getItem('userAccessToken');
   const myHeaders = new Headers();
@@ -115,11 +125,11 @@ export const getCart = async (): Promise<{
     }: {
       id: string;
       version: number;
-      lineItems: { productId: string; quantity: number }[];
+      lineItems: { id: string; productId: string; quantity: number }[];
     } = await response.json();
     const productIds = lineItems.map((el) => el.productId);
     const quantity = lineItems.map((el) => el.quantity);
-    return { id, version, productIds, quantity };
+    return { id, version, productIds, quantity, lineItems };
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === '404') {
@@ -132,6 +142,7 @@ export const getCart = async (): Promise<{
               version: cart.version,
               quantity: cart.quantity,
               productIds: cart.productIds,
+              lineItems: cart.lineItems,
             };
         } catch (createError) {
           return null;
