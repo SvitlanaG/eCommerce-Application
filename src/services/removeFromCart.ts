@@ -2,11 +2,7 @@ import { Errors } from '@/types/Errors';
 import Toast from '@/helpers/Toast';
 import { getCart } from './cart';
 
-const removeFromCart = async (
-  cartId: string,
-  lineItemId: string,
-  quantity: number = 1,
-) => {
+const removeFromCart = async (lineItemId: string, quantity: number = 1) => {
   const myHeaders = new Headers();
   const token = localStorage.getItem('userAccessToken');
   myHeaders.append('Content-Type', 'application/json');
@@ -16,6 +12,7 @@ const removeFromCart = async (
   );
 
   let version;
+  const cartId = localStorage.getItem('cartId');
 
   await getCart().then((cartInfo): void => {
     if (cartInfo) {

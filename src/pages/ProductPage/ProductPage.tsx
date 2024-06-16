@@ -72,10 +72,7 @@ const ProductPage = () => {
   };
 
   const removeBook = async (itemId: string, quantity: number) => {
-    const cartId = localStorage.getItem('cartId');
-    if (cartId) {
-      await removeFromCart(cartId, itemId, quantity);
-    }
+    await removeFromCart(itemId, quantity);
   };
 
   useEffect(() => {
@@ -138,8 +135,6 @@ const ProductPage = () => {
             type="button"
             onClick={() => {
               addCart(bookId);
-              // handleButtonName();
-              // setIsAddButton(false);
             }}
             className={clsx(
               styles['button-small'],
@@ -153,8 +148,6 @@ const ProductPage = () => {
           <button
             type="button"
             onClick={async () => {
-              // handleButtonName();
-              // setIsAddButton(true);
               await removeBook(lineItemId, lineItemQuantity);
               await getCart().then((data) => {
                 setProductIds(data ? data.productIds : []);
