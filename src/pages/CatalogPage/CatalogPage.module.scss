@@ -12,6 +12,7 @@
 .hidden {
   display: none;
 }
+
 .categories {
   display: flex;
   flex-direction: column;
@@ -34,6 +35,25 @@
     color: $orange-color;
   }
 }
+.btn-cart {
+  width: 100%;
+}
+
+.show-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: fit-content;
+  margin: auto;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.show-more svg:hover {
+  fill: grey;
+}
+
 .main-div {
   display: flex;
   flex-wrap: wrap;
@@ -53,9 +73,6 @@
     border-radius: 0.5rem;
     cursor: pointer;
     transition: 0.3s ease-in-out;
-    .btn-cart {
-      width: 100%;
-    }
 
     .disabled {
       background-color: rgb(218, 192, 144);
