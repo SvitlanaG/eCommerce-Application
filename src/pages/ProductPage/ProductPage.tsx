@@ -72,8 +72,8 @@ const ProductPage = () => {
     });
   };
 
-  const handleCartVersion = () => {
-    getCart().then(async (cartInfo) => {
+  const handleCartVersion = async () => {
+    await getCart().then(async (cartInfo) => {
       if (cartInfo) {
         setCartVersion(cartInfo.version);
       }
@@ -82,7 +82,7 @@ const ProductPage = () => {
 
   const removeBook = async (itemId: string, quantity: number) => {
     const cartId = localStorage.getItem('cartId');
-    handleCartVersion();
+    await handleCartVersion();
     console.log('click', cartId, itemId, quantity, cartVersion);
     if (cartId && cartVersion) {
       await removeFromCart(cartId, cartVersion, itemId, quantity);

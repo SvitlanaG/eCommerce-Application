@@ -13,6 +13,11 @@ import emptyCart from '@/services/emptyCart';
 const BasketPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [isEmpty, setisEmpty] = useState(false);
+
+  const handleIsEmpty = () => {
+    setisEmpty(!isEmpty);
+  };
 
   useEffect(() => {
     getCart().then((data) => {
@@ -31,7 +36,7 @@ const BasketPage = () => {
         });
       }
     });
-  }, []);
+  }, [isEmpty]);
 
   return (
     <div>
@@ -59,12 +64,18 @@ const BasketPage = () => {
                 className={clsx(styles['input-div'], styles['book-baskets'])}
               >
                 <Books books={products} disable fromBasket />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await emptyCart();
+                    handleIsEmpty();
+                  }}
+                >
+                  Empty cart
+                </button>
               </div>
             )}
           </div>
-          <button type="button" onClick={() => emptyCart()}>
-            Empty cart
-          </button>
         </div>
       )}
     </div>
