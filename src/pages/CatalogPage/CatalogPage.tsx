@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Select, { SingleValue } from 'react-select';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { FaRedo } from 'react-icons/fa';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
@@ -202,34 +203,14 @@ const CatalogPage = () => {
               !visibleBtn ? styles.hidden : '',
             )}
           >
-            <svg
-              width="60"
-              height="60"
-              viewBox="0 0 60 60"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className={clsx(
+                styles['button-icon'],
+                styles['button-icon-secondary'],
+              )}
             >
-              <rect
-                x="0.5"
-                y="0.5"
-                width="59"
-                height="59"
-                rx="29.5"
-                stroke="#665F55"
-              />
-              <path
-                d="M39.8883 31.5C39.1645 36.3113 35.013 40 30 40C24.4772 40 20 35.5228 20 30C20 24.4772 24.4772 20 30 20C34.1006 20 37.6248 22.4682 39.1679 26"
-                stroke="#403F3D"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M35 26H39.4C39.7314 26 40 25.7314 40 25.4V21"
-                stroke="#403F3D"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              <FaRedo />
+            </div>
           </div>
         </div>
       </div>

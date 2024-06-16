@@ -42,7 +42,7 @@ export const updateCart = async (
       throw new Error(`${message}`);
     }
     Toast({
-      message: 'The book was successfully add to the cart!',
+      message: 'The book was successfully added to the cart!',
       status: 'success',
     });
     return true;

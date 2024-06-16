@@ -9,6 +9,7 @@ import { getDiscounts } from '@/services/catalog';
 import imageDefault from '@/assets/img/imageDefault.png';
 import getDiscounted, { calculateTotal } from '@/helpers/Utils/utils';
 import { getCart, updateCart } from '@/services/cart';
+import ProductQuantityControls from '@/components/ProductQuantityControls';
 
 const Books = ({
   books,
@@ -114,9 +115,7 @@ const Books = ({
             {fromBasket && (
               <>
                 <div>
-                  <button type="button">minus</button>
-                  <span>quantity</span>
-                  <button type="button">plus</button>
+                  <ProductQuantityControls />
                 </div>
                 <button
                   className={clsx(
@@ -137,9 +136,10 @@ const Books = ({
       </div>
       {fromBasket && (
         <div className={s.order}>
-          total: {calculateTotal(books, discounted)}$
+          Total: {calculateTotal(books, discounted)}$
           <button
-            className={clsx(styles['button-small'], styles['button-primary'])}
+            disabled
+            className={clsx(styles['button-large'], styles['button-secondary'])}
             type="submit"
           >
             <span>Order</span>
