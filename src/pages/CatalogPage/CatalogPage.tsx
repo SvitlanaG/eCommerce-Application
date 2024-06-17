@@ -192,7 +192,12 @@ const CatalogPage = () => {
             </div>
           </SkeletonTheme>
         ) : (
-          <Books books={books} disable={false} fromBasket={false} />
+          <Books
+            books={books}
+            disable={false}
+            fromBasket={false}
+            refreshCart={() => false}
+          />
         )}
         <div>
           <div
