@@ -24,18 +24,14 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   >([]);
   const [productIds, setProductIds] = useState<string[]>([]);
   const [cartAdded, setCartAdded] = useState<number | null>(null);
-  const [lineItemId, setLineItemId] = useState('');
-  const [lineItemQuantity, setLineItemQuantity] = useState(1);
 
   const handleLimeItems = async (bookId: string) => {
     await getCart().then(async (data) => {
       const lineItemsArray = data?.lineItems;
-      console.log('lineItemsArray', lineItemsArray);
       if (lineItemsArray) {
         for (let i = 0; i < lineItemsArray.length; i += 1) {
           if (lineItemsArray[i].productId === bookId) {
-            setLineItemId(lineItemsArray[i].id);
-            setLineItemQuantity(lineItemsArray[i].quantity);
+            removeFromCart(lineItemsArray[i].id, lineItemsArray[i].quantity);
           }
         }
       }
@@ -139,10 +135,9 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
                 <button
                   onClick={async () => {
                     await handleLimeItems(book.id);
-                    console.log('lineItemId', lineItemId);
-                    console.log('lineItemQuantity', lineItemQuantity);
-                    await removeFromCart(lineItemId, lineItemQuantity);
-                    refreshCart();
+                    setTimeout(() => {
+                      refreshCart();
+                    }, 150);
                   }}
                   className={clsx(
                     s.delete,
