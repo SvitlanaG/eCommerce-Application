@@ -7,7 +7,6 @@ export type PropsCategories = {
   onSetBooks: (value: Product[]) => void;
   language: string;
   priceRange: number | null;
-  limitBooks: Product[];
   onSetVisibleBtn: (value: boolean) => void;
 };
 
