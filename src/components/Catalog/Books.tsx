@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import s from '@/pages/BasketPage/BasketPage.module.scss';
@@ -11,6 +11,7 @@ import getDiscounted, { calculateTotal } from '@/helpers/Utils/utils';
 import { getCart, updateCart } from '@/services/cart';
 import ProductQuantityControls from '@/components/ProductQuantityControls';
 import removeFromCart from '@/services/removeFromCart';
+import { Cart } from '@/types/cart';
 
 type Props = {
   books: Product[];
@@ -25,8 +26,11 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   >([]);
   const [productIds, setProductIds] = useState<string[]>([]);
   const [cartAdded, setCartAdded] = useState<number | null>(null);
+  const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [total, setTotal] = useState<number>(0);
+  const [cart, setCart] = useState<Cart | null>(null);
 
-  const handleLimeItems = async (bookId: string) => {
+  const handleLineItems = async (bookId: string) => {
     await getCart().then(async (data) => {
       const lineItemsArray = data?.lineItems;
       if (lineItemsArray) {
@@ -40,12 +44,27 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   };
 
   useEffect(() => {
-    getCart().then((data) => setProductIds(data ? data.productIds : []));
-  }, [cartAdded]);
+    getCart().then((data) => {
+      setCart(data);
+      setProductIds(data ? data.productIds : []);
+      if (data) {
+        const initialQuantities = data.lineItems.reduce(
+          (acc, item) => {
+            acc[item.productId] = item.quantity;
+            return acc;
+          },
+          {} as { [key: string]: number },
+        );
+        setQuantities(initialQuantities);
+        setTotal(calculateTotal(books, discounted, initialQuantities));
+      }
+    });
+  }, [cartAdded, books, discounted]);
+
   useEffect(() => {
     getDiscounts().then((discounts) => {
       const skus = discounts.map((discount) => {
-        const matched = discount?.predicate // get sku from predicate raw value
+        const matched = discount?.predicate
           ?.split('=')[1]
           .trim()
           .replace(/"/g, '');
@@ -56,6 +75,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
       setDiscounted(skus);
     });
   }, [books]);
+
   const addCart = (productId: string) => {
     getCart().then(async (cartInfo) => {
       if (cartInfo) {
@@ -69,6 +89,28 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   const navigate = useNavigate();
   const handleBookInfo = (key: string) => {
     navigate(`/catalog/${key}`);
+  };
+
+  const handleIncrement = (productId: string) => {
+    setQuantities((prevQuantities) => {
+      const newQuantities = {
+        ...prevQuantities,
+        [productId]: prevQuantities[productId] + 1,
+      };
+      setTotal(calculateTotal(books, discounted, newQuantities));
+      return newQuantities;
+    });
+  };
+
+  const handleDecrement = (productId: string) => {
+    setQuantities((prevQuantities) => {
+      const newQuantities = {
+        ...prevQuantities,
+        [productId]: prevQuantities[productId] - 1,
+      };
+      setTotal(calculateTotal(books, discounted, newQuantities));
+      return newQuantities;
+    });
   };
 
   return (
@@ -95,7 +137,10 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
               </div>
               <div className={clsx(styles.prices)}>
                 <p
-                  className={`${clsx(styles.price)} ${discounted.find((discount) => discount?.sku === book.sku) && clsx(styles.discounted)}`}
+                  className={`${clsx(styles.price)} ${
+                    discounted.find((discount) => discount?.sku === book.sku) &&
+                    clsx(styles.discounted)
+                  }`}
                 >
                   {book.price?.centAmount &&
                     +(book.price.centAmount / 100).toFixed(2)}
@@ -126,14 +171,25 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
             >
               Add To Cart
             </button>
-            {fromBasket && (
+            {fromBasket && cart && (
               <>
                 <div>
-                  <ProductQuantityControls />
+                  <ProductQuantityControls
+                    initialQuantity={quantities[book.id] || 1}
+                    lineItemId={
+                      cart.lineItems.find((item) => item.productId === book.id)
+                        ?.id || ''
+                    }
+                    productId={book.id}
+                    cartId={cart.id}
+                    version={cart.version}
+                    onIncrement={handleIncrement}
+                    onDecrement={handleDecrement}
+                  />
                 </div>
                 <button
                   onClick={async () => {
-                    await handleLimeItems(book.id);
+                    await handleLineItems(book.id);
                     setTimeout(() => {
                       refreshCart();
                     }, 150);
@@ -156,7 +212,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
       </div>
       {fromBasket && (
         <div className={s.order}>
-          Total: {calculateTotal(books, discounted)}$
+          Total: {total}$
           <button
             disabled
             className={clsx(styles['button-large'], styles['button-secondary'])}
