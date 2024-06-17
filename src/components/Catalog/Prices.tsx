@@ -6,6 +6,18 @@ export const Prices = ({ handleChange }: HandeChange) => {
       <p>price</p>
       <ul>
         <li>
+          <label htmlFor="price0">
+            <input
+              type="radio"
+              name="price"
+              id="price0"
+              value="0"
+              onChange={(ev) => handleChange(ev)}
+            />
+            ALL
+          </label>
+        </li>
+        <li>
           <label htmlFor="price1">
             <input
               type="radio"

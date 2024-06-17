@@ -6,6 +6,18 @@ export const Languages = ({ handleChange }: HandeChange) => {
       <p>Language</p>
       <ul>
         <li>
+          <label htmlFor="all">
+            <input
+              type="radio"
+              name="langauge"
+              id="all"
+              value="all"
+              onChange={(ev) => handleChange(ev)}
+            />
+            ALL
+          </label>
+        </li>
+        <li>
           <label htmlFor="english">
             <input
               type="radio"

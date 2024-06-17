@@ -14,7 +14,6 @@ const Categories = ({
   onSetCategory,
   language,
   priceRange,
-  limitBooks,
   onSetVisibleBtn,
 }: PropsCategories) => {
   const categories = useFetch();
@@ -35,6 +34,21 @@ const Categories = ({
       </span>
       <div className="list">
         <ul className={`${styles.list} ${isListVisible ? '' : 'hidden'}`}>
+          <li>
+            <span
+              onClick={() => {
+                onSetVisibleBtn(false);
+                onSetCategory('');
+                filterBooks(language, priceRange, null).then(
+                  (data: Product[]) => {
+                    onSetBooks(data);
+                  },
+                );
+              }}
+            >
+              ALL
+            </span>
+          </li>
           {categories.map((item) => {
             return (
               <li key={item.key}>
@@ -42,7 +56,7 @@ const Categories = ({
                   onClick={async () => {
                     onSetVisibleBtn(false);
                     onSetCategory(item.id);
-                    filterBooks(language, priceRange, item, limitBooks).then(
+                    filterBooks(language, priceRange, item).then(
                       (data: Product[]) => {
                         onSetBooks(data);
                       },

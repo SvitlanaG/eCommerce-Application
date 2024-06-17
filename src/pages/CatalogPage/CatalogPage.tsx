@@ -18,7 +18,6 @@ import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
-  const [limitBooks, setLimitBooks] = useState<Product[]>([]);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
@@ -28,14 +27,15 @@ const CatalogPage = () => {
   useEffect(() => {
     getBooks(`?limit=5`).then((products) => {
       setBooks(products);
-      setLimitBooks(products);
       setLoading(false);
     });
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
     setVisibleBtn(false);
     if (ev.target.name === 'langauge') {
-      setLanguage(ev.target.value);
+      if (ev.target.id === 'all') {
+        setLanguage('');
+      } else setLanguage(ev.target.value);
       let url;
       if (category !== '') {
         url = `search?filter=categories.id:"${category}"${priceRange ? `&filter=variants.price.centAmount:range(${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})` : ''}`;
@@ -44,24 +44,26 @@ const CatalogPage = () => {
       else url = '';
       getBooks(url).then((data: Product[]) => {
         setBooks(
-          data.filter(
-            (book) =>
-              Object.keys(book.name).includes(ev.target.value) &&
-              limitBooks.map((el) => el.id).includes(book.id),
+          data.filter((book) =>
+            ev.target.value === 'all'
+              ? true
+              : Object.keys(book.name).includes(ev.target.value),
           ),
         );
       });
     } else if (ev.target.name === 'price') {
-      setPriceRange(+ev.target.value);
-      getBooks(
-        `search?filter=variants.price.centAmount:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
-      ).then((data: Product[]) => {
+      let url = '';
+      if (ev.target.id === 'price0') {
+        setPriceRange(null);
+        url = `${category ? `search?filter=categories.id:"${category}"` : ''}`;
+      } else {
+        setPriceRange(+ev.target.value);
+        url = `search?filter=variants.price.centAmount:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`;
+      }
+      getBooks(url).then((data: Product[]) => {
         setBooks(
           data.filter((book) => {
-            return language
-              ? Object.keys(book.name).includes(language) &&
-                  limitBooks.map((el) => el.id).includes(book.id)
-              : true && limitBooks.map((el) => el.id).includes(book.id);
+            return language ? Object.keys(book.name).includes(language) : true;
           }),
         );
       });
@@ -96,7 +98,6 @@ const CatalogPage = () => {
     getBooks(`?limit=5&offset=${books.length}`).then((products) => {
       const data = [...books, ...products];
       setBooks(data);
-      setLimitBooks(data);
       if (data.length === products[0].total) setVisibleBtn(false);
     });
   };
@@ -108,7 +109,6 @@ const CatalogPage = () => {
         priceRange={priceRange}
         onSetCategory={(value: string) => setCategory(value)}
         onSetBooks={(value: Product[]) => setBooks(value)}
-        limitBooks={limitBooks}
         onSetVisibleBtn={setVisibleBtn}
       />
       <div className={styles['input-div']}>
