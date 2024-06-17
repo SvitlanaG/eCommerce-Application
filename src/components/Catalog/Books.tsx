@@ -117,7 +117,12 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
     <div className={s['book-container']}>
       <div className={styles['main-div']}>
         {books.map((book) => (
-          <div key={book.key} className={styles['image-div']}>
+          <div
+            key={book.key}
+            className={clsx(styles['image-div'], {
+              [styles['image-div_basket']]: fromBasket,
+            })}
+          >
             <div
               className={clsx(styles['image-description'])}
               onClick={() => handleBookInfo(book.key)}

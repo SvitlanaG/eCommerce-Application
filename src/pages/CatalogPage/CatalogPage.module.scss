@@ -129,6 +129,15 @@
       }
     }
   }
+
+  .image-div_basket {
+    @media (hover: hover) {
+      &:hover {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
 }
 .skeletonContainer {
   display: flex;
