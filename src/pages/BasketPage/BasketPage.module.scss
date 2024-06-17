@@ -1,5 +1,50 @@
 @import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
+@import '@/pages/CatalogPage/CatalogPage.module.scss';
 
-.cart-items {
-    display: flex;
+.basket {
+  display: flex;
+}
+
+.book-baskets {
+  display: flex;
+  align-items: center;
+
+  .btn-cart {
+    width: 180px;
+  }
+}
+
+.delete {
+  display: flex;
+  background-color: rgb(226, 91, 91);
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+}
+
+.book-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.product-quantity-controls {
+  @extend .text-subtitle;
+  width: 3rem;
+
+  & > span {
+    display: table;
+    margin: 0.8rem auto 0;
+    font-size: 1.4rem;
+  }
 }

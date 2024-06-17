@@ -3,6 +3,7 @@
 .button {
   @include enabled;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  user-select: none;
 }
 
 .button-large {
@@ -61,6 +62,7 @@
   color: $dark-color;
   border: 1px solid $gray-20;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: 0.3s ease;
 
   &:hover,
   &:focus {
@@ -161,6 +163,11 @@
     &:hover,
     &:focus {
       border-color: $gray-70;
+    }
+
+    &:hover > svg,
+    &:focus > svg {
+      fill: $gray-70;
     }
 
     &:active {

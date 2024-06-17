@@ -11,6 +11,7 @@
 .hidden {
   display: none;
 }
+
 .categories {
   display: flex;
   flex-direction: column;
@@ -33,6 +34,31 @@
     color: $orange-color;
   }
 }
+.btn-cart {
+  width: 100%;
+}
+
+.show-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: fit-content;
+  margin: 1rem auto;
+  cursor: pointer;
+  border-radius: 20px;
+
+  & svg:hover,
+  & svg:focus {
+    border-color: $gray-70;
+    fill: $gray-70;
+  }
+
+  &:active {
+    box-shadow: $active;
+  }
+}
+
 .main-div {
   display: flex;
   flex-wrap: wrap;
@@ -53,6 +79,11 @@
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
+    .disabled {
+      background-color: rgb(218, 192, 144);
+      border: none;
+    }
+
     @media (hover: hover) {
       &:hover {
         background-size: cover;
@@ -68,7 +99,9 @@
       justify-content: space-between;
       width: 15rem;
       gap: 15px;
-
+      .baskets {
+        width: 100%;
+      }
       .img {
         width: 100%;
         height: 20rem;
@@ -96,16 +129,28 @@
       }
     }
   }
+
+  .image-div_basket {
+    @media (hover: hover) {
+      &:hover {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
 }
+.skeletonContainer {
+  display: flex;
+  margin: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .input-div {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
   width: 100%;
-  span {
-    display: flex;
-  }
   .search-sort {
     display: flex;
     flex-direction: row;

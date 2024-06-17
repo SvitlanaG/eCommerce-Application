@@ -19,6 +19,7 @@ export const filterBooks = async (
   language: string,
   priceRange: number | null,
   item: Category,
+  limitBooks: Product[],
 ) => {
   try {
     const books = await getBooks('');
@@ -43,7 +44,10 @@ export const filterBooks = async (
             priceInCents <= (priceRange + 30) * 100;
         }
       }
-      return isCategoryMatch && isLanguageMatch && isPriceMatch;
+      const isLimitedMatch = limitBooks.map((el) => el.id).includes(book.id);
+      return (
+        isCategoryMatch && isLanguageMatch && isPriceMatch && isLimitedMatch
+      );
     });
   } catch (error) {
     return [];
@@ -56,6 +60,17 @@ export const sortCondition = (book: Product, books: Product[]) => {
     return key === book.key;
   }
   return false;
+};
+
+export const calculateTotal = (
+  books: Product[],
+  discounted: ({ sku: string; value: number } | null)[],
+  quantities: { [key: string]: number },
+) => {
+  return books.reduce((total: number, book: Product) => {
+    const quantity = quantities[book.id] || 1;
+    return total + getDiscounted(book, discounted) * quantity;
+  }, 0);
 };
 
 export default getDiscounted;

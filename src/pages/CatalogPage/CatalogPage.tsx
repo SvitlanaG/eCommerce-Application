@@ -1,6 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Select, { SingleValue } from 'react-select';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { FaRedo } from 'react-icons/fa';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
@@ -12,18 +14,27 @@ import filter from '@/assets/icons/filter.svg';
 import Prices from '@/components/Catalog/Prices';
 import Languages from '@/components/Catalog/Languages';
 import { sortCondition } from '@/helpers/Utils/utils';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
+  const [limitBooks, setLimitBooks] = useState<Product[]>([]);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
   const [priceRange, setPriceRange] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [visibleBtn, setVisibleBtn] = useState(true);
   useEffect(() => {
-    getBooks('').then((products) => setBooks(products));
+    getBooks(`?limit=5`).then((products) => {
+      setBooks(products);
+      setLimitBooks(products);
+      setLoading(false);
+    });
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
+    setVisibleBtn(false);
     if (ev.target.name === 'langauge') {
       setLanguage(ev.target.value);
       let url;
@@ -34,8 +45,10 @@ const CatalogPage = () => {
       else url = '';
       getBooks(url).then((data: Product[]) => {
         setBooks(
-          data.filter((book) =>
-            Object.keys(book.name).includes(ev.target.value),
+          data.filter(
+            (book) =>
+              Object.keys(book.name).includes(ev.target.value) &&
+              limitBooks.map((el) => el.id).includes(book.id),
           ),
         );
       });
@@ -46,7 +59,10 @@ const CatalogPage = () => {
       ).then((data: Product[]) => {
         setBooks(
           data.filter((book) => {
-            return language ? Object.keys(book.name).includes(language) : true;
+            return language
+              ? Object.keys(book.name).includes(language) &&
+                  limitBooks.map((el) => el.id).includes(book.id)
+              : true && limitBooks.map((el) => el.id).includes(book.id);
           }),
         );
       });
@@ -77,6 +93,15 @@ const CatalogPage = () => {
     }
   };
 
+  const showMore = () => {
+    getBooks(`?limit=5&offset=${books.length}`).then((products) => {
+      const data = [...books, ...products];
+      setBooks(data);
+      setLimitBooks(data);
+      if (data.length === products[0].total) setVisibleBtn(false);
+    });
+  };
+
   return (
     <div className={styles.container} data-testid="catalog-container">
       <Categories
@@ -84,6 +109,8 @@ const CatalogPage = () => {
         priceRange={priceRange}
         onSetCategory={(value: string) => setCategory(value)}
         onSetBooks={(value: Product[]) => setBooks(value)}
+        limitBooks={limitBooks}
+        onSetVisibleBtn={setVisibleBtn}
       />
       <div className={styles['input-div']}>
         <div className={clsx(styles['search-sort'])}>
@@ -152,7 +179,45 @@ const CatalogPage = () => {
             </div>
           </div>
         </div>
-        <Books books={books} />
+        {loading ? (
+          <SkeletonTheme highlightColor="#444">
+            <div className={styles.skeletonContainer}>
+              {['skeleton1', 'skeleton2', 'skeleton3'].map((skeletonId) => (
+                <Skeleton
+                  key={skeletonId}
+                  height={300}
+                  width="200px"
+                  style={{ margin: '10px' }}
+                />
+              ))}
+            </div>
+          </SkeletonTheme>
+        ) : (
+          <Books
+            books={books}
+            disable={false}
+            fromBasket={false}
+            refreshCart={() => false}
+          />
+        )}
+        <div>
+          <div
+            onClick={showMore}
+            className={clsx(
+              styles['show-more'],
+              !visibleBtn ? styles.hidden : '',
+            )}
+          >
+            <div
+              className={clsx(
+                styles['button-icon'],
+                styles['button-icon-secondary'],
+              )}
+            >
+              <FaRedo />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -14,6 +14,8 @@ const Categories = ({
   onSetCategory,
   language,
   priceRange,
+  limitBooks,
+  onSetVisibleBtn,
 }: PropsCategories) => {
   const categories = useFetch();
   const [isListVisible, setIsListVisible] = useState(false);
@@ -38,8 +40,9 @@ const Categories = ({
               <li key={item.key}>
                 <span
                   onClick={async () => {
+                    onSetVisibleBtn(false);
                     onSetCategory(item.id);
-                    filterBooks(language, priceRange, item).then(
+                    filterBooks(language, priceRange, item, limitBooks).then(
                       (data: Product[]) => {
                         onSetBooks(data);
                       },
