@@ -197,6 +197,9 @@
       .details > div > ul > li label {
         cursor: pointer;
       }
+      .details > div > ul > li label span{
+        margin: 5px;
+      }
       .hidden {
         display: none;
       }
