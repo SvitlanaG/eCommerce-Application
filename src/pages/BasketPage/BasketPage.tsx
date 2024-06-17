@@ -72,9 +72,8 @@ const BasketPage = () => {
                 <button
                   type="button"
                   className={clsx(
-                    styles['button-small'],
+                    styles['button-large'],
                     styles['button-primary'],
-                    styles['btn-cart'],
                   )}
                   onClick={async () => {
                     // eslint-disable-next-line no-restricted-globals, no-alert

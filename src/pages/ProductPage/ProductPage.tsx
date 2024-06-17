@@ -64,7 +64,7 @@ const ProductPage = () => {
     getCart().then(async (cartInfo) => {
       if (cartInfo) {
         localStorage.setItem('cartId', cartInfo.id);
-        await updateCart(cartInfo.id, cartInfo.version, productId);
+        await updateCart(cartInfo.id, productId);
         setCartVersion(cartInfo.version);
         await handleLimeItems();
       }

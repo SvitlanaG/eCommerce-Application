@@ -1,4 +1,5 @@
 @import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
 @import '@/pages/CatalogPage/CatalogPage.module.scss';
 
 .basket {
@@ -33,4 +34,17 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.product-quantity-controls {
+  @extend .text-subtitle;
+  width: 3rem;
+
+  & > span {
+    display: table;
+    margin: 0.8rem auto 0;
+    font-size: 1.4rem;
+  }
 }

@@ -2,7 +2,6 @@
 @import '@/styles/components/buttons.module.scss';
 @import '@/styles/components/inputs.module.scss';
 
-
 .container {
   width: 100%;
   margin: auto;
@@ -45,13 +44,19 @@
   align-items: center;
   border: none;
   width: fit-content;
-  margin: auto;
+  margin: 1rem auto;
   cursor: pointer;
   border-radius: 20px;
-}
 
-.show-more svg:hover {
-  fill: grey;
+  & svg:hover,
+  & svg:focus {
+    border-color: $gray-70;
+    fill: $gray-70;
+  }
+
+  &:active {
+    box-shadow: $active;
+  }
 }
 
 .main-div {
@@ -94,7 +99,7 @@
       justify-content: space-between;
       width: 15rem;
       gap: 15px;
-      .baskets{
+      .baskets {
         width: 100%;
       }
       .img {
@@ -124,8 +129,17 @@
       }
     }
   }
+
+  .image-div_basket {
+    @media (hover: hover) {
+      &:hover {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
 }
-.skeletonContainer{
+.skeletonContainer {
   display: flex;
   margin: 20px;
   flex-wrap: wrap;
