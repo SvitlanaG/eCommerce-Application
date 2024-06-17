@@ -80,7 +80,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
     getCart().then(async (cartInfo) => {
       if (cartInfo) {
         localStorage.setItem('cartId', cartInfo.id);
-        await updateCart(cartInfo.id, cartInfo.version, productId);
+        await updateCart(cartInfo.id, productId);
         setCartAdded(cartInfo.version);
       }
     });
@@ -187,7 +187,6 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
                     }
                     productId={book.id}
                     cartId={cart.id}
-                    version={cart.version}
                     onIncrement={handleIncrement}
                     onDecrement={handleDecrement}
                   />

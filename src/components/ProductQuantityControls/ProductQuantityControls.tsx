@@ -11,7 +11,6 @@ interface ProductQuantityControlsProps {
   lineItemId: string;
   productId: string;
   cartId: string;
-  version: number;
   onIncrement: (productId: string) => void;
   onDecrement: (productId: string) => void;
 }
@@ -21,7 +20,6 @@ const ProductQuantityControls = ({
   lineItemId,
   productId,
   cartId,
-  version,
   onIncrement,
   onDecrement,
 }: ProductQuantityControlsProps) => {
@@ -29,7 +27,7 @@ const ProductQuantityControls = ({
 
   const handleIncrement = async () => {
     try {
-      await updateCart(cartId, version, productId);
+      await updateCart(cartId, productId);
       setQuantity(quantity + 1);
       onIncrement(productId);
     } catch (error) {
