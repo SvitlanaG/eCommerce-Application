@@ -10,21 +10,35 @@ import imageDefault from '@/assets/img/imageDefault.png';
 import getDiscounted, { calculateTotal } from '@/helpers/Utils/utils';
 import { getCart, updateCart } from '@/services/cart';
 import ProductQuantityControls from '@/components/ProductQuantityControls';
+import removeFromCart from '@/services/removeFromCart';
 
-const Books = ({
-  books,
-  disable,
-  fromBasket,
-}: {
+type Props = {
   books: Product[];
   disable: boolean;
   fromBasket: boolean;
-}) => {
+  refreshCart: () => void;
+};
+
+const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   const [discounted, setDiscounted] = useState<
     ({ sku: string; value: number } | null)[]
   >([]);
   const [productIds, setProductIds] = useState<string[]>([]);
   const [cartAdded, setCartAdded] = useState<number | null>(null);
+
+  const handleLimeItems = async (bookId: string) => {
+    await getCart().then(async (data) => {
+      const lineItemsArray = data?.lineItems;
+      if (lineItemsArray) {
+        for (let i = 0; i < lineItemsArray.length; i += 1) {
+          if (lineItemsArray[i].productId === bookId) {
+            removeFromCart(lineItemsArray[i].id, lineItemsArray[i].quantity);
+          }
+        }
+      }
+    });
+  };
+
   useEffect(() => {
     getCart().then((data) => setProductIds(data ? data.productIds : []));
   }, [cartAdded]);
@@ -118,15 +132,21 @@ const Books = ({
                   <ProductQuantityControls />
                 </div>
                 <button
+                  onClick={async () => {
+                    await handleLimeItems(book.id);
+                    setTimeout(() => {
+                      refreshCart();
+                    }, 150);
+                  }}
                   className={clsx(
                     s.delete,
                     styles['button-small'],
                     styles['button-primary'],
                     styles['btn-cart'],
                   )}
-                  type="submit"
+                  type="button"
                 >
-                  <span>delete from cart</span>
+                  <span>Delete from cart</span>
                   <img src={Delete} alt="" />
                 </button>
               </>

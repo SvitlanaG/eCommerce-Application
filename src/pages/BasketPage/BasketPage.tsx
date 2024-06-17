@@ -63,7 +63,12 @@ const BasketPage = () => {
               <div
                 className={clsx(styles['input-div'], styles['book-baskets'])}
               >
-                <Books books={products} disable fromBasket />
+                <Books
+                  books={products}
+                  refreshCart={handleIsEmpty}
+                  disable
+                  fromBasket
+                />
                 <button
                   type="button"
                   className={clsx(
