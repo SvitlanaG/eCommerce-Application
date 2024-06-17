@@ -18,16 +18,16 @@ export const getDiscounted = (
 export const filterBooks = async (
   language: string,
   priceRange: number | null,
-  item: Category,
-  limitBooks: Product[],
+  item: Category | null,
 ) => {
   try {
     const books = await getBooks('');
 
     return books.filter((book: Product) => {
-      const isCategoryMatch = book.categories.some(
-        (category) => category.id === item.id,
-      );
+      const isCategoryMatch =
+        item === null
+          ? true
+          : book.categories.some((category) => category.id === item.id);
 
       const isLanguageMatch = language
         ? Object.keys(book.name).includes(language)
@@ -44,10 +44,7 @@ export const filterBooks = async (
             priceInCents <= (priceRange + 30) * 100;
         }
       }
-      const isLimitedMatch = limitBooks.map((el) => el.id).includes(book.id);
-      return (
-        isCategoryMatch && isLanguageMatch && isPriceMatch && isLimitedMatch
-      );
+      return isCategoryMatch && isLanguageMatch && isPriceMatch;
     });
   } catch (error) {
     return [];
