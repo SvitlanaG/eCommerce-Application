@@ -67,6 +67,9 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
         setQuantities(initialQuantities);
         setTotal(calculateTotal(books, discounted, initialQuantities));
         setWithDiscount(data.totalPrice.centAmount);
+        if (data.discountOnTotalPrice) {
+          setShowWithDiscount(true);
+        }
       }
     });
   }, [cartAdded, books, discounted, withDiscount]);
@@ -230,7 +233,10 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
           <p>Total: {total}$</p>
           {showWithDiscount && <p>With discount: {withDiscount / 100}$</p>}
           <div className={s.promo}>
-            <p>with this promo code you will get a 25% discount</p>
+            <p>
+              this promo code gives you a 25% discount (does not stack with
+              other discounts)
+            </p>
             <div className={s.code}>rss-promocode</div>
           </div>
           <button

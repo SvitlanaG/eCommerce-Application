@@ -42,6 +42,7 @@ export const getCart = async (): Promise<{
   quantity: number[];
   lineItems: { id: string; productId: string; quantity: number }[];
   totalPrice: { centAmount: number };
+  discountOnTotalPrice: { centAmount: number };
 } | null> => {
   const token = localStorage.getItem('userAccessToken');
   const myHeaders = new Headers();
@@ -70,15 +71,25 @@ export const getCart = async (): Promise<{
       version,
       lineItems,
       totalPrice,
+      discountOnTotalPrice,
     }: {
       id: string;
       version: number;
       lineItems: { id: string; productId: string; quantity: number }[];
       totalPrice: { centAmount: number };
+      discountOnTotalPrice: { centAmount: number };
     } = await response.json();
     const productIds = lineItems.map((el) => el.productId);
     const quantity = lineItems.map((el) => el.quantity);
-    return { id, version, productIds, quantity, lineItems, totalPrice };
+    return {
+      id,
+      version,
+      productIds,
+      quantity,
+      lineItems,
+      totalPrice,
+      discountOnTotalPrice,
+    };
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === '404') {
@@ -93,6 +104,7 @@ export const getCart = async (): Promise<{
               productIds: cart.productIds,
               lineItems: cart.lineItems,
               totalPrice: cart.totalPrice,
+              discountOnTotalPrice: cart.discountOnTotalPrice,
             };
         } catch (createError) {
           return null;
