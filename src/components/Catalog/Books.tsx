@@ -11,6 +11,7 @@ import getDiscounted, { calculateTotal } from '@/helpers/Utils/utils';
 import { getCart, updateCart } from '@/services/cart';
 import ProductQuantityControls from '@/components/ProductQuantityControls';
 import removeFromCart from '@/services/removeFromCart';
+import addCartDiscount from '@/services/addCartDiscount';
 import { Cart } from '@/types/cart';
 
 type Props = {
@@ -29,6 +30,8 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
   const [total, setTotal] = useState<number>(0);
   const [cart, setCart] = useState<Cart | null>(null);
+  const [withDiscount, setWithDiscount] = useState<number>(0);
+  const [refreshBook, setRefreshBook] = useState(true);
 
   const handleLineItems = async (bookId: string) => {
     await getCart().then(async (data) => {
@@ -40,6 +43,12 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
           }
         }
       }
+    });
+  };
+
+  const handleWithDiscount = async () => {
+    await getCart().then((data) => {
+      if (data) setWithDiscount(data.totalPrice.centAmount);
     });
   };
 
@@ -57,9 +66,10 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
         );
         setQuantities(initialQuantities);
         setTotal(calculateTotal(books, discounted, initialQuantities));
+        setWithDiscount(data.totalPrice.centAmount);
       }
     });
-  }, [cartAdded, books, discounted]);
+  }, [cartAdded, books, discounted, withDiscount, refreshBook]);
 
   useEffect(() => {
     getDiscounts().then((discounts) => {
@@ -189,6 +199,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
                     cartId={cart.id}
                     onIncrement={handleIncrement}
                     onDecrement={handleDecrement}
+                    handleWithDiscount={handleWithDiscount}
                   />
                 </div>
                 <button
@@ -216,7 +227,21 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
       </div>
       {fromBasket && (
         <div className={s.order}>
-          Total: {total}$
+          <p>Total: {total}$</p>
+          {withDiscount && <p>With discount: {withDiscount / 100}$</p>}
+          <button
+            type="button"
+            className={clsx(styles['button-large'], styles['button-primary'])}
+            onClick={async () => {
+              await addCartDiscount('rss-promocode');
+              // setTimeout(() => {
+              //   handleWithDiscount();
+              // }, 150);
+              setRefreshBook(!refreshBook);
+            }}
+          >
+            Apply promo code
+          </button>
           <button
             disabled
             className={clsx(styles['button-large'], styles['button-secondary'])}

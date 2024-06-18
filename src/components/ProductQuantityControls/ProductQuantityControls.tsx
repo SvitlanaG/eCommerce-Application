@@ -13,6 +13,7 @@ interface ProductQuantityControlsProps {
   cartId: string;
   onIncrement: (productId: string) => void;
   onDecrement: (productId: string) => void;
+  handleWithDiscount: () => void;
 }
 
 const ProductQuantityControls = ({
@@ -22,6 +23,7 @@ const ProductQuantityControls = ({
   cartId,
   onIncrement,
   onDecrement,
+  handleWithDiscount,
 }: ProductQuantityControlsProps) => {
   const [quantity, setQuantity] = useState(initialQuantity);
 
@@ -30,6 +32,7 @@ const ProductQuantityControls = ({
       await updateCart(cartId, productId);
       setQuantity(quantity + 1);
       onIncrement(productId);
+      handleWithDiscount();
     } catch (error) {
       Toast({
         message: 'Failed to add the product to the cart.',
@@ -44,6 +47,7 @@ const ProductQuantityControls = ({
         await removeFromCart(lineItemId);
         setQuantity(quantity - 1);
         onDecrement(productId);
+        handleWithDiscount();
       } catch (error) {
         Toast({
           message: 'Failed to remove the product from the cart.',
