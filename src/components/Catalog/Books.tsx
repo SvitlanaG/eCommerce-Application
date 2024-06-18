@@ -230,7 +230,12 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
       </div>
       {fromBasket && (
         <div className={s.order}>
-          <p>Total: {total}$</p>
+          <p>
+            Total:{' '}
+            <span className={showWithDiscount ? s['with-promocode'] : ''}>
+              {total}$
+            </span>
+          </p>
           {showWithDiscount && <p>With discount: {withDiscount / 100}$</p>}
           <div className={s.promo}>
             <p>

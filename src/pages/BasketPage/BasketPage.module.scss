@@ -36,6 +36,10 @@
   align-items: center;
   font-size: 1.4rem;
   font-weight: 600;
+  .with-promocode {
+    color: $accent-color;
+    text-decoration: line-through;
+  }
   .promo {
     display: flex;
     flex-direction: column;
