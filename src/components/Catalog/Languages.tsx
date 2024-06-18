@@ -14,7 +14,7 @@ export const Languages = ({ handleChange }: HandeChange) => {
               value="all"
               onChange={(ev) => handleChange(ev)}
             />
-            ALL
+            <span>ALL</span>
           </label>
         </li>
         <li>
@@ -26,7 +26,7 @@ export const Languages = ({ handleChange }: HandeChange) => {
               value="en-GB"
               onChange={(ev) => handleChange(ev)}
             />
-            English
+            <span>English</span>
           </label>
         </li>
         <li>
@@ -38,7 +38,7 @@ export const Languages = ({ handleChange }: HandeChange) => {
               value="de-DE"
               onChange={(ev) => handleChange(ev)}
             />
-            German
+            <span>German</span>
           </label>
         </li>
         <li>
@@ -50,7 +50,7 @@ export const Languages = ({ handleChange }: HandeChange) => {
               value="ru"
               onChange={(ev) => handleChange(ev)}
             />
-            Russian
+            <span>Russian</span>
           </label>
         </li>
       </ul>
