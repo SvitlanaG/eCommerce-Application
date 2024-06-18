@@ -24,6 +24,8 @@ describe('BasketPage', () => {
       productIds: ['1'],
       quantity: [1],
       lineItems: [{ id: 'line-item-1', productId: '1', quantity: 1 }],
+      totalPrice: { centAmount: 100 },
+      discountOnTotalPrice: { centAmount: 100 },
     });
 
     const mockProduct = {
