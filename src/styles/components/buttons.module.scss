@@ -1,4 +1,4 @@
-@import '../../index.scss';
+@import '@/index.scss';
 
 .button {
   @include enabled;
@@ -9,17 +9,18 @@
   @extend .button;
   @extend .text-button;
   @extend .text-button-large;
-  width: 160px;
+  width: 220px;
   height: 52px;
-  padding: 14px 40px;
+  padding: 14px 20px;
   border-radius: 30px;
+  margin-bottom: 1rem;
 }
 
 .button-small {
   @extend .button;
   @extend .text-button;
   @extend .text-button-small;
-  width: 120px;
+  width: 110px;
   height: 40px;
   padding: 11px 30px;
   border-radius: 20px;
@@ -84,6 +85,12 @@
   &-small {
     @extend .button-small;
   }
+}
+
+.button-delete {
+  @extend .button-secondary;
+  background-color: $accent-color;
+  color: $white-color;
 }
 
 .link {

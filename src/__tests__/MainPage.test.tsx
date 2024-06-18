@@ -1,43 +1,32 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import MainPage from '../pages/MainPage/MainPage';
+import MainPage from '@/pages/MainPage/MainPage';
 
 // Mock the Links component
-vi.mock('../components/Main/Links', () => ({
+vi.mock('@/components/Main/Links', () => ({
   default: () => <div>Mocked Links</div>,
 }));
 
 describe('MainPage component', () => {
-  it('renders the main container', () => {
-    render(<MainPage />);
+  it('renders correctly', () => {
+    const { getByText, getByAltText } = render(MainPage());
 
-    // Check for the main container
-    const container = screen.getByText('Hi there').closest('div');
-    expect(container).toBeInTheDocument();
-  });
+    // Assert that the welcome message is rendered
+    expect(getByText('Welcome to Book Lounge Online')).toBeTruthy();
 
-  it('renders the greeting message correctly', () => {
-    render(<MainPage />);
+    // Assert that the image is rendered with the correct alt text
+    expect(getByAltText('orange books')).toBeTruthy();
 
-    // Check for the greeting message
-    const message = screen.getByText(/Hi there/i);
-    expect(message).toBeInTheDocument();
-  });
-
-  it('renders the IoBookOutline icon', () => {
-    render(<MainPage />);
-
-    // Check for the icon
-    const icon = screen.getByTestId('IoBookOutlineIcon');
-    expect(icon).toBeInTheDocument();
+    // Assert that the content is rendered
+    expect(getByText(/Start Your Reading Adventure Today!/i)).toBeTruthy();
   });
 
   it('renders the Links component', () => {
-    render(<MainPage />);
+    const { getByText } = render(MainPage());
 
     // Check for the Links component
-    const linksComponent = screen.getByText('Mocked Links');
-    expect(linksComponent).toBeInTheDocument();
+    const linksComponent = getByText('Mocked Links');
+    expect(linksComponent).toBeTruthy();
   });
 });

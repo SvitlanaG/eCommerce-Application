@@ -1,7 +1,7 @@
 // main colors
 $accent-color: #ff5253;
 $white-color: #ffffff;
-$dark-color: #363636;
+$dark-color: #003147;
 $dark30-color: #3636364d;
 $orange-color: #f85a08;
 
@@ -10,7 +10,7 @@ $pressed: linear-gradient(233.73deg, #f83600 -16.08%, #f9d423 327.37%);
 $hover:
   inset 0 0 20px rgba(255, 255, 255, 0.5),
   0 0 20px rgba(255, 255, 255, 0.2);
-
+$hover-color: #1982c4;
 $shadow-color: #de7d0b33;
 $active:
   rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
@@ -21,7 +21,7 @@ $gray-70: #727272;
 $gray-40: #a7a7a7;
 $gray-20: #bfc4c9;
 $gray-10: #ebebeb;
-$gray-5: #f9f9fa;
+$gray-5: #f2f2f2;
 
 // bg and text colors
 $background-color: #ffffff;

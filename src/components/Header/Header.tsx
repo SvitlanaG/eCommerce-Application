@@ -1,10 +1,12 @@
-import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserPlus, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoggedIn } from '../../store/user/userSlice';
-import { RootState } from '../../store/store';
-import Toast from '../../helpers/Toast';
-import styles from './Header.module.scss';
+import { clsx } from 'clsx';
+import { setLoggedIn } from '@/store/user/userSlice';
+import { RootState } from '@/store/store';
+import Toast from '@/helpers/Toast';
+import styles from '@/components/Header/Header.module.scss';
+import NavigationTabs from '@/components/NavigationTabs/NavigationTabs';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,7 +31,11 @@ const Header = () => {
         <div className="flex flex-fw-wrap flex-fd-column">
           <h1 className={styles['product-name']}>Book Lounge Online</h1>
           <p
-            className={`${styles['product-name-slogan']} text-subtitle text-subtitle-large`}
+            className={clsx(
+              styles['product-name-slogan'],
+              'text-subtitle',
+              'text-subtitle-large',
+            )}
           >
             Between Codes and Coffee, Find Time for Books
           </p>
@@ -44,7 +50,10 @@ const Header = () => {
                 }
               >
                 <div
-                  className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
+                  className={clsx(
+                    styles['button-icon'],
+                    styles['button-icon-secondary'],
+                  )}
                 >
                   <FaUserPlus />
                 </div>
@@ -59,7 +68,10 @@ const Header = () => {
                 }
               >
                 <div
-                  className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
+                  className={clsx(
+                    styles['button-icon'],
+                    styles['button-icon-secondary'],
+                  )}
                 >
                   <FaSignInAlt />
                 </div>
@@ -68,15 +80,41 @@ const Header = () => {
             </div>
           </nav>
         ) : (
-          <div className={styles.logOut} onClick={logOut}>
-            <div
-              className={`${styles['button-icon']} ${styles['button-icon-secondary']}`}
-            >
-              <FaSignOutAlt />
+          <nav className="flex flex-fd-row">
+            <div className={styles.login}>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.inactive
+                }
+              >
+                <div
+                  className={clsx(
+                    styles['button-icon'],
+                    styles['button-icon-secondary'],
+                  )}
+                >
+                  <FaUser />
+                </div>
+                <p className="text-button text-button-small">Profile</p>
+              </NavLink>
             </div>
-            <p className="text-button text-button-small">LogOut</p>
-          </div>
+            <div className={styles.login} onClick={logOut}>
+              <div
+                className={clsx(
+                  styles['button-icon'],
+                  styles['button-icon-secondary'],
+                )}
+              >
+                <FaSignOutAlt />
+              </div>
+              <p className="text-button text-button-small">LogOut</p>
+            </div>
+          </nav>
         )}
+      </div>
+      <div className={styles.container}>
+        <NavigationTabs />
       </div>
     </header>
   );

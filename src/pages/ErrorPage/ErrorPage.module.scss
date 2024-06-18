@@ -1,13 +1,14 @@
-@import '../../index.scss';
-@import '../../styles/components/buttons.module.scss';
+@import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
 
 .wrapper {
   display: flex;
   align-items: center;
-  height: 70vh;
+  padding: 16vh 0;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    padding: 0;
   }
 }
 

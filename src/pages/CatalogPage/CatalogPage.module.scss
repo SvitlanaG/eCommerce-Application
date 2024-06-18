@@ -1,30 +1,192 @@
-@import '../../index.scss';
-@import '../../styles/components/buttons.module.scss';
+@import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
+@import '@/styles/components/inputs.module.scss';
 
 .container {
   width: 100%;
   margin: auto;
+  display: flex;
+  flex-direction: row;
+}
+.hidden {
+  display: none;
+}
+.categories {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  .categoryBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid $orange-color;
+  }
+  .categoryBtn:hover {
+    color: $orange-color;
+    cursor: pointer;
+  }
+  .list li {
+    margin: 10px;
+    cursor: pointer;
+  }
+  .list li:hover {
+    color: $orange-color;
+  }
 }
 .main-div {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 5px;
-  .img {
-    width: 10rem;
-    height: 12rem;
-    border-radius: 10px;
-  }
+  gap: 0.5rem;
+  row-gap: 1rem;
+  margin: 2rem 0;
+
   .imageDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     width: 15rem;
     gap: 15px;
-    .btn {
-      margin-top: auto;
-      width: 80%;
-      border-radius: 10px;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    @media (hover: hover) {
+      &:hover {
+        background-size: cover;
+        transform: scale(0.97);
+        opacity: 0.8;
+      }
+    }
+
+    .imageDescription {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      width: 15rem;
+      gap: 15px;
+
+      .img {
+        width: 100%;
+        height: 20rem;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+
+      .bookName {
+        height: 50px;
+      }
+
+      .price {
+        @extend .text-subtitle;
+        color: $dark-color;
+      }
+      .discounted {
+        color: $accent-color;
+        text-decoration: line-through;
+      }
+      .prices {
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+.input-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  span {
+    display: flex;
+  }
+  .search-sort {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    gap: 10px;
+    .sortContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative; 
+      .sortIcon {
+        position: absolute;
+        left: 0;
+        color: $gray-40;
+      }
+    
+    }
+    .filterDiv {
+      display: flex;
+      position: absolute;
+      right: 0;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      .filterButtons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: $gray-40;
+      }
+      .filterButtons:hover {
+        color: $orange-color;
+      }
+      .details {
+        position: absolute;
+        right: 0;
+        z-index: 20;
+        width: 10rem;
+        top: 20px;
+        margin-top: 30px;
+        display: flex;
+        background-color: white;
+        border-radius: 10px;
+        border: 1px solid $gray-40;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .details > div > p {
+        text-align: center;
+        font-size: 1.3rem;
+        color: $orange-color;
+      }
+      .details > div > ul > li {
+        margin: 20px;
+      }
+      .details > div > ul > li label {
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+    }
+    .sort {
+      width: 10rem;
+      position: relative;
+      text-align: center;
+      color: $gray-40;
+      img {
+        width: 200px;
+        height: 50px;
+      }
+    }
+    .searchInput {
+      align-self: center;
+      border-radius: 20px;
+      border: 3px solid #ecedee;
+      width: 20rem;
+      height: 30px;
     }
   }
 }
@@ -32,5 +194,56 @@
   .main-div {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media (max-width: 1200px) {
+  .search-sort {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .main-div {
+    justify-content: center;
+  }
+  .searching {
+    position: relative;
+    order: 1;
+    display: flex;
+    justify-content: center;
+    top: 30px;
+    margin: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .categoryBtn {
+    display: none !important;
+  }
+  .burgerBtn {
+    display: flex !important;
+    cursor: pointer;
+  }
+  .list {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid $gray-40;
+    z-index: 10;
+  }
+}
+
+@media (min-width: 500px) {
+  .burgerBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .details {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid $gray-40;
   }
 }

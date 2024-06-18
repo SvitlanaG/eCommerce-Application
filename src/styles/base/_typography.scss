@@ -16,7 +16,7 @@ h1 {
 
 h2 {
   font-family: $fontFamily;
-  text-align: $textAlignment;
+  text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 2.5rem;
@@ -24,7 +24,7 @@ h2 {
 
 h3 {
   font-family: $fontFamily;
-  text-align: $textAlignment;
+  text-align: center;
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 2rem;
@@ -82,7 +82,7 @@ h5 {
 }
 
 // Info
-.text-info {
+.text-info1 {
   font-family: $fontFamily;
   text-align: $textAlignment;
   font-size: 0.75rem;
@@ -112,8 +112,8 @@ h5 {
   }
 
   &-small {
-    font-size: 0.875rem;
-    line-height: 1.125rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 }
 

@@ -5,8 +5,8 @@ import {
   FaLinkedin,
   FaGithub,
 } from 'react-icons/fa';
-import styles from './Footer.module.scss';
-import rsIcon from '../../assets/icons/rs.svg';
+import styles from '@/components/Footer/Footer.module.scss';
+import rsIcon from '@/assets/icons/rs.svg';
 
 const Footer = () => {
   return (
@@ -48,7 +48,7 @@ const Footer = () => {
             </a>
           </div>
           <div className={styles.copyright}>
-            <p className="text-info text-info-large">
+            <p className="text-info1 text-info1-large">
               &#169;2024 Book Lounge Online
             </p>
           </div>
