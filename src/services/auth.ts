@@ -3,6 +3,7 @@ import { User, UserLogin, UserToken } from '@/types/UserType';
 import { Errors } from '@/types/Errors';
 import Toast from '@/helpers/Toast';
 import getVisitorIdentifier from '@/services/getIdentifier';
+import { getCart } from './cart';
 
 export const signIn = async (data: UserLogin) => {
   try {
@@ -90,6 +91,11 @@ export const login = async (data: UserLogin, navigate: NavigateFunction) => {
     await getUserToken(data);
     Toast({ message: 'login successful', status: 'success' });
     await getVisitorIdentifier(true);
+    getCart().then(async (cartInfo) => {
+      if (cartInfo) {
+        localStorage.setItem('cartId', cartInfo.id);
+      }
+    });
     navigate('/');
   } catch (error) {
     Toast({ message: `${error}`, status: 'error' });

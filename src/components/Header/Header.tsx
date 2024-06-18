@@ -15,6 +15,7 @@ const Header = () => {
 
   const logOut = () => {
     localStorage.removeItem('userAccessToken');
+    localStorage.removeItem('cartId');
     dispatch(setLoggedIn());
     navigate('/');
     Toast({ message: 'You have successfully logged out', status: 'success' });

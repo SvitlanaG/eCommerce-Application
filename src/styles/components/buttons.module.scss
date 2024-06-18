@@ -44,7 +44,9 @@
 
   &:disabled {
     @include disabled;
-    background-color: $gray-10;
+    background-color: $gray-5;
+    border: 1px solid $gray-20;
+    color: $gray-20;
   }
 
   &-large {
