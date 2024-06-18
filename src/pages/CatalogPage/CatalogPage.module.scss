@@ -80,8 +80,10 @@
     transition: 0.3s ease-in-out;
 
     .disabled {
-      background-color: rgb(218, 192, 144);
-      border: none;
+      @include disabled;
+      background-color: $gray-5;
+      border: 1px solid $gray-20;
+      color: $gray-20;
     }
 
     @media (hover: hover) {
@@ -211,7 +213,7 @@
       .details > div > ul > li label {
         cursor: pointer;
       }
-      .details > div > ul > li label span{
+      .details > div > ul > li label span {
         margin: 5px;
       }
       .hidden {
