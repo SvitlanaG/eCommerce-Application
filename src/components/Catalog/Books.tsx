@@ -31,7 +31,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   const [total, setTotal] = useState<number>(0);
   const [cart, setCart] = useState<Cart | null>(null);
   const [withDiscount, setWithDiscount] = useState<number>(0);
-  const [refreshBook, setRefreshBook] = useState(true);
+  const [showWithDiscount, setShowWithDiscount] = useState(false);
 
   const handleLineItems = async (bookId: string) => {
     await getCart().then(async (data) => {
@@ -69,7 +69,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
         setWithDiscount(data.totalPrice.centAmount);
       }
     });
-  }, [cartAdded, books, discounted, withDiscount, refreshBook]);
+  }, [cartAdded, books, discounted, withDiscount]);
 
   useEffect(() => {
     getDiscounts().then((discounts) => {
@@ -228,16 +228,21 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
       {fromBasket && (
         <div className={s.order}>
           <p>Total: {total}$</p>
-          {withDiscount && <p>With discount: {withDiscount / 100}$</p>}
+          {showWithDiscount && <p>With discount: {withDiscount / 100}$</p>}
+          <div className={s.promo}>
+            <p>with this promo code you will get a 25% discount</p>
+            <div className={s.code}>rss-promocode</div>
+          </div>
           <button
             type="button"
             className={clsx(styles['button-large'], styles['button-primary'])}
+            disabled={showWithDiscount}
             onClick={async () => {
               await addCartDiscount('rss-promocode');
-              // setTimeout(() => {
-              //   handleWithDiscount();
-              // }, 150);
-              setRefreshBook(!refreshBook);
+              handleWithDiscount();
+              setTimeout(() => {
+                setShowWithDiscount(true);
+              }, 150);
             }}
           >
             Apply promo code
