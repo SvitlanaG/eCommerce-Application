@@ -33,3 +33,15 @@
 .content * {
   margin-bottom: 2rem;
 }
+
+.code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: $accent-color;
+  font-size: 1.4rem;
+  .span {
+    font-weight: 600;
+  }
+}

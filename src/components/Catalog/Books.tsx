@@ -32,6 +32,7 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [withDiscount, setWithDiscount] = useState<number>(0);
   const [showWithDiscount, setShowWithDiscount] = useState(false);
+  const [code, setCode] = useState('rss-promocode');
 
   const handleLineItems = async (bookId: string) => {
     await getCart().then(async (data) => {
@@ -242,17 +243,21 @@ const Books = ({ books, disable, fromBasket, refreshCart }: Props) => {
               this promo code gives you a 25% discount (does not stack with
               other discounts)
             </p>
-            <div className={s.code}>rss-promocode</div>
+            <input
+              type="text"
+              className={s.code}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
           </div>
           <button
             type="button"
             className={clsx(styles['button-large'], styles['button-primary'])}
             disabled={showWithDiscount}
             onClick={async () => {
-              await addCartDiscount('rss-promocode');
-              handleWithDiscount();
+              await addCartDiscount(code);
               setTimeout(() => {
-                setShowWithDiscount(true);
+                handleWithDiscount();
               }, 150);
             }}
           >

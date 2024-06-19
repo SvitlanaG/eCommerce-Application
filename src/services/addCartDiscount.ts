@@ -52,7 +52,7 @@ const addCartDiscount = async (discountCode: string) => {
     return true;
   } catch (error) {
     Toast({
-      message: 'Something went wrong. Try again later!',
+      message: 'Invalid promo code or something went wrong. Try again later!',
       status: 'error',
     });
     return false;
