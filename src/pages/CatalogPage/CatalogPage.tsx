@@ -1,6 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Select, { SingleValue } from 'react-select';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { FaRedo } from 'react-icons/fa';
 import styles from '@/pages/CatalogPage/CatalogPage.module.scss';
 import getBooks from '@/services/getBooks';
 import { Product } from '@/types/products';
@@ -11,6 +13,9 @@ import sortAscending from '@/assets/icons/sortAscending.svg';
 import filter from '@/assets/icons/filter.svg';
 import Prices from '@/components/Catalog/Prices';
 import Languages from '@/components/Catalog/Languages';
+import { sortCondition } from '@/helpers/Utils/utils';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { optionsSort } from '@/helpers/constants';
 
 const CatalogPage = () => {
   const [books, setBooks] = useState<Product[]>([]);
@@ -18,91 +23,64 @@ const CatalogPage = () => {
   const [category, setCategory] = useState('');
   const [language, setLanguage] = useState('');
   const [priceRange, setPriceRange] = useState<number | null>(null);
-  const optionsSort: { value: string; label: string }[] = [
-    {
-      value: 'priceAsc',
-      label: 'ascending price',
-    },
-    {
-      value: 'priceDesc',
-      label: 'descending price',
-    },
-    {
-      value: 'name',
-      label: 'name',
-    },
-  ];
+  const [loading, setLoading] = useState<boolean>(true);
+  const [visibleBtn, setVisibleBtn] = useState(true);
   useEffect(() => {
-    getBooks(false, false).then((products) => setBooks(products));
+    getBooks(`?limit=5`).then((products) => {
+      setBooks(products);
+      setLoading(false);
+    });
   }, []);
   const handleChange = async (ev: ChangeEvent<HTMLInputElement>) => {
+    setVisibleBtn(false);
     if (ev.target.name === 'langauge') {
-      setLanguage(ev.target.value);
+      if (ev.target.id === 'all') {
+        setLanguage('');
+      } else setLanguage(ev.target.value);
       let url;
       if (category !== '') {
-        url = `:"${category}"${priceRange ? `&filter=variants.price.centAmount:range(${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})` : ''}`;
+        url = `search?filter=categories.id:"${category}"${priceRange ? `&filter=variants.price.centAmount:range(${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})` : ''}`;
       } else if (priceRange)
-        url = `variants.price.centAmount:range (${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})`;
+        url = `search?filter=variants.price.centAmount: range (${+priceRange * 100} to ${+priceRange === 100 ? '*' : (+priceRange + 30) * 100})`;
       else url = '';
-      setBooks(
-        (
-          await getBooks(
-            false,
-            Boolean(category) || Boolean(priceRange),
-            `${category ? 'categories.id' : ''}`,
-            url,
-          )
-        ).filter((book) => Object.keys(book.name).includes(ev.target.value)),
-      );
+      getBooks(url).then((data: Product[]) => {
+        setBooks(
+          data.filter((book) =>
+            ev.target.value === 'all'
+              ? true
+              : Object.keys(book.name).includes(ev.target.value),
+          ),
+        );
+      });
     } else if (ev.target.name === 'price') {
-      setPriceRange(+ev.target.value);
-      setBooks(
-        (
-          await getBooks(
-            false,
-            true,
-            'variants.price.centAmount',
-            `:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`,
-          )
-        ).filter((book) => {
-          return language ? Object.keys(book.name).includes(language) : true;
-        }),
-      );
+      let url = '';
+      if (ev.target.id === 'price0') {
+        setPriceRange(null);
+        url = `${category ? `search?filter=categories.id:"${category}"` : ''}`;
+      } else {
+        setPriceRange(+ev.target.value);
+        url = `search?filter=variants.price.centAmount:range (${+ev.target.value * 100} to ${+ev.target.value === 100 ? '*' : (+ev.target.value + 30) * 100})${category ? `&filter=categories.id:"${category}"` : ''}`;
+      }
+      getBooks(url).then((data: Product[]) => {
+        setBooks(
+          data.filter((book) => {
+            return language ? Object.keys(book.name).includes(language) : true;
+          }),
+        );
+      });
     }
   };
 
   const sortBooks = async (criteria: string) => {
-    if (criteria === 'priceAsc') {
-      setBooks(
-        (await getBooks(true, false, 'price', 'asc')).filter((book) => {
-          const key = books.find((el) => el.key === book.key)?.key;
-          if (key) {
-            return key === book.key;
-          }
-          return false;
-        }),
-      );
-    } else if (criteria === 'priceDesc') {
-      setBooks(
-        (await getBooks(true, false, 'price', 'desc')).filter((book) => {
-          const key = books.find((el) => el.key === book.key)?.key;
-          if (key) {
-            return key === book.key;
-          }
-          return false;
-        }),
-      );
+    if (criteria === 'asc' || criteria === 'desc') {
+      getBooks(`search?sort=price ${criteria}`).then((data: Product[]) => {
+        setBooks(data.filter((book) => sortCondition(book, books)));
+      });
     }
     if (criteria === 'name') {
-      setBooks(
-        (await getBooks(true, false, 'name.en-US', 'asc')).filter((book) => {
-          const key = books.find((el) => el.key === book.key)?.key;
-          if (key) {
-            return key === book.key;
-          }
-          return false;
-        }),
-      );
+      getBooks(`search?sort=name.en-US asc`).then((data: Product[]) => {
+        setBooks(data.filter((book) => sortCondition(book, books)));
+      });
     }
   };
   const handleSortChange = (
@@ -117,6 +95,14 @@ const CatalogPage = () => {
     }
   };
 
+  const showMore = () => {
+    getBooks(`?limit=5&offset=${books.length}`).then((products) => {
+      const data = [...books, ...products];
+      setBooks(data);
+      if (data.length === products[0].total) setVisibleBtn(false);
+    });
+  };
+
   return (
     <div className={styles.container} data-testid="catalog-container">
       <Categories
@@ -124,6 +110,7 @@ const CatalogPage = () => {
         priceRange={priceRange}
         onSetCategory={(value: string) => setCategory(value)}
         onSetBooks={(value: Product[]) => setBooks(value)}
+        onSetVisibleBtn={setVisibleBtn}
       />
       <div className={styles['input-div']}>
         <div className={clsx(styles['search-sort'])}>
@@ -134,20 +121,22 @@ const CatalogPage = () => {
               className={`${styles['input-img']} ${styles.search}`}
             />
             <input
-              className={styles.searchInput}
+              className={styles['search-input']}
               onChange={async (e) => {
-                setBooks(
-                  (await getBooks(false, false)).filter((book) =>
-                    book.name['en-GB']
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase()),
-                  ),
-                );
+                getBooks('').then((data: Product[]) => {
+                  setBooks(
+                    data.filter((book) =>
+                      book.name['en-GB']
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()),
+                    ),
+                  );
+                });
               }}
               type="search"
             />
           </span>
-          <span className={clsx(styles.sortContainer)}>
+          <span className={clsx(styles['sort-container'])}>
             <Select
               options={optionsSort}
               className={styles.sort}
@@ -170,15 +159,19 @@ const CatalogPage = () => {
                 }),
               }}
             />
-            <img src={sortAscending} alt="" className={clsx(styles.sortIcon)} />
+            <img
+              src={sortAscending}
+              alt=""
+              className={clsx(styles['sort-icon'])}
+            />
           </span>
-          <div className={clsx(styles.filterDiv)}>
+          <div className={clsx(styles['filter-div'])}>
             <div
-              className={clsx(styles.filterButtons)}
+              className={clsx(styles['filter-buttons'])}
               onClick={() => setVisible(!visible)}
             >
               <span className={clsx(styles.filter)}>filter</span>
-              <img src={filter} alt="" className={clsx(styles.sortIcon)} />
+              <img src={filter} alt="" className={clsx(styles['sort-icon'])} />
             </div>
             <div className={clsx(styles.details, visible ? '' : styles.hidden)}>
               <Prices handleChange={handleChange} />
@@ -186,7 +179,45 @@ const CatalogPage = () => {
             </div>
           </div>
         </div>
-        <Books books={books} />
+        {loading ? (
+          <SkeletonTheme highlightColor="#444">
+            <div className={styles.skeletonContainer}>
+              {['skeleton1', 'skeleton2', 'skeleton3'].map((skeletonId) => (
+                <Skeleton
+                  key={skeletonId}
+                  height={300}
+                  width="200px"
+                  style={{ margin: '10px' }}
+                />
+              ))}
+            </div>
+          </SkeletonTheme>
+        ) : (
+          <Books
+            books={books}
+            disable={false}
+            fromBasket={false}
+            refreshCart={() => false}
+          />
+        )}
+        <div>
+          <div
+            onClick={showMore}
+            className={clsx(
+              styles['show-more'],
+              !visibleBtn ? styles.hidden : '',
+            )}
+          >
+            <div
+              className={clsx(
+                styles['button-icon'],
+                styles['button-icon-secondary'],
+              )}
+            >
+              <FaRedo />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

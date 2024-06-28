@@ -24,6 +24,16 @@ const NavigationTabs = () => {
           <p className="text-button text-button-large">Catalog</p>
         </NavLink>
       </div>
+      <div className={styles.navtab}>
+        <NavLink
+          to="/about-us"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.inactive
+          }
+        >
+          <p className="text-button text-button-large">About Us</p>
+        </NavLink>
+      </div>
     </nav>
   );
 };

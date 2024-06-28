@@ -35,6 +35,5 @@ export type UserLogin = {
 
 export type UserToken = {
   access_token: string;
-  refresh_token: string;
-  expires_in: string;
+  expires_in: number;
 };

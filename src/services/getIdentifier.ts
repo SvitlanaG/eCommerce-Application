@@ -1,30 +1,59 @@
 import { UserToken } from '@/types/UserType';
 
-const getVisitorIdentifier = async () => {
+const getVisitorIdentifier = async (loggedIn?: boolean) => {
+  const tokenData = localStorage.getItem('identifiers');
+
+  if (!loggedIn) {
+    if (tokenData) {
+      const {
+        accessToken,
+        expiration,
+      }: { accessToken: string; expiration: number } = JSON.parse(tokenData);
+      const currentTime = new Date().getTime();
+      if (currentTime < expiration) {
+        return accessToken;
+      }
+    }
+  }
   try {
     const clientId = import.meta.env.VITE_CTP_CLIENT_ID;
     const clientSecret = import.meta.env.VITE_CTP_CLIENT_SECRET;
     const authHeader = btoa(`${clientId}:${clientSecret}`);
 
-    const myHeaders: Headers = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append('Authorization', `Basic ${authHeader}`);
-
-    const raw = '';
 
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: raw,
     };
-    const { access_token: accessToken }: UserToken = await (
-      await fetch(
-        `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/rssecommercefinal/anonymous/token?grant_type=client_credentials`,
-        requestOptions,
-      )
-    ).json();
+
+    const response = await fetch(
+      `${import.meta.env.VITE_CTP_AUTH_URL}/oauth/${import.meta.env.VITE_CTP_PROJECT_KEY}/anonymous/token?grant_type=client_credentials`,
+      requestOptions,
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch token');
+    }
+
+    const { access_token: accessToken, expires_in: expires }: UserToken =
+      await response.json();
+
+    const expiration = new Date().getTime() + expires * 1000;
+    localStorage.setItem(
+      'visitorIdentifier',
+      JSON.stringify({ accessToken, expiration }),
+    );
     localStorage.setItem('visitorIdentifier', accessToken);
+    localStorage.setItem(
+      'identifiers',
+      JSON.stringify({ accessToken, expiration }),
+    );
+
+    return accessToken;
   } catch (error) {
-    getVisitorIdentifier();
+    return null;
   }
 };
 

@@ -6,6 +6,18 @@ export const Prices = ({ handleChange }: HandeChange) => {
       <p>price</p>
       <ul>
         <li>
+          <label htmlFor="price0">
+            <input
+              type="radio"
+              name="price"
+              id="price0"
+              value="0"
+              onChange={(ev) => handleChange(ev)}
+            />
+            <span>ALL</span>
+          </label>
+        </li>
+        <li>
           <label htmlFor="price1">
             <input
               type="radio"
@@ -14,7 +26,7 @@ export const Prices = ({ handleChange }: HandeChange) => {
               value="10"
               onChange={(ev) => handleChange(ev)}
             />
-            10 - 40$
+            <span>10 - 40$</span>
           </label>
         </li>
         <li>
@@ -26,7 +38,7 @@ export const Prices = ({ handleChange }: HandeChange) => {
               value="40"
               onChange={(ev) => handleChange(ev)}
             />
-            40 - 70$
+            <span>40 - 70$</span>
           </label>
         </li>
         <li>
@@ -38,7 +50,7 @@ export const Prices = ({ handleChange }: HandeChange) => {
               value="70"
               onChange={(ev) => handleChange(ev)}
             />
-            70 - 100$
+            <span>70 - 100$</span>
           </label>
         </li>
         <li>
@@ -50,7 +62,7 @@ export const Prices = ({ handleChange }: HandeChange) => {
               value="100"
               onChange={(ev) => handleChange(ev)}
             />
-            over 100$
+            <span>over 100$</span>
           </label>
         </li>
       </ul>

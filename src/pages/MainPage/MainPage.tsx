@@ -22,6 +22,10 @@ const MainPage = () => {
           books. Find your next great read and experience the joy of reading
           with Book Lounge Online. Happy reading!
         </p>
+        <p className={styles.code}>
+          Get an exclusive 25% discount using promo code{' '}
+          <span className={styles.span}>&quot;rss-promocode&quot;</span>
+        </p>
         <Links />
       </div>
     </div>

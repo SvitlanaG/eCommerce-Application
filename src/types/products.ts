@@ -1,4 +1,6 @@
 export interface Product {
+  total: number;
+  id: string;
   categories: {
     typeId: string;
     id: string;
@@ -16,6 +18,7 @@ export interface Product {
 }
 
 export interface Book {
+  id: string;
   key: string;
   categories: {
     typeId: string;
@@ -54,4 +57,5 @@ export interface Asset {
 
 export interface Data {
   results: Book[];
+  total: number;
 }

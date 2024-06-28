@@ -1,12 +1,12 @@
-import { FaUserPlus, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { setLoggedIn } from '@/store/user/userSlice';
 import { RootState } from '@/store/store';
 import Toast from '@/helpers/Toast';
 import styles from '@/components/Header/Header.module.scss';
 import NavigationTabs from '@/components/NavigationTabs/NavigationTabs';
+import NavigationIcons from '@/components/NavigationIcons/NavigationIcons';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ const Header = () => {
 
   const logOut = () => {
     localStorage.removeItem('userAccessToken');
+    localStorage.removeItem('cartId');
     dispatch(setLoggedIn());
     navigate('/');
     Toast({ message: 'You have successfully logged out', status: 'success' });
@@ -40,78 +41,7 @@ const Header = () => {
             Between Codes and Coffee, Find Time for Books
           </p>
         </div>
-        {!isLoggedIn ? (
-          <nav className="flex flex-fd-row">
-            <div className={styles.login}>
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.inactive
-                }
-              >
-                <div
-                  className={clsx(
-                    styles['button-icon'],
-                    styles['button-icon-secondary'],
-                  )}
-                >
-                  <FaUserPlus />
-                </div>
-                <p className="text-button text-button-small">Sign up</p>
-              </NavLink>
-            </div>
-            <div className={styles.login}>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.inactive
-                }
-              >
-                <div
-                  className={clsx(
-                    styles['button-icon'],
-                    styles['button-icon-secondary'],
-                  )}
-                >
-                  <FaSignInAlt />
-                </div>
-                <p className="text-button text-button-small">Login</p>
-              </NavLink>
-            </div>
-          </nav>
-        ) : (
-          <nav className="flex flex-fd-row">
-            <div className={styles.login}>
-              <NavLink
-                to="/profile"
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.inactive
-                }
-              >
-                <div
-                  className={clsx(
-                    styles['button-icon'],
-                    styles['button-icon-secondary'],
-                  )}
-                >
-                  <FaUser />
-                </div>
-                <p className="text-button text-button-small">Profile</p>
-              </NavLink>
-            </div>
-            <div className={styles.login} onClick={logOut}>
-              <div
-                className={clsx(
-                  styles['button-icon'],
-                  styles['button-icon-secondary'],
-                )}
-              >
-                <FaSignOutAlt />
-              </div>
-              <p className="text-button text-button-small">LogOut</p>
-            </div>
-          </nav>
-        )}
+        <NavigationIcons isLoggedIn={isLoggedIn} logOut={logOut} />
       </div>
       <div className={styles.container}>
         <NavigationTabs />

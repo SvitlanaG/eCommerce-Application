@@ -14,6 +14,8 @@ import MainPage from '@/pages/MainPage/MainPage';
 import getVisitorIdentifier from '@/services/getIdentifier';
 import ProductPage from './pages/ProductPage/ProductPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import BasketPage from '@/pages/BasketPage/BasketPage';
+import AboutUsPage from '@/pages/AboutUsPage/AboutUsPage';
 
 function App() {
   useEffect(() => {
@@ -32,6 +34,8 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegistrationPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/basket" element={<BasketPage />} />
+              <Route path="/about-us" element={<AboutUsPage />} />
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
