@@ -19,8 +19,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+
+    /* Unit Testing */
+    "types": ["vitest/globals"],
+
+    /* Path Aliases */
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [".eslintrc.cjs", "jest.config.ts", "src"],
+  "include": [".eslintrc.cjs", "src", "vitest.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

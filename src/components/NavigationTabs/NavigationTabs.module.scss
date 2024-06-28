@@ -1,0 +1,36 @@
+@import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
+@import '@/styles/components/inputs.module.scss';
+@import '@/App.module.scss';
+
+.navtabs {
+  display: flex;
+  justify-content: center;
+  background: $white-color;
+  border-bottom: 2px solid $gray-20;
+  height: 3rem;
+
+  .navtab {
+    margin: 0 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    & > a {
+      color: $dark-color;
+      text-decoration: none;
+
+      &:hover {
+        color: $orange-color;
+      }
+      &.active {
+        color: $orange-color;
+        text-decoration: underline;
+      }
+    }
+    @media (max-width: 576px) {
+      margin: 0;
+      padding: 8px 12px;
+    }
+  }
+}

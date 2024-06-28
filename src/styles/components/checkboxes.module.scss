@@ -1,0 +1,45 @@
+@import '@/index.scss';
+
+/* Default checkbox styles */
+.checkbox {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Checkbox input */
+.checkbox input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Checkbox default state */
+.checkbox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid $gray-40;
+  border-radius: 4px;
+}
+
+/* Checkbox checked state */
+.checkbox input[type='checkbox']:checked + span::before {
+  background-color: $accent-color;
+  border-color: $accent-color;
+}
+
+/* Checkbox disabled state */
+.checkbox input[type='checkbox']:disabled + span::before {
+  background-color: $gray-5;
+  border-color: $gray-40;
+  cursor: not-allowed;
+}
+
+/* Checkbox error state */
+.checkbox.error::before {
+  border-color: $error-color;
+}

@@ -1,12 +1,16 @@
-import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import App from '../App.tsx';
+import { describe, it } from 'vitest';
+import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import { store } from '@/store/store';
+import App from '@/App';
 
-test('demo', () => {
-  expect(true).toBe(true);
-});
-
-test('Renders the main page', () => {
-  render(<App />);
-  expect(true).toBeTruthy();
+describe('App component', () => {
+  it('renders the application correctly', () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
+  });
 });

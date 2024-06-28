@@ -1,0 +1,32 @@
+@import '@/index.scss';
+@import '@/styles/components/buttons.module.scss';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding: 16vh 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 0;
+  }
+}
+
+.image,
+.content {
+  flex: 1;
+  flex-basis: 0;
+}
+
+.image img {
+  max-width: 100%;
+  height: auto;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content * {
+  margin-bottom: 2rem;
+}

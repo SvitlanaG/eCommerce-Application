@@ -1,0 +1,190 @@
+@import '@/index.scss';
+
+.button {
+  @include enabled;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  user-select: none;
+}
+
+.button-large {
+  @extend .button;
+  @extend .text-button;
+  @extend .text-button-large;
+  width: 220px;
+  height: 52px;
+  padding: 14px 20px;
+  border-radius: 30px;
+  margin-bottom: 1rem;
+}
+
+.button-small {
+  @extend .button;
+  @extend .text-button;
+  @extend .text-button-small;
+  width: 110px;
+  height: 40px;
+  padding: 11px 30px;
+  border-radius: 20px;
+}
+
+.button-primary {
+  @extend .button;
+  background-color: $orange-color;
+  color: $white-color;
+  border: 1px solid $orange-color;
+
+  &:hover,
+  &:focus {
+    box-shadow: $hover;
+  }
+
+  &:active {
+    box-shadow: $active;
+  }
+
+  &:disabled {
+    @include disabled;
+    background-color: $gray-5;
+    border: 1px solid $gray-20;
+    color: $gray-20;
+  }
+
+  &-large {
+    @extend .button-large;
+  }
+
+  &-small {
+    @extend .button-small;
+  }
+}
+
+.button-secondary {
+  @extend .button;
+  background-color: $white-color;
+  color: $dark-color;
+  border: 1px solid $gray-20;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: 0.3s ease;
+
+  &:hover,
+  &:focus {
+    border-color: $gray-70;
+  }
+
+  &:active {
+    box-shadow: $active;
+  }
+
+  &:disabled {
+    @include disabled;
+    color: $gray-20;
+    border-color: $gray-20;
+    background-color: $gray-5;
+  }
+
+  &-large {
+    @extend .button-large;
+  }
+
+  &-small {
+    @extend .button-small;
+  }
+}
+
+.button-delete {
+  @extend .button-secondary;
+  background-color: $accent-color;
+  color: $white-color;
+}
+
+.link {
+  @extend .text-button, .text-button-small;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  color: $dark-color;
+  @include enabled;
+
+  &:hover,
+  &:focus {
+    color: $orange-color;
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: $accent-color;
+  }
+}
+
+.button-icon {
+  @extend .button;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &-primary {
+    border: 1px solid $orange-color;
+    background-color: $orange-color;
+
+    svg {
+      fill: $white-color;
+    }
+
+    &:hover,
+    &:focus {
+      border: 1px solid $white-color;
+      outline: 1px solid $orange-color;
+    }
+
+    &:active {
+      box-shadow: $active;
+    }
+
+    &:disabled {
+      @include disabled;
+      background-color: $gray-10;
+    }
+  }
+
+  &-secondary {
+    border: 1px solid $gray-20;
+    background-color: $white-color;
+
+    svg {
+      fill: $gray-40;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $gray-70;
+    }
+
+    &:hover > svg,
+    &:focus > svg {
+      fill: $gray-70;
+    }
+
+    &:active {
+      box-shadow: $active;
+    }
+
+    &:disabled {
+      color: $gray-20;
+      border-color: $gray-20;
+      background-color: $gray-5;
+      @include disabled;
+    }
+  }
+}
+
+.button-icon.button-icon-secondary.active {
+  background-color: $orange-color;
+}

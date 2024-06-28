@@ -1,0 +1,53 @@
+@import '@/index.scss';
+
+/* Input field styles */
+.input-field {
+  height: 2.5rem;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  border: 1px solid $gray-20;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  background-color: $white-color;
+  transition: 0.3s ease;
+
+  &-text {
+    @extend .text-body-small;
+  }
+
+  &-label {
+    @extend .text-info1-large;
+  }
+}
+
+.assistive-text {
+  @extend .text-info1;
+  color: $gray-40;
+}
+
+.error-message {
+  @extend .text-info1;
+  color: $error-color;
+}
+
+.input-field:hover,
+.input-field:focus {
+  border-color: $hover-color;
+}
+.input-field:focus-visible {
+  outline-color: $hover-color;
+}
+
+/* Style for disabled input */
+.input-field[disabled] {
+  background-color: $gray-5;
+  color: $gray-70;
+  cursor: not-allowed;
+  border-color: transparent;
+}
+
+/* Style for error state */
+.input-field.error {
+  border-color: $error-color;
+}

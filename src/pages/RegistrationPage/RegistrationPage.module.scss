@@ -1,0 +1,67 @@
+@import '@/index.scss';
+@import '@/styles/components/inputs.module.scss';
+@import '@/styles/components/buttons.module.scss';
+@import '@/styles/components/toggleswitch.module.scss';
+
+.registration {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 1rem 0;
+    align-items: center;
+    gap: 10px;
+    .input-wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+      gap: 1rem;
+      width: 100%;
+      border: 1px solid $gray-20;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        padding: 0.5rem;
+      }
+    }
+    .input-wrapper-login {
+      @extend .input-wrapper;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    .label {
+      @extend .input-field-label;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      .error-message {
+        @extend .text-info1;
+        color: $error-color;
+      }
+      .eye {
+        position: absolute;
+        top: 28px;
+        right: 15px;
+        @include enabled;
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}

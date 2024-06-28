@@ -1,0 +1,41 @@
+// main colors
+$accent-color: #ff5253;
+$white-color: #ffffff;
+$dark-color: #003147;
+$dark30-color: #3636364d;
+$orange-color: #f85a08;
+
+// button
+$pressed: linear-gradient(233.73deg, #f83600 -16.08%, #f9d423 327.37%);
+$hover:
+  inset 0 0 20px rgba(255, 255, 255, 0.5),
+  0 0 20px rgba(255, 255, 255, 0.2);
+$hover-color: #1982c4;
+$shadow-color: #de7d0b33;
+$active:
+  rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+  rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
+// grey scale colors
+$gray-70: #727272;
+$gray-40: #a7a7a7;
+$gray-20: #bfc4c9;
+$gray-10: #ebebeb;
+$gray-5: #f2f2f2;
+
+// bg and text colors
+$background-color: #ffffff;
+$text-color: $white-color;
+$modal-blur: #3636364d;
+$popup-background-color: linear-gradient(
+  231.58deg,
+  #f83600 -53.35%,
+  #f9d423 297.76%
+);
+
+// semantic colors
+$warning-color: #ffbc1f;
+$success-color: #00ca71;
+$error-color: #f42c4f;
+$success-background: #ebf9f1;
+$error-background: #feebea;
